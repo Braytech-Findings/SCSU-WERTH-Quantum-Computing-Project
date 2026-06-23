@@ -1,0 +1,27 @@
+# Data Dictionary
+
+- experiment_id: Unique identifier for the run.
+- timestamp: ISO 8601 timestamp with timezone.
+- circuit_family: Circuit family such as bell, ghz, qft, or grover.
+- qubit_count: Number of qubits in the logical circuit.
+- shots: Number of shots used for the execution.
+- repetition: Repetition number for repeated runs.
+- provider: Provider name such as ideal, ibm, or quantinuum.
+- backend_identifier: Backend or device name when available.
+- architecture: Architecture label such as ideal, superconducting, or trapped-ion.
+- execution_type: ideal simulator, noisy simulator, emulator, or QPU.
+- logical_depth: Circuit depth of the logical circuit.
+- logical_gate_count: Gate count of the logical circuit.
+- logical_two_qubit_gate_count: Two-qubit gate count of the logical circuit.
+- compiled_depth: Compiled depth when available.
+- compiled_gate_count: Compiled gate count when available.
+- compiled_two_qubit_gate_count: Compiled two-qubit count when available.
+- measurement_counts: Raw measurement counts.
+- probability_distribution: Normalized measurement probabilities.
+- expected_state_probability: Probability of the expected ideal state.
+- total_variation_distance: Distance from the ideal distribution.
+- hellinger_fidelity: Fidelity to the ideal distribution.
+- job_id: Provider job ID if available.
+- job_status: Provider status if available.
+- error_message: Error message when a run fails.
+- device_metadata: Provider metadata snapshot if available.

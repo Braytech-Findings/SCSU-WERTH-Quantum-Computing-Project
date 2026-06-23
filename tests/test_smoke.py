@@ -1,0 +1,19 @@
+from __future__ import annotations
+
+from quantum_compare.cli import main
+from quantum_compare.config import load_config
+from quantum_compare.experiment import ExperimentRunner
+
+
+def test_cli_check_returns_zero(monkeypatch) -> None:
+    import sys
+
+    monkeypatch.setattr(sys, "argv", ["quantum_compare.cli", "check"])
+    assert main() == 0
+
+
+def test_ideal_runner_smoke() -> None:
+    config = load_config("config/experiments.yaml")
+    runner = ExperimentRunner(config, base_dir=".")
+    rows = runner.run_suite(backend_name="ideal")
+    assert len(rows) >= 1

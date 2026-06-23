@@ -1,0 +1,36 @@
+circuit_families:
+  - bell
+  - ghz
+  - qft
+  - grover
+qubit_sizes:
+  bell:
+    - 2
+  ghz:
+    - 3
+    - 5
+    - 7
+  qft:
+    - 3
+    - 5
+  grover:
+    - 2
+shots: 1000
+repetitions: 3
+seed: 42
+backends:
+  - ideal
+  - ibm
+  - quantinuum
+optimization_level: 1
+output_dirs:
+  raw: data/raw
+  processed: data/processed
+  figures: results/figures
+  tables: results/tables
+  reports: results/reports
+timeout_seconds: 60
+allow_physical_hardware: false
+provider_permissions:
+  ibm: false
+  quantinuum: false
