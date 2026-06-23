@@ -10,5 +10,5 @@ from quantum_compare.experiment import ExperimentRunner
 if __name__ == "__main__":
     config = load_config(Path("config/experiments.yaml"))
     runner = ExperimentRunner(config, base_dir=Path.cwd())
-    runner.run_suite(backend_name="ideal")
-    print("Report generation placeholder executed.")
+    runner.run_suite(backend_name="all")
+    print("Report generation completed.")

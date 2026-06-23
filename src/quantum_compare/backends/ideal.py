@@ -38,7 +38,8 @@ class IdealBackend(BackendAdapter):
             "counts": counts,
             "job_id": None,
             "job_status": "finished",
-            "metadata": {"method": "aer"},
+            "metadata": {"method": "aer", "target": "ideal simulator"},
+            "compiled_circuit": circuit,
         }
 
     def get_job_status(self, job_id: str) -> str:

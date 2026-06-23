@@ -1,44 +1,106 @@
 # Final Status
 
-## What was completed
-- Implemented a complete Python project scaffold for comparing superconducting and trapped-ion quantum computing.
-- Added reusable circuit builders for Bell, GHZ, QFT, and Grover circuits.
-- Added metrics, configuration, storage, CLI, and backend adapters with explicit dry-run behavior.
-- Added tests, documentation, and reproducible scripts.
+## Current study framing
+
+This project is currently an offline architecture-proxy compilation and modeling study.
+It is not real-hardware benchmarking and does not report measured IBM hardware
+performance, measured Quantinuum hardware performance, physical fidelity, or
+experimentally measured execution time.
+
+## Pipeline status
+
+- Logical, routed, and native-compiled circuit levels are separated in result rows.
+- IBM uses the `qiskit-generic-backend-v2-line-proxy` target model with `rz`, `sx`, `x`,
+  and `cx` native unitary operations.
+- Quantinuum uses the `quantinuum-h-series-rzz-offline-proxy` target model with `rz`,
+  `rx`, and `rzz` native unitary operations.
+- Routing SWAP count is measured before SWAP decomposition.
+- Native entangling-gate count is measured after final native-basis decomposition.
+- Estimated duration is reported as
+  `estimated_native_execution_duration_from_proxy_timing_model` in analysis tables.
+- Estimated success probability is reported as
+  `estimated_success_probability_from_proxy_error_model`.
+
+## Validation evidence
+
+- Successful architecture result rows: 42.
+- Unsupported native-operation count across successful architecture rows: 0.
+- Logical-to-native equivalence failures: 0.
+- Equivalence method: unitary comparison up to global phase after removing final
+  measurements.
+- Equivalence tolerance: `1e-8`.
+- IBM final circuits contain only the IBM proxy basis plus permitted non-unitary
+  operations.
+- Quantinuum final circuits contain only the H-series RZZ proxy basis plus permitted
+  non-unitary operations.
+
+## Statistical and reporting outputs
+
+- Matched-size architecture comparison:
+  `results/tables/matched_size_architecture_comparison.csv`
+- Per-family/qubit grouped statistics:
+  `results/tables/qubit_grouped_statistics.csv`
+- Proxy assumptions table:
+  `results/tables/proxy_assumptions_table.csv`
+- Model sensitivity rows:
+  `results/tables/model_sensitivity_analysis.csv`
+- Model sensitivity ordering:
+  `results/tables/model_sensitivity_ordering.csv`
+- Plain-language interpretation table:
+  `results/tables/results_interpretation_table.csv`
+- Final report:
+  `results/reports/summary_report.md`
+
+## Sensitivity-analysis result
+
+- Sensitivity rows: 126.
+- Duration ordering stable across optimistic, baseline, and pessimistic scenarios: true.
+- Success-probability ordering stable across optimistic, baseline, and pessimistic
+  scenarios: true.
+- Circuits were not recompiled for sensitivity analysis; timing and error estimates were
+  recomputed from final native operation counts.
+
+## Final figures
+
+- `results/figures/logical_depth_baseline.png`
+- `results/figures/routed_depth_scaling_by_family.png`
+- `results/figures/native_depth_scaling_by_family.png`
+- `results/figures/routing_swap_count_scaling_by_family.png`
+- `results/figures/native_entangling_gate_count_scaling_by_family.png`
+- `results/figures/estimated_native_duration_scaling_by_family.png`
+- `results/figures/estimated_proxy_success_scaling_by_family.png`
+- `results/figures/model_sensitivity_duration.png`
+- `results/figures/model_sensitivity_success_probability.png`
+- `results/figures/appendix_family_mean_native_depth.png`
+- `results/figures/appendix_family_mean_native_depth_ratio.png`
 
 ## Commands run
-- `python3.13 -m venv .venv`
-- `source .venv/bin/activate`
-- `python -m pip install ...`
-- `python -m pytest -q -vv`
-- `python -m quantum_compare.cli check`
-- `python -m quantum_compare.cli run --backend ideal --suite core`
+
+- `ruff format .`
+- `ruff check .`
+- `pytest`
+- `mypy src tests`
+- `python scripts/generate_report.py`
 
 ## Test results
-- 11 tests passed.
 
-## Package versions
-- Python: 3.13.5
-- qiskit: 1.4.6
-- qiskit-aer: 0.17.2
-- qbraid: 0.12.1
-- pandas: 2.3.3
-- matplotlib: 3.11.0
-- pytest: 8.4.2
+- `ruff check .`: passed.
+- `mypy src tests`: passed.
+- `pytest`: 26 passed.
+- Full experiment/report generation: completed.
 
-## Available backends discovered
-- Ideal simulator available.
-- IBM backend adapter available in dry-run mode.
-- Quantinuum backend adapter available in dry-run mode.
+## Latest generated data
 
-## Remaining access requirements
-- Real IBM or Quantinuum execution requires valid credentials and provider permissions through the supported qBraid route.
+- Processed CSV: `data/processed/results_20260623T223649Z.csv`
+- Processed JSON: `data/processed/results_20260623T223649Z.json`
+- Manifest: `data/processed/manifest_20260623T223649Z.json`
 
-## Known limitations
-- No paid hardware jobs were submitted.
-- The IBM and Quantinuum adapters intentionally do not fabricate device execution.
+## Remaining scientific limitations
 
-## Exact next command
-```bash
-source .venv/bin/activate && python -m quantum_compare.cli run --backend ideal --suite core
-```
+- Targets are offline proxies, not current calibrated hardware snapshots.
+- Quantinuum compilation uses a Qiskit `rzz` proxy rather than pytket Quantinuum passes.
+- Duration and error values are proxy assumptions, not live-device calibration values.
+- Grover has only one supported qubit count, so its architecture conclusion remains
+  inconclusive.
+- Repetitions are deterministic and do not sample compiler stochasticity unless future
+  runs vary compilation seeds.

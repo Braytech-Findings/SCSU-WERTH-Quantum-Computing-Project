@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import Any
 
-from qiskit import QuantumCircuit
+from qiskit import QuantumCircuit, transpile
 
 from quantum_compare.backends.base import BackendAdapter
 
@@ -20,16 +20,21 @@ class IBMBackend(BackendAdapter):
         return False
 
     def discover_devices(self) -> list[dict[str, Any]]:
-        return [{
-            "name": self.name,
-            "provider": self.provider,
-            "architecture": self.architecture,
-            "status": "dry-run",
-            "note": "Configure qBraid IBM access to discover real targets.",
-        }]
+        return [
+            {
+                "name": self.name,
+                "provider": self.provider,
+                "architecture": self.architecture,
+                "status": "dry-run",
+                "note": "Configure qBraid IBM access to discover real targets.",
+            }
+        ]
 
     def compile_circuit(self, circuit: QuantumCircuit, **kwargs: Any) -> QuantumCircuit:
-        return circuit
+        compiled = transpile(circuit, optimization_level=kwargs.get("optimization_level", 1))
+        compiled.metadata["target"] = "generic-superconducting-target"
+        compiled.metadata["target_family"] = "superconducting"
+        return compiled
 
     def execute(self, circuit: QuantumCircuit, shots: int, **kwargs: Any) -> dict[str, Any]:
         return {
@@ -37,10 +42,14 @@ class IBMBackend(BackendAdapter):
             "provider": self.provider,
             "architecture": self.architecture,
             "execution_type": self.execution_type,
-            "counts": {},
+            "counts": None,
             "job_id": None,
-            "job_status": "dry-run",
-            "metadata": {"note": "IBM execution requires real qBraid/IBM credentials or a supported local simulator."},
+            "job_status": "dry_run",
+            "metadata": {
+                "note": "IBM execution requires real qBraid/IBM credentials or a supported local simulator.",
+                "target": "FakeManilaV2 (local compile-only target)",
+            },
+            "compiled_circuit": circuit,
         }
 
     def get_job_status(self, job_id: str) -> str:

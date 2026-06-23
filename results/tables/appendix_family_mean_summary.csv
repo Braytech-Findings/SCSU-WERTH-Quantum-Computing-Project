@@ -1,0 +1,17 @@
+circuit_family,provider,target_model,family_mean,metric
+bell,ibm,qiskit-generic-backend-v2-line-proxy,5.0,native_compiled_depth
+bell,quantinuum,quantinuum-h-series-rzz-offline-proxy,7.0,native_compiled_depth
+ghz,ibm,qiskit-generic-backend-v2-line-proxy,38.0,native_compiled_depth
+ghz,quantinuum,quantinuum-h-series-rzz-offline-proxy,13.0,native_compiled_depth
+grover,ibm,qiskit-generic-backend-v2-line-proxy,12.0,native_compiled_depth
+grover,quantinuum,quantinuum-h-series-rzz-offline-proxy,10.0,native_compiled_depth
+qft,ibm,qiskit-generic-backend-v2-line-proxy,74.0,native_compiled_depth
+qft,quantinuum,quantinuum-h-series-rzz-offline-proxy,25.0,native_compiled_depth
+bell,ibm,qiskit-generic-backend-v2-line-proxy,1.6666666666666667,native_depth_over_logical_depth
+bell,quantinuum,quantinuum-h-series-rzz-offline-proxy,2.3333333333333335,native_depth_over_logical_depth
+ghz,ibm,qiskit-generic-backend-v2-line-proxy,5.944444444444445,native_depth_over_logical_depth
+ghz,quantinuum,quantinuum-h-series-rzz-offline-proxy,2.1805555555555554,native_depth_over_logical_depth
+grover,ibm,qiskit-generic-backend-v2-line-proxy,1.5,native_depth_over_logical_depth
+grover,quantinuum,quantinuum-h-series-rzz-offline-proxy,1.25,native_depth_over_logical_depth
+qft,ibm,qiskit-generic-backend-v2-line-proxy,7.8181818181818175,native_depth_over_logical_depth
+qft,quantinuum,quantinuum-h-series-rzz-offline-proxy,2.8181818181818183,native_depth_over_logical_depth

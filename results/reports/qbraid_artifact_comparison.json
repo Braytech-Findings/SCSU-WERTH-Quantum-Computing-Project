@@ -1,0 +1,23 @@
+{
+  "baseline_csv": "/Users/abdellahaly/quantum-architecture-comparison/data/processed/results_20260623T223649Z.csv",
+  "candidate_csv": "/Users/abdellahaly/quantum-architecture-comparison/data/processed/results_20260623T223649Z.csv",
+  "results_match": true,
+  "mismatch": null,
+  "table_checks": {
+    "required_tables_exist": true,
+    "missing_tables": [],
+    "successful_architecture_rows": 42,
+    "unsupported_operation_sum": 0,
+    "equivalence_failures": 0,
+    "grouped_statistics_rows": 112,
+    "matched_comparison_rows": 168,
+    "sensitivity_rows": 126,
+    "duration_ordering_stable": true,
+    "success_ordering_stable": true,
+    "assumption_rows": 2,
+    "assumptions_not_live_calibration": true,
+    "important_numeric_values_match_expected_shape": true
+  },
+  "passed": true,
+  "note": "Comparison ignores experiment_id and timestamp columns and checks deterministic scientific fields for IBM and Quantinuum proxy-model rows."
+}

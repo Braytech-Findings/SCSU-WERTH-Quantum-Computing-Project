@@ -31,6 +31,27 @@ def expected_state_probability(probabilities: Mapping[str, float], state: str) -
     return float(probabilities.get(state, 0.0))
 
 
+def success_probability(
+    circuit_family: str, probabilities: Mapping[str, float], qubit_count: int
+) -> float | None:
+    """Return a circuit-family-specific success probability when it is scientifically defined."""
+    if circuit_family == "bell":
+        return expected_state_probability(probabilities, "00") + expected_state_probability(
+            probabilities, "11"
+        )
+    if circuit_family == "ghz":
+        all_zero = "0" * qubit_count
+        all_one = "1" * qubit_count
+        return expected_state_probability(probabilities, all_zero) + expected_state_probability(
+            probabilities, all_one
+        )
+    if circuit_family == "grover":
+        return expected_state_probability(probabilities, "11")
+    if circuit_family == "qft":
+        return None
+    raise ValueError(f"Unknown circuit family '{circuit_family}'.")
+
+
 def total_variation_distance(p: Mapping[str, float], q: Mapping[str, float]) -> float:
     """Compute the TVD between two probability distributions."""
     all_states = sorted(set(p) | set(q))

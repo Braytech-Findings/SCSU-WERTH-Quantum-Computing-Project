@@ -40,15 +40,22 @@ def build_qft(num_qubits: int) -> QuantumCircuit:
 
 
 def build_grover_search(num_qubits: int) -> QuantumCircuit:
-    """Build a small 2-qubit Grover search circuit with an oracle that marks |11>."""
+    """Build a 2-qubit Grover iteration that amplifies the marked state |11>.
+
+    The circuit prepares an equal superposition, applies a phase oracle that flips the
+    sign of |11>, and then applies a diffuser so that |11> becomes the dominant output
+    on an ideal simulator.
+    """
     _validate_qubit_count(num_qubits, 2, "Grover search")
     if num_qubits != 2:
         raise ValueError("Grover search is currently implemented for 2 qubits only.")
     circuit = QuantumCircuit(num_qubits, num_qubits, name="grover_search_2")
     circuit.h(range(num_qubits))
-    circuit.cx(0, 1)
     circuit.cz(0, 1)
-    circuit.cx(0, 1)
+    circuit.h(range(num_qubits))
+    circuit.x(range(num_qubits))
+    circuit.cz(0, 1)
+    circuit.x(range(num_qubits))
     circuit.h(range(num_qubits))
     circuit.measure(list(range(num_qubits)), list(range(num_qubits)))
     return circuit

@@ -22,13 +22,15 @@ class ExperimentConfig:
     seed: int = 42
     backends: list[str] = field(default_factory=lambda: ["ideal", "ibm", "quantinuum"])
     optimization_level: int = 1
-    output_dirs: dict[str, str] = field(default_factory=lambda: {
-        "raw": "data/raw",
-        "processed": "data/processed",
-        "figures": "results/figures",
-        "tables": "results/tables",
-        "reports": "results/reports",
-    })
+    output_dirs: dict[str, str] = field(
+        default_factory=lambda: {
+            "raw": "data/raw",
+            "processed": "data/processed",
+            "figures": "results/figures",
+            "tables": "results/tables",
+            "reports": "results/reports",
+        }
+    )
     timeout_seconds: int = 60
     allow_physical_hardware: bool = False
     provider_permissions: dict[str, bool] = field(

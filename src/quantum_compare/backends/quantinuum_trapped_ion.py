@@ -20,16 +20,21 @@ class QuantinuumBackend(BackendAdapter):
         return False
 
     def discover_devices(self) -> list[dict[str, Any]]:
-        return [{
-            "name": self.name,
-            "provider": self.provider,
-            "architecture": self.architecture,
-            "status": "dry-run",
-            "note": "Configure Quantinuum access to discover official emulator or hardware targets.",
-        }]
+        return [
+            {
+                "name": self.name,
+                "provider": self.provider,
+                "architecture": self.architecture,
+                "status": "dry-run",
+                "note": "Configure Quantinuum access to discover official emulator or hardware targets.",
+            }
+        ]
 
     def compile_circuit(self, circuit: QuantumCircuit, **kwargs: Any) -> QuantumCircuit:
-        return circuit
+        compiled = circuit.copy()
+        compiled.metadata["target"] = "unavailable"
+        compiled.metadata["target_family"] = "trapped-ion"
+        return compiled
 
     def execute(self, circuit: QuantumCircuit, shots: int, **kwargs: Any) -> dict[str, Any]:
         return {
@@ -37,10 +42,14 @@ class QuantinuumBackend(BackendAdapter):
             "provider": self.provider,
             "architecture": self.architecture,
             "execution_type": self.execution_type,
-            "counts": {},
+            "counts": None,
             "job_id": None,
-            "job_status": "dry-run",
-            "metadata": {"note": "Quantinuum execution requires access to the supported emulator or hardware route."},
+            "job_status": "dry_run",
+            "metadata": {
+                "note": "Quantinuum execution requires access to the supported emulator or hardware route.",
+                "target": "unavailable",
+            },
+            "compiled_circuit": circuit,
         }
 
     def get_job_status(self, job_id: str) -> str:

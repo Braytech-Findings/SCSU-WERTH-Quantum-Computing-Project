@@ -1,4 +1,5 @@
 LICENSE
+README.md
 pyproject.toml
 src/quantum_architecture_comparison.egg-info/PKG-INFO
 src/quantum_architecture_comparison.egg-info/SOURCES.txt

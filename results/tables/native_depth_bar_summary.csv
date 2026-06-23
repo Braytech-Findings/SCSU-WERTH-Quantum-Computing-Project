@@ -1,0 +1,15 @@
+metric,circuit_family,provider,target_model,qubit_count,n_repetitions,distinct_values,mean,std_across_repetitions,min,max,show_uncertainty
+native_compiled_depth,bell,ibm,qiskit-generic-backend-v2-line-proxy,2,3,1,5.0,0.0,5.0,5.0,False
+native_compiled_depth,bell,quantinuum,quantinuum-h-series-rzz-offline-proxy,2,3,1,7.0,0.0,7.0,7.0,False
+native_compiled_depth,ghz,ibm,qiskit-generic-backend-v2-line-proxy,3,3,1,16.0,0.0,16.0,16.0,False
+native_compiled_depth,ghz,quantinuum,quantinuum-h-series-rzz-offline-proxy,3,3,1,9.0,0.0,9.0,9.0,False
+native_compiled_depth,ghz,ibm,qiskit-generic-backend-v2-line-proxy,5,3,1,38.0,0.0,38.0,38.0,False
+native_compiled_depth,ghz,quantinuum,quantinuum-h-series-rzz-offline-proxy,5,3,1,13.0,0.0,13.0,13.0,False
+native_compiled_depth,ghz,ibm,qiskit-generic-backend-v2-line-proxy,7,3,1,60.0,0.0,60.0,60.0,False
+native_compiled_depth,ghz,quantinuum,quantinuum-h-series-rzz-offline-proxy,7,3,1,17.0,0.0,17.0,17.0,False
+native_compiled_depth,grover,ibm,qiskit-generic-backend-v2-line-proxy,2,3,1,12.0,0.0,12.0,12.0,False
+native_compiled_depth,grover,quantinuum,quantinuum-h-series-rzz-offline-proxy,2,3,1,10.0,0.0,10.0,10.0,False
+native_compiled_depth,qft,ibm,qiskit-generic-backend-v2-line-proxy,3,3,1,42.0,0.0,42.0,42.0,False
+native_compiled_depth,qft,quantinuum,quantinuum-h-series-rzz-offline-proxy,3,3,1,21.0,0.0,21.0,21.0,False
+native_compiled_depth,qft,ibm,qiskit-generic-backend-v2-line-proxy,5,3,1,106.0,0.0,106.0,106.0,False
+native_compiled_depth,qft,quantinuum,quantinuum-h-series-rzz-offline-proxy,5,3,1,29.0,0.0,29.0,29.0,False
