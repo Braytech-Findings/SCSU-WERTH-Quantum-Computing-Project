@@ -1,20 +1,58 @@
+# Secrets and local environment configuration
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cer
+*.token
+
+# Python virtual environments and package/build outputs
 .venv/
 venv/
 env/
+ENV/
+build/
+dist/
+*.egg-info/
+pip-wheel-metadata/
+
+# Python caches and test/type/lint caches
 __pycache__/
 *.py[cod]
+*$py.class
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
+htmlcov/
+
+# Notebook, editor, OS, and temporary files
 .ipynb_checkpoints/
 .DS_Store
-*.log
-*.tmp
-*.swp
-*.sqlite3
+Thumbs.db
 .idea/
 .vscode/
-results/raw/
+*.log
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+*.sqlite3
+
+# Local raw data and exploratory validation outputs
 data/raw/
-data/processed/
+results/raw/
+results/qbraid_validation/
+results/reports/qbraid_environment.json
+
+# Keep local timestamped reruns out of the public artifact set while preserving the
+# verified full architecture-proxy baseline used by reports and reproducibility checks.
+data/processed/*
+!data/processed/results_20260623T223649Z.csv
+!data/processed/results_20260623T223649Z.json
+!data/processed/manifest_20260623T223649Z.json

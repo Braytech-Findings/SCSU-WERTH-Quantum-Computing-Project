@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "Quantum Architecture Comparison"
+message: "If you use this project, please cite it using this metadata."
+type: software
+authors:
+  - family-names: "Author family name placeholder"
+    given-names: "Author given names placeholder"
+    email: "author-email-placeholder@example.com"
+repository-code: "https://example.com/repository-url-placeholder"
+abstract: "A sanitized independent research implementation comparing superconducting-proxy and trapped-ion-proxy quantum architecture compilation behavior using offline proxy models."
+keywords:
+  - quantum computing
+  - superconducting proxy
+  - trapped-ion proxy
+  - Qiskit
+  - architecture comparison
+license: MIT
+version: "0.1.0"
+date-released: "2026-06-24"

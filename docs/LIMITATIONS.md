@@ -1,8 +1,21 @@
 # Limitations
 
-- Hardware access may not be available in the current environment.
-- Queue time and calibration drift can change real-device outcomes from one run to another.
-- Emulators make assumptions that may differ from actual hardware noise models.
-- Compiler differences can change circuit depth, gate counts, and measurement results.
-- The study uses a small number of circuits and repetitions, so it should not be treated as a universal ranking of architectures.
-- Shot noise is unavoidable when measuring quantum circuits.
+- This is an architecture-aware offline proxy-model study, not a direct benchmark of
+  physical IBM or Quantinuum hardware.
+- The IBM proxy is a line-coupled GenericBackendV2-style superconducting proxy, not a
+  live calibrated backend snapshot.
+- The Quantinuum proxy is an all-to-all H-series-style trapped-ion RZZ proxy, not an
+  official hardware execution path or pytket Quantinuum compilation result.
+- Estimated native execution duration depends on documented proxy timing assumptions.
+  It is not experimentally measured execution time.
+- Estimated success probability depends on documented proxy error-rate assumptions. It
+  is not measured hardware fidelity.
+- The configured circuit suite is intentionally small: Bell, GHZ, QFT, and a 2-qubit
+  Grover circuit.
+- Bell and the current Grover circuit are too small to support broad architecture
+  conclusions.
+- Repetitions are deterministic and do not sample compiler stochasticity unless future
+  work varies compiler seeds.
+- The results do not prove that one quantum architecture is universally superior.
+- Optional qBraid simulator checks are platform sanity checks only and are not IBM or
+  Quantinuum hardware measurements.

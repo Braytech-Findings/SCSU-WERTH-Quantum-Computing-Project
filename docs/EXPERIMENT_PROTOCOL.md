@@ -2,11 +2,19 @@
 
 1. Create and activate the Python virtual environment.
 2. Install the package and dependencies.
-3. Review the configuration file in config/experiments.yaml.
-4. Run the environment check and list devices.
-5. Execute the ideal core suite.
-6. Execute the IBM and Quantinuum adapter runs in dry-run mode unless real access is configured.
-7. Review the generated CSV and JSON results in data/processed.
-8. Compare the logical and compiled circuit statistics as well as the fidelity metrics.
+3. Review `config/experiments.yaml`.
+4. Run the environment check with `python -m quantum_compare.cli check`.
+5. Run the full offline proxy-model suite with
+   `python -m quantum_compare.cli run --backend all --suite core`.
+6. Generate tables, figures, and the written report with
+   `python -m quantum_compare.cli report`.
+7. Review processed CSV and JSON outputs in `data/processed`.
+8. Review generated tables in `results/tables`, figures in `results/figures`, and
+   reports in `results/reports`.
+9. Compare a regenerated run against the verified baseline with
+   `python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv`.
 
-The same logical circuits should be used for every environment. The goal is to compare how the architecture-specific compilation and execution path changes the results, not to pretend that the dry-run adapters are real hardware results.
+The same logical circuits must be used for every architecture-proxy pipeline. The goal
+is to compare logical, routed, and native-compiled circuit structure under documented
+offline proxy assumptions. Results must not be described as physical IBM or Quantinuum
+hardware benchmarks.

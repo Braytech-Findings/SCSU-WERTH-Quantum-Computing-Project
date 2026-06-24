@@ -167,6 +167,7 @@ qBraid comparison report:
 
 Final figures:
 
+- `results/figures/key_metric_summary.png`
 - `results/figures/logical_depth_baseline.png`
 - `results/figures/routed_depth_scaling_by_family.png`
 - `results/figures/native_depth_scaling_by_family.png`
@@ -174,8 +175,6 @@ Final figures:
 - `results/figures/native_entangling_gate_count_scaling_by_family.png`
 - `results/figures/estimated_native_duration_scaling_by_family.png`
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
-- `results/figures/model_sensitivity_duration.png`
-- `results/figures/model_sensitivity_success_probability.png`
 
 ## Remaining Limitations
 

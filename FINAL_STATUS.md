@@ -62,6 +62,7 @@ experimentally measured execution time.
 
 ## Final figures
 
+- `results/figures/key_metric_summary.png`
 - `results/figures/logical_depth_baseline.png`
 - `results/figures/routed_depth_scaling_by_family.png`
 - `results/figures/native_depth_scaling_by_family.png`
@@ -69,31 +70,33 @@ experimentally measured execution time.
 - `results/figures/native_entangling_gate_count_scaling_by_family.png`
 - `results/figures/estimated_native_duration_scaling_by_family.png`
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
-- `results/figures/model_sensitivity_duration.png`
-- `results/figures/model_sensitivity_success_probability.png`
-- `results/figures/appendix_family_mean_native_depth.png`
-- `results/figures/appendix_family_mean_native_depth_ratio.png`
 
 ## Commands run
 
-- `ruff format .`
 - `ruff check .`
 - `pytest`
+- warning-producing test count via an in-process pytest warning hook
 - `mypy src tests`
-- `python scripts/generate_report.py`
+- `python -m quantum_compare.cli report`
+- isolated reproduction run in a temporary directory
+- `python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv`
 
 ## Test results
 
 - `ruff check .`: passed.
 - `mypy src tests`: passed.
-- `pytest`: 26 passed.
-- Full experiment/report generation: completed.
+- `pytest`: 26 passed, 0 failed, 0 skipped, 1496 warnings.
+- Warning-producing tests: 11 distinct tests.
+- Isolated full experiment/report generation: completed and matched the verified
+  baseline scientific fields.
 
-## Latest generated data
+## Authoritative verified data
 
 - Processed CSV: `data/processed/results_20260623T223649Z.csv`
 - Processed JSON: `data/processed/results_20260623T223649Z.json`
 - Manifest: `data/processed/manifest_20260623T223649Z.json`
+- Later local `ideal`-only processed runs may exist in an ignored workspace, but they
+  are not the verified full architecture-proxy baseline used for the public reports.
 
 ## Remaining scientific limitations
 

@@ -8,6 +8,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+from matplotlib.ticker import FixedLocator, FormatStrFormatter
 import numpy as np
 import pandas as pd
 
@@ -62,10 +63,9 @@ def generate_visualizations(results_path: str | Path, output_dir: str | Path) ->
 
     table_files = _write_tables(cleaned, tables_dir)
     created_files.extend(table_files)
+    created_files.extend(_plot_key_metric_summary(cleaned, output_dir))
     created_files.extend(_plot_main_scaling(cleaned, output_dir))
     created_files.extend(_plot_logical_baseline(cleaned, output_dir))
-    created_files.extend(_plot_appendix_family_means(cleaned, output_dir))
-    created_files.extend(_plot_sensitivity(tables_dir, output_dir))
     report_path = reports_dir / "summary_report.md"
     _write_report(cleaned, report_path, results_path, tables_dir, output_dir)
     created_files.append(report_path)
@@ -544,6 +544,74 @@ def _plot_main_scaling(cleaned: pd.DataFrame, output_dir: Path) -> list[Path]:
     return files
 
 
+def _plot_key_metric_summary(cleaned: pd.DataFrame, output_dir: Path) -> list[Path]:
+    plotting = cleaned.copy()
+    plotting["estimated_native_execution_duration_us"] = (
+        plotting["estimated_native_execution_duration_ns"] / 1000.0
+    )
+    specs = [
+        ("native_compiled_depth", "Native-Compiled Depth", "lower is less overhead"),
+        ("routing_swap_count", "Routing SWAP Count", "lower is less routing overhead"),
+        (
+            "estimated_native_execution_duration_us",
+            "Estimated Native Execution Duration (us)",
+            "lower under this timing model",
+        ),
+        (
+            "estimated_success_probability_from_proxy_error_model",
+            "Estimated Success Probability",
+            "higher under this error model",
+        ),
+    ]
+    fig, axes = plt.subplots(2, 2, figsize=(10, 7), squeeze=False)
+    colors = {"ibm": "#1f77b4", "quantinuum": "#ff7f0e"}
+    for ax, (metric, ylabel, note) in zip(axes.flatten(), specs, strict=True):
+        aggregate = (
+            plotting.groupby("provider", dropna=False)[metric]
+            .mean()
+            .reindex(ARCHITECTURE_ORDER)
+        )
+        x_positions = np.arange(len(ARCHITECTURE_ORDER))
+        values = aggregate.to_numpy(dtype=float)
+        bars = ax.bar(
+            x_positions,
+            values,
+            color=[colors[provider] for provider in ARCHITECTURE_ORDER],
+            width=0.55,
+        )
+        ax.set_xticks(x_positions)
+        ax.set_xticklabels([ARCHITECTURE_LABELS[provider] for provider in ARCHITECTURE_ORDER])
+        ax.set_ylabel(ylabel)
+        ax.set_title(note, fontsize=10)
+        _set_metric_ylim(ax, metric, [float(value) for value in values if not pd.isna(value)])
+        ax.grid(axis="y", alpha=0.3)
+        for bar, value in zip(bars, values, strict=True):
+            if pd.isna(value):
+                continue
+            ax.annotate(
+                _format_metric_value(metric, float(value)),
+                xy=(bar.get_x() + bar.get_width() / 2, bar.get_height()),
+                xytext=(0, 4),
+                textcoords="offset points",
+                ha="center",
+                va="bottom",
+                fontsize=8,
+            )
+    fig.suptitle("Key Metric Summary", y=0.98)
+    fig.text(
+        0.5,
+        0.93,
+        "Means across configured matched architecture rows. Detailed scaling plots show size-specific behavior; these proxy estimates are not hardware benchmarks.",
+        ha="center",
+        fontsize=8,
+    )
+    fig.tight_layout(rect=(0, 0, 1, 0.9))
+    path = output_dir / "key_metric_summary.png"
+    fig.savefig(path, dpi=200)
+    plt.close(fig)
+    return [path]
+
+
 def _plot_metric_by_family(
     dataframe: pd.DataFrame, metric: str, ylabel: str, output_path: Path
 ) -> None:
@@ -554,7 +622,8 @@ def _plot_metric_by_family(
     stats = _grouped_metric_stats(dataframe, metric)
     for ax, family in zip(axes.flatten(), families, strict=True):
         subset = stats[stats["circuit_family"] == family]
-        for provider in ARCHITECTURE_ORDER:
+        metric_values: list[float] = []
+        for provider_index, provider in enumerate(ARCHITECTURE_ORDER):
             provider_subset = subset[subset["provider"] == provider].sort_values("qubit_count")
             if provider_subset.empty:
                 continue
@@ -569,9 +638,21 @@ def _plot_metric_by_family(
                 capsize=3,
                 label=ARCHITECTURE_LABELS[provider],
             )
+            metric_values.extend(provider_subset["mean"].astype(float).tolist())
+            _annotate_points(
+                ax,
+                provider_subset["qubit_count"].tolist(),
+                provider_subset["mean"].tolist(),
+                metric,
+                provider_index,
+            )
         ax.set_title(family, loc="left", fontsize=10)
         ax.set_xlabel("Qubit count")
-        ax.set_ylabel(ylabel)
+        ax.set_ylabel("")
+        qubit_counts = sorted(subset["qubit_count"].dropna().unique())
+        ax.xaxis.set_major_locator(FixedLocator(qubit_counts))
+        ax.xaxis.set_major_formatter(FormatStrFormatter("%d"))
+        _set_metric_ylim(ax, metric, metric_values)
         ax.grid(alpha=0.3)
         if len(subset["provider"].unique()) > 1:
             ax.legend(loc="best", fontsize=8)
@@ -579,11 +660,14 @@ def _plot_metric_by_family(
     fig.text(
         0.5,
         0.965,
-        "IBM proxy = line-coupled GenericBackendV2 basis; Quantinuum proxy = all-to-all H-series RZZ basis. Error bars show variation across repetitions at the same qubit count only.",
+        "IBM: line-coupled GenericBackendV2 basis; Quantinuum: all-to-all H-series RZZ basis.\n"
+        "Error bars show repetition variation at fixed qubit count.",
         ha="center",
+        va="top",
         fontsize=8,
     )
-    fig.tight_layout(rect=(0, 0, 1, 0.94))
+    fig.supylabel(ylabel, x=0.015)
+    fig.tight_layout(rect=(0.035, 0, 1, 0.89))
     fig.savefig(output_path, dpi=200)
     plt.close(fig)
 
@@ -605,6 +689,16 @@ def _plot_logical_baseline(cleaned: pd.DataFrame, output_dir: Path) -> list[Path
         ax.errorbar(
             subset["qubit_count"], subset["mean"], yerr=yerr, marker="o", capsize=3, label=family
         )
+        _annotate_points(
+            ax,
+            subset["qubit_count"].tolist(),
+            subset["mean"].tolist(),
+            "logical_depth",
+            0,
+        )
+    qubit_counts = sorted(stats["qubit_count"].dropna().unique())
+    ax.xaxis.set_major_locator(FixedLocator(qubit_counts))
+    ax.xaxis.set_major_formatter(FormatStrFormatter("%d"))
     ax.set_xlabel("Qubit count")
     ax.set_ylabel("Logical Depth")
     ax.set_title("Logical Baseline Depth", pad=24)
@@ -617,6 +711,7 @@ def _plot_logical_baseline(cleaned: pd.DataFrame, output_dir: Path) -> list[Path
         fontsize=8,
     )
     ax.grid(alpha=0.3)
+    _set_metric_ylim(ax, "logical_depth", stats["mean"].astype(float).tolist())
     ax.legend(loc="best", fontsize=8)
     fig.tight_layout(rect=(0, 0, 1, 0.94))
     path = output_dir / "logical_depth_baseline.png"
@@ -625,68 +720,50 @@ def _plot_logical_baseline(cleaned: pd.DataFrame, output_dir: Path) -> list[Path
     return [path]
 
 
-def _plot_appendix_family_means(cleaned: pd.DataFrame, output_dir: Path) -> list[Path]:
-    plotting = cleaned.copy()
-    plotting["native_depth_over_logical_depth"] = (
-        plotting["native_compiled_depth"] / plotting["logical_depth"]
-    )
-    specs = [
-        ("native_compiled_depth", "Native-Compiled Depth", "appendix_family_mean_native_depth.png"),
-        (
-            "native_depth_over_logical_depth",
-            "Native Depth / Logical Depth",
-            "appendix_family_mean_native_depth_ratio.png",
-        ),
-    ]
-    files: list[Path] = []
-    for metric, ylabel, filename in specs:
-        path = output_dir / filename
-        _plot_appendix_bar(plotting, metric, ylabel, path)
-        files.append(path)
-    return files
-
-
-def _plot_appendix_bar(
-    dataframe: pd.DataFrame, metric: str, ylabel: str, output_path: Path
+def _annotate_points(
+    ax: plt.Axes,
+    x_values: list[float],
+    y_values: list[float],
+    metric: str,
+    provider_index: int,
 ) -> None:
-    grouped = (
-        dataframe.groupby(["circuit_family", "provider"], dropna=False)[metric].mean().reset_index()
-    )
-    families = sorted(grouped["circuit_family"].astype(str).unique())
-    x_positions = np.arange(len(families))
-    width = 0.35
-    fig, ax = plt.subplots(figsize=(8, 4.8))
-    for index, provider in enumerate(ARCHITECTURE_ORDER):
-        subset = grouped[grouped["provider"] == provider]
-        values = [
-            float(subset[subset["circuit_family"] == family][metric].iloc[0])
-            if not subset[subset["circuit_family"] == family].empty
-            else np.nan
-            for family in families
-        ]
-        ax.bar(
-            x_positions + (index - 0.5) * width,
-            values,
-            width=width,
-            label=ARCHITECTURE_LABELS[provider],
+    y_offset = 7 + provider_index * 10
+    for x_value, y_value in zip(x_values, y_values, strict=True):
+        if pd.isna(y_value):
+            continue
+        ax.annotate(
+            _format_metric_value(metric, float(y_value)),
+            xy=(x_value, y_value),
+            xytext=(0, y_offset),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontsize=7,
         )
-    ax.set_xticks(x_positions)
-    ax.set_xticklabels(families)
-    ax.set_ylabel(ylabel)
-    ax.set_title(f"Appendix: Family Mean {ylabel}", pad=24)
-    ax.text(
-        0.5,
-        1.01,
-        "Appendix only: families use different qubit-count coverage, so use scaling plots for main conclusions.",
-        transform=ax.transAxes,
-        ha="center",
-        fontsize=8,
-    )
-    ax.grid(axis="y", alpha=0.3)
-    ax.legend(fontsize=8)
-    fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig(output_path, dpi=200)
-    plt.close(fig)
+
+
+def _format_metric_value(metric: str, value: float) -> str:
+    if "success_probability" in metric:
+        return f"{value:.3f}"
+    if "duration" in metric:
+        return f"{value:.2f}"
+    if abs(value - round(value)) < 1e-9:
+        return str(int(round(value)))
+    return f"{value:.2f}"
+
+
+def _set_metric_ylim(ax: plt.Axes, metric: str, values: list[float]) -> None:
+    clean_values = [value for value in values if not pd.isna(value)]
+    if not clean_values:
+        return
+    if "success_probability" in metric:
+        ax.set_ylim(0, 1.05)
+        return
+    if min(clean_values) >= 0:
+        upper = max(clean_values)
+        if upper == 0:
+            upper = 1.0
+        ax.set_ylim(0, upper * 1.2)
 
 
 def _appendix_family_means(validation: pd.DataFrame) -> pd.DataFrame:
@@ -702,74 +779,6 @@ def _appendix_family_means(validation: pd.DataFrame) -> pd.DataFrame:
         grouped = grouped.rename(columns={metric: "family_mean"})
         rows.append(grouped)
     return pd.concat(rows, ignore_index=True)
-
-
-def _plot_sensitivity(tables_dir: Path, output_dir: Path) -> list[Path]:
-    sensitivity_path = tables_dir / "model_sensitivity_analysis.csv"
-    if not sensitivity_path.exists():
-        return []
-    sensitivity = pd.read_csv(sensitivity_path)
-    files: list[Path] = []
-    specs = [
-        (
-            "estimated_native_execution_duration_from_proxy_timing_model_us",
-            "Estimated Native Duration (us)",
-            "model_sensitivity_duration.png",
-        ),
-        (
-            "estimated_success_probability_from_proxy_error_model",
-            "Estimated Success Probability",
-            "model_sensitivity_success_probability.png",
-        ),
-    ]
-    for metric, ylabel, filename in specs:
-        path = output_dir / filename
-        _plot_sensitivity_metric(sensitivity, metric, ylabel, path)
-        files.append(path)
-    return files
-
-
-def _plot_sensitivity_metric(
-    sensitivity: pd.DataFrame, metric: str, ylabel: str, output_path: Path
-) -> None:
-    aggregate = (
-        sensitivity.groupby(["scenario", "provider"], dropna=False)[metric].mean().reset_index()
-    )
-    scenarios = list(SENSITIVITY_SCENARIOS)
-    x_positions = np.arange(len(scenarios))
-    width = 0.35
-    fig, ax = plt.subplots(figsize=(7, 4.4))
-    for index, provider in enumerate(ARCHITECTURE_ORDER):
-        subset = aggregate[aggregate["provider"] == provider]
-        values = [
-            float(subset[subset["scenario"] == scenario][metric].iloc[0])
-            if not subset[subset["scenario"] == scenario].empty
-            else np.nan
-            for scenario in scenarios
-        ]
-        ax.bar(
-            x_positions + (index - 0.5) * width,
-            values,
-            width=width,
-            label=ARCHITECTURE_LABELS[provider],
-        )
-    ax.set_xticks(x_positions)
-    ax.set_xticklabels(scenarios)
-    ax.set_ylabel(ylabel)
-    ax.set_title(f"Model Sensitivity: {ylabel}", pad=20)
-    ax.text(
-        0.5,
-        1.01,
-        "Recomputed from native operation counts only; circuits were not recompiled.",
-        transform=ax.transAxes,
-        ha="center",
-        fontsize=8,
-    )
-    ax.grid(axis="y", alpha=0.3)
-    ax.legend(fontsize=8)
-    fig.tight_layout(rect=(0, 0, 1, 0.94))
-    fig.savefig(output_path, dpi=200)
-    plt.close(fig)
 
 
 def _write_report(
@@ -803,7 +812,7 @@ def _write_report(
         "- IBM proxy: Qiskit GenericBackendV2-compatible line-coupled proxy with `rz`, `sx`, `x`, and `cx`.",
         "- Quantinuum proxy: H-series-style all-to-all proxy with `rz`, `rx`, and Qiskit `rzz` as the ZZ-type entangling proxy.",
         "",
-        f"Assumption table: `{assumptions_path}`. These values are not live-device calibration values.",
+        f"Assumption table: `{_display_path(assumptions_path)}`. These values are not live-device calibration values.",
         "",
         "Duration metric name: `" + duration_label + "`.",
         "Success metric name: `" + success_label + "`.",
@@ -814,8 +823,8 @@ def _write_report(
         "groups across repetitions. Variation across qubit counts is shown as scaling, not as an",
         "experimental error bar.",
         "",
-        f"Grouped statistics table: `{tables_dir / 'qubit_grouped_statistics.csv'}`",
-        f"Matched-size comparison table: `{matched_path}`",
+        f"Grouped statistics table: `{_display_path(tables_dir / 'qubit_grouped_statistics.csv')}`",
+        f"Matched-size comparison table: `{_display_path(matched_path)}`",
         "",
         "## Native-Basis Validation",
         "",
@@ -826,13 +835,14 @@ def _write_report(
         "",
         "## Main Figures",
         "",
-        f"- `{figures_dir / 'routed_depth_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'native_depth_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'routing_swap_count_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'native_entangling_gate_count_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'estimated_native_duration_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'estimated_proxy_success_scaling_by_family.png'}`",
-        f"- `{figures_dir / 'logical_depth_baseline.png'}`",
+        f"- `{_display_path(figures_dir / 'key_metric_summary.png')}`",
+        f"- `{_display_path(figures_dir / 'routed_depth_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'native_depth_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'routing_swap_count_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'native_entangling_gate_count_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'estimated_native_duration_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'estimated_proxy_success_scaling_by_family.png')}`",
+        f"- `{_display_path(figures_dir / 'logical_depth_baseline.png')}`",
         "",
         "## Plain-Language Interpretation",
         "",
@@ -854,8 +864,8 @@ def _write_report(
             "Duration and success probability were recomputed from the final native operation counts",
             "under optimistic, baseline, and pessimistic proxy assumptions without recompiling circuits.",
             "",
-            f"Sensitivity rows: `{sensitivity_path}`",
-            f"Sensitivity ordering: `{ordering_path}`",
+            f"Sensitivity rows: `{_display_path(sensitivity_path)}`",
+            f"Sensitivity ordering: `{_display_path(ordering_path)}`",
         ]
     )
     ordering = pd.read_csv(ordering_path)
@@ -868,24 +878,19 @@ def _write_report(
     lines.extend(
         [
             "",
-            "## Appendix Figures",
-            "",
-            "Family-wide mean charts are appendix-only because circuit families use different qubit-count coverage.",
-            f"- `{figures_dir / 'appendix_family_mean_native_depth.png'}`",
-            f"- `{figures_dir / 'appendix_family_mean_native_depth_ratio.png'}`",
-            "",
             "## Provenance",
             "",
-            f"Raw processed results: `{results_path}`",
-            f"Validation table: `{tables_dir / 'architecture_validation_table.csv'}`",
-            f"Native-depth raw rows: `{tables_dir / 'native_depth_bar_raw_rows.csv'}`",
-            f"Grover diagnostics: `{tables_dir / 'grover_diagnostic_report.csv'}`",
+            f"Raw processed results: `{_display_path(results_path)}`",
+            f"Validation table: `{_display_path(tables_dir / 'architecture_validation_table.csv')}`",
+            f"Native-depth raw rows: `{_display_path(tables_dir / 'native_depth_bar_raw_rows.csv')}`",
+            f"Grover diagnostics: `{_display_path(tables_dir / 'grover_diagnostic_report.csv')}`",
             "",
             "## Remaining Scientific Limitations",
             "",
             "- Targets are offline proxies, not current calibrated hardware snapshots.",
             "- Quantinuum compilation uses a Qiskit RZZ proxy rather than pytket Quantinuum passes.",
             "- Duration and error values are proxy assumptions; they are not hardware metadata.",
+            "- Lower duration or higher success estimates under these assumptions do not prove universal architecture superiority.",
             "- Grover has only one supported qubit count, so its ordering remains inconclusive.",
             "- Repetitions are deterministic and do not sample compiler stochasticity unless seeds are varied in future runs.",
         ]
@@ -894,6 +899,16 @@ def _write_report(
     # Keep this read live so missing grouped-stat artifacts fail report generation.
     _ = grouped_stats
     report_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
+def _display_path(path: str | Path) -> str:
+    display = Path(path)
+    if not display.is_absolute():
+        return str(display)
+    try:
+        return str(display.relative_to(Path.cwd()))
+    except ValueError:
+        return str(display)
 
 
 def _loads_json(value: Any) -> dict[str, Any]:

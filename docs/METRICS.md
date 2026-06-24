@@ -1,14 +1,24 @@
 # Metrics
 
-The project records and calculates:
+The main architecture-comparison metrics are:
 
-- Count-to-probability conversion.
-- Expected-state probability.
-- Total variation distance.
-- Hellinger fidelity.
-- Logical-to-compiled depth ratio.
-- Logical-to-compiled gate-count ratio.
-- Two-qubit gate expansion.
-- Successful-shot percentage where meaningful.
+- logical depth;
+- routed depth;
+- native-compiled depth;
+- routing SWAP count;
+- native entangling-gate count;
+- estimated native execution duration;
+- estimated success probability;
+- unsupported native-operation count;
+- logical-to-native equivalence status.
 
-Smaller total variation distance and larger fidelity are better for closeness to the ideal reference distribution.
+Supporting simulator-style fields, such as count-to-probability conversion, total
+variation distance, and Hellinger fidelity, are retained for the ideal/reference
+workflow. The IBM proxy and Quantinuum proxy rows in the final architecture comparison
+are offline proxy-model compilation and modeling results, not measured hardware
+probability distributions.
+
+Estimated native execution duration is derived from the proxy timing assumptions in
+`results/tables/proxy_assumptions_table.csv`. Estimated success probability is derived
+from the proxy error-rate assumptions in the same table. Neither metric is a measured
+hardware result.

@@ -43,14 +43,17 @@ def parse_args() -> argparse.Namespace:
 
 
 def latest_results_csv() -> Path:
-    manifests = sorted(Path("data/processed").glob("manifest_*.json"))
-    if manifests:
-        manifest = json.loads(manifests[-1].read_text(encoding="utf-8"))
-        return Path(manifest["csv"])
     candidates = sorted(Path("data/processed").glob("results_*.csv"))
     if not candidates:
         raise FileNotFoundError("No processed results CSV files found.")
-    return candidates[-1]
+    for candidate in reversed(candidates):
+        dataframe = pd.read_csv(candidate, usecols=["provider"])
+        providers = set(dataframe["provider"].dropna().astype(str))
+        if {"ibm", "quantinuum"}.issubset(providers):
+            return candidate
+    raise FileNotFoundError(
+        "No full architecture-proxy results CSV found with both IBM and Quantinuum proxy rows."
+    )
 
 
 def normalized_results(path: Path) -> pd.DataFrame:
@@ -125,6 +128,14 @@ def table_checks(tables_dir: Path) -> dict[str, Any]:
     return checks
 
 
+def display_path(path: Path) -> str:
+    resolved = path.resolve()
+    try:
+        return str(resolved.relative_to(Path.cwd()))
+    except ValueError:
+        return str(resolved)
+
+
 def main() -> int:
     args = parse_args()
     baseline_path = args.baseline
@@ -141,8 +152,8 @@ def main() -> int:
     passed = bool(results_match and checks.get("important_numeric_values_match_expected_shape"))
 
     report = {
-        "baseline_csv": str(baseline_path.resolve()),
-        "candidate_csv": str(candidate_path.resolve()),
+        "baseline_csv": display_path(baseline_path),
+        "candidate_csv": display_path(candidate_path),
         "results_match": results_match,
         "mismatch": mismatch,
         "table_checks": checks,

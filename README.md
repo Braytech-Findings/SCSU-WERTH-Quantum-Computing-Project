@@ -1,70 +1,196 @@
-# Comparing Superconducting and Trapped-Ion Quantum Computing Architectures Using qBraid
+# Quantum Architecture Comparison
 
-## Purpose
-This repository is a one-week coding sprint project for a Southern Connecticut nanotechnology and quantum internship. It compares how the same logical quantum circuits behave when they are executed in three settings:
+## Overview
 
-1. An ideal simulator that serves as a mathematical reference.
-2. An IBM-style superconducting backend adapter.
-3. A Quantinuum-style trapped-ion backend adapter.
+This repository is a sanitized independent research implementation comparing how the
+same logical quantum circuits compile under two architecture-aware offline proxy models:
+an IBM-style superconducting proxy and a Quantinuum-style trapped-ion proxy.
 
-The project uses Qiskit as a shared logical-circuit representation and keeps the code scientifically accurate while remaining understandable to an advanced high-school student.
+The study is intentionally cautious. It is not a direct benchmark of physical IBM or
+Quantinuum hardware, and it does not claim measured device fidelity, measured execution
+time, queue behavior, or live calibration performance. Estimated native execution
+duration and estimated success probability come from documented proxy assumptions.
 
-## Research question
-How do the same logical circuits change when they are compiled and executed for superconducting versus trapped-ion architectures?
+## Research Question
 
-## Hypothesis
-The same logical circuit may require different compiled forms and may show different output distributions when run on superconducting versus trapped-ion hardware or emulators, because the two technologies have different native gate sets, connectivity, and noise behavior.
+How do the same logical circuits change after topology routing and native-basis
+decomposition for superconducting-proxy and trapped-ion-proxy architectures?
 
-## What are these qubit technologies?
-- Superconducting qubits are microscopic circuits that behave quantum mechanically at very low temperatures. They are widely used in IBM-style devices and often use microwave-based control.
-- Trapped-ion qubits use ions confined and controlled by electromagnetic fields. They are often associated with long coherence times and all-to-all connectivity in software, though the exact hardware layout depends on the system.
+## Architectures Compared
 
-## Why an ideal control is required
-The ideal simulator gives a baseline probability distribution. That baseline is the reference for judging how compilation and execution change the circuit in the other environments.
+- IBM proxy: a line-coupled GenericBackendV2-style superconducting proxy using `rz`,
+  `sx`, `x`, and `cx` as native unitary operations.
+- Quantinuum proxy: an all-to-all H-series-style trapped-ion proxy using `rz`, `rx`,
+  and Qiskit `rzz` as an offline ZZ-type entangling proxy.
+
+Both pipelines start from the same logical Qiskit circuits. The comparison separates
+logical circuits, routed circuits, and native-compiled circuits.
+
+## Circuit Families
+
+- Bell state, 2 qubits.
+- GHZ states, 3, 5, and 7 qubits.
+- QFT circuits, 3 and 5 qubits.
+- Grover search, currently a 2-qubit circuit.
+
+## Metrics
+
+The main metrics are:
+
+- logical depth;
+- routed depth;
+- native-compiled depth;
+- routing SWAP count;
+- native entangling-gate count;
+- estimated native execution duration;
+- estimated success probability;
+- unsupported native-operation count;
+- logical-to-native equivalence status.
+
+Measurement bitstring endianness follows Qiskit conventions. Measurement and unavailable
+values are stored as `null` where a value is not available rather than as a fabricated
+zero.
 
 ## Installation
+
+Use Python 3.11 or newer.
+
 ```bash
-python3.13 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-## Authentication setup
-This repository does not require real credentials for the default ideal workflow. If you later want to use IBM or Quantinuum access through qBraid, create a local `.env` file from the example and fill in the provider-specific names only if you have real access.
+The default workflow does not require API keys and does not submit hardware jobs.
 
-## Checking available devices
-```bash
-python -m quantum_compare.cli devices
-```
+## Running The Project
 
-## Running the simulations
+Check that the package imports and the CLI is available:
+
 ```bash
 python -m quantum_compare.cli check
-python -m quantum_compare.cli run --backend ideal --suite core
-python -m quantum_compare.cli run --backend ibm --suite core
-python -m quantum_compare.cli run --backend quantinuum --suite core
+```
+
+Run the full offline proxy-model experiment suite:
+
+```bash
 python -m quantum_compare.cli run --backend all --suite core
 ```
 
-## Generating a report
+Generate tables, figures, and the summary report from the newest processed CSV:
+
 ```bash
 python -m quantum_compare.cli report
 ```
 
-## Interpreting the outputs
-- The ideal run gives the clean mathematical behavior.
-- IBM and Quantinuum adapters currently run in dry-run mode unless you configure real access.
-- The processed CSV file is the main place to compare the logical and compiled circuit statistics.
+Run the script form of the same full workflow:
 
-## Running tests
 ```bash
-pytest -q
-ruff check .
-mypy src
+python scripts/generate_report.py
 ```
 
-## Known limitations
-- No paid hardware jobs are submitted in this repository.
-- IBM and Quantinuum provider access requires credentials and supported permissions that are not assumed here.
-- The adapters are intentionally explicit about dry-run behavior so they do not misrepresent a simulator as a real hardware run.
+Compare a regenerated run with the verified baseline:
+
+```bash
+python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv
+```
+
+Run tests:
+
+```bash
+pytest
+```
+
+Optional static checks:
+
+```bash
+ruff check .
+mypy src tests
+```
+
+## Repository Structure
+
+- `config/experiments.yaml`: circuit families, qubit sizes, repetitions, and output
+  locations.
+- `src/quantum_compare/`: source package for circuits, architecture models, metrics,
+  experiment execution, CLI commands, and visualization/report generation.
+- `tests/`: unit and smoke tests for circuits, metrics, backend modes, architecture
+  compilation, and visualization generation.
+- `scripts/`: reproducibility, environment, device-listing, report, and artifact
+  comparison helpers.
+- `docs/`: architecture notes, metrics, limitations, experiment protocol, beginner
+  guide, and qBraid validation notes.
+- `data/processed/`: timestamped processed experiment outputs. The verified public
+  baseline is `results_20260623T223649Z`.
+- `results/tables/`: generated CSV tables used by the report.
+- `results/figures/`: generated PNG figures for presentation and review.
+- `results/reports/`: generated Markdown and JSON reports.
+- `notebooks/`: qBraid validation notebook.
+
+## Major Findings
+
+The verified baseline run is `data/processed/results_20260623T223649Z.csv`. It contains
+63 rows: 21 ideal baseline rows and 42 architecture-proxy rows.
+
+The main result is structural rather than a universal hardware ranking. Bell and the
+current 2-qubit Grover circuit are too small to expose meaningful routing differences.
+For GHZ and QFT, the IBM proxy's line connectivity introduces routing SWAPs as qubit
+count grows. Those SWAPs are decomposed into native entangling operations, increasing
+native-compiled depth and native entangling-gate count. The Quantinuum proxy avoids
+routing SWAP insertion for these tested circuits because its proxy connectivity is
+all-to-all, although it still has native-basis decomposition overhead.
+
+Under the selected proxy timing and proxy error assumptions, the Quantinuum proxy has
+lower estimated native execution duration and higher estimated success probability for
+the tested matched circuit sizes. These estimates depend on model assumptions and do
+not prove that one architecture is universally superior.
+
+## Figures And Reports
+
+Primary figures:
+
+- `results/figures/key_metric_summary.png`
+- `results/figures/logical_depth_baseline.png`
+- `results/figures/routed_depth_scaling_by_family.png`
+- `results/figures/native_depth_scaling_by_family.png`
+- `results/figures/routing_swap_count_scaling_by_family.png`
+- `results/figures/native_entangling_gate_count_scaling_by_family.png`
+- `results/figures/estimated_native_duration_scaling_by_family.png`
+- `results/figures/estimated_proxy_success_scaling_by_family.png`
+
+Primary reports:
+
+- `results/reports/summary_report.md`
+- `results/reports/final_results_written_summary.md`
+- `results/reports/qbraid_artifact_comparison.json`
+
+## qBraid Validation Status
+
+The qBraid validation path is documented in `docs/QBRAID_VALIDATION.md` and
+`notebooks/qbraid_validation.ipynb`. It validates imports, package versions, tests, the
+offline proxy-model experiment pipeline, report generation, and artifact comparison
+against `data/processed/results_20260623T223649Z.csv`.
+
+This validation does not require paid QPU access. Optional local simulator output in
+qBraid is a platform sanity check only and must not be described as IBM or Quantinuum
+hardware measurement.
+
+## Limitations
+
+- The study uses architecture-aware offline proxy models, not live calibrated hardware.
+- Results are not direct benchmarks of physical IBM or Quantinuum hardware.
+- Estimated native execution duration depends on proxy timing assumptions.
+- Estimated success probability depends on proxy error-rate assumptions.
+- The Quantinuum proxy uses Qiskit `rzz` as an offline ZZ-type entangling proxy rather
+  than official pytket Quantinuum compilation passes.
+- The configured circuit set is small; Grover currently has only one supported qubit
+  count.
+- Repetitions are deterministic unless future work varies compiler seeds.
+- The findings do not prove that one architecture is universally superior.
+
+## Confidentiality Statement
+
+This public repository contains a sanitized independent research implementation. It
+excludes confidential company information and materials protected under a nondisclosure
+agreement.

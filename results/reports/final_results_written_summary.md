@@ -1,9 +1,10 @@
 # Verified Final Results Written Summary
 
-This written version was verified against the newest completed experiment run:
+This written version was verified against the authoritative completed full architecture
+proxy run:
 `20260623T223649Z`.
 
-The newest processed run is:
+The authoritative verified processed run is:
 `data/processed/results_20260623T223649Z.csv`.
 
 The tables below use proxy-model labels:
@@ -23,9 +24,9 @@ Every numeric value in this written summary was checked against the latest gener
 CSV/table artifacts. No value was found to come from an older run. No manually typed
 figure value was retained without checking it against the source tables.
 
-One presentation correction was made: Figures 8 and 9 now include the actual aggregate
-sensitivity values from `results/tables/model_sensitivity_analysis.csv`; the earlier
-written version stated only the ordering conclusion.
+One presentation correction was made: the written sensitivity sections include the
+actual aggregate values from `results/tables/model_sensitivity_analysis.csv`; the
+earlier written version stated only the ordering conclusion.
 
 ## Figure 1: Logical Depth Baseline
 
@@ -172,7 +173,7 @@ These are proxy error-model estimates. They are not physical fidelity measuremen
 Interpretation: under the selected proxy error model, Quantinuum proxy estimated success
 probability is higher for every tested matched circuit size.
 
-## Figure 8: Duration Sensitivity Analysis
+## Written Sensitivity Section: Duration
 
 Source: `results/tables/model_sensitivity_analysis.csv`  
 Source columns: `scenario`, `provider`, `target_model`,
@@ -196,7 +197,7 @@ Ordering result: Quantinuum proxy has the lower duration estimate in every teste
 scenario, circuit family, qubit count, and repetition. Duration ordering is stable
 across optimistic, baseline, and pessimistic proxy timing assumptions.
 
-## Figure 9: Success-Probability Sensitivity Analysis
+## Written Sensitivity Section: Success Probability
 
 Source: `results/tables/model_sensitivity_analysis.csv`  
 Source columns: `scenario`, `provider`, `target_model`,
@@ -244,9 +245,9 @@ as measured execution time or hardware fidelity.
 ## Source-Trace Appendix
 
 Run timestamp: `20260623T223649Z`  
-Newest manifest: `data/processed/manifest_20260623T223649Z.json`  
-Newest processed CSV: `data/processed/results_20260623T223649Z.csv`  
-Newest processed JSON: `data/processed/results_20260623T223649Z.json`
+Authoritative manifest: `data/processed/manifest_20260623T223649Z.json`  
+Authoritative processed CSV: `data/processed/results_20260623T223649Z.csv`  
+Authoritative processed JSON: `data/processed/results_20260623T223649Z.json`
 
 CSV/table artifacts used:
 

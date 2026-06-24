@@ -1,27 +1,41 @@
 # Data Dictionary
 
-- experiment_id: Unique identifier for the run.
-- timestamp: ISO 8601 timestamp with timezone.
-- circuit_family: Circuit family such as bell, ghz, qft, or grover.
-- qubit_count: Number of qubits in the logical circuit.
-- shots: Number of shots used for the execution.
-- repetition: Repetition number for repeated runs.
-- provider: Provider name such as ideal, ibm, or quantinuum.
-- backend_identifier: Backend or device name when available.
-- architecture: Architecture label such as ideal, superconducting, or trapped-ion.
-- execution_type: ideal simulator, noisy simulator, emulator, or QPU.
-- logical_depth: Circuit depth of the logical circuit.
-- logical_gate_count: Gate count of the logical circuit.
-- logical_two_qubit_gate_count: Two-qubit gate count of the logical circuit.
-- compiled_depth: Compiled depth when available.
-- compiled_gate_count: Compiled gate count when available.
-- compiled_two_qubit_gate_count: Compiled two-qubit count when available.
-- measurement_counts: Raw measurement counts.
-- probability_distribution: Normalized measurement probabilities.
-- expected_state_probability: Probability of the expected ideal state.
-- total_variation_distance: Distance from the ideal distribution.
-- hellinger_fidelity: Fidelity to the ideal distribution.
-- job_id: Provider job ID if available.
-- job_status: Provider status if available.
-- error_message: Error message when a run fails.
-- device_metadata: Provider metadata snapshot if available.
+- `experiment_id`: Unique identifier for a row. It is run-specific and is ignored by
+  deterministic artifact comparisons.
+- `timestamp`: ISO 8601 row creation timestamp. It is run-specific and is ignored by
+  deterministic artifact comparisons.
+- `circuit_family`: Circuit family, such as `bell`, `ghz`, `qft`, or `grover`.
+- `qubit_count`: Number of qubits in the logical circuit.
+- `shots`: Number of simulator shots requested.
+- `repetition`: Repetition number.
+- `provider`: Pipeline key: `ideal`, `ibm`, or `quantinuum`. In architecture tables,
+  `ibm` means IBM proxy and `quantinuum` means Quantinuum proxy.
+- `target_model`: Offline proxy target identifier.
+- `architecture`: Architecture label, such as `ideal`, `superconducting`, or
+  `trapped-ion`.
+- `execution_type`: Ideal simulator or dry-run adapter label. Architecture-proxy metrics
+  do not require hardware execution.
+- `logical_depth`: Depth of the original logical circuit.
+- `routed_depth`: Depth after topology routing.
+- `native_compiled_depth`: Depth after final native-basis decomposition.
+- `routing_swap_count`: SWAP count inserted during routing, before SWAP decomposition.
+- `native_entangling_gate_count`: Entangling-gate count after native-basis decomposition.
+- `estimated_native_execution_duration_ns`: Proxy timing-model estimate in nanoseconds.
+- `estimated_native_execution_duration_us`: Proxy timing-model estimate in microseconds
+  in generated tables.
+- `estimated_success_probability_from_proxy_error_model`: Proxy error-model estimate.
+- `unsupported_operation_count`: Number of operations outside the selected native proxy
+  basis and permitted non-unitary operations.
+- `equivalence_passed`: Whether the native-compiled circuit matches the logical circuit
+  up to global phase after removing final measurements.
+- `measurement_counts`: Raw simulator measurement counts when available; `null` when not
+  available.
+- `probability_distribution`: Normalized simulator probabilities when available; `null`
+  when not available.
+- `job_id`: Provider job ID if one exists. Offline proxy rows use `null`.
+- `job_status`: Job status or dry-run status.
+- `error_message`: Error text when a row fails; `null` for successful rows.
+- `target_metadata`: JSON metadata documenting proxy connectivity, basis gates, duration
+  assumptions, error assumptions, and source/rationale.
+
+Unavailable values are stored as `null` rather than fabricated zeroes.
