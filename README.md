@@ -128,6 +128,9 @@ mypy src tests
 - `results/reports/`: generated Markdown and JSON reports.
 - `notebooks/`: qBraid validation notebook.
 
+For a file-by-file explanation written for non-coders, see
+`docs/PLAIN_ENGLISH_FILE_GUIDE.md`.
+
 ## Major Findings
 
 The verified baseline run is `data/processed/results_20260623T223649Z.csv`. It contains

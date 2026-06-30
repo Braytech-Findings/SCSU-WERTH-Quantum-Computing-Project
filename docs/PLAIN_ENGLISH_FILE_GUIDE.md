@@ -1,0 +1,332 @@
+# Plain English File Guide
+
+This guide labels the project file by file in simple language. It is written for a
+reader who has never coded before. Think of the project like a science fair experiment:
+the code builds the experiment, the config says what to test, the data stores what
+happened, and the reports explain what the results mean.
+
+Important safety note: this project compares offline proxy models. It does not claim
+that paid IBM or Quantinuum hardware jobs were submitted, and it does not invent live
+hardware calibration values.
+
+## Big Picture
+
+- The project asks one question: what happens when the same quantum circuits are prepared
+  for two different kinds of quantum-computer layouts?
+- The IBM proxy is like a row of seats where qubits can only easily talk to neighbors.
+- The Quantinuum proxy is like a room where any qubit can talk to any other qubit.
+- The code keeps the same starting circuits for both paths, so the comparison is fair.
+- When a number is not available, the project uses `null` instead of pretending the value
+  is zero.
+
+## How The Code Runs On qBraid, IBM, And Quantinuum
+
+Here is the simple version: qBraid is the place where the project can be opened, tested,
+and run. IBM and Quantinuum are the two architecture styles being compared by the code.
+In this repository, the IBM and Quantinuum comparison rows are offline proxy-model rows,
+not paid hardware jobs.
+
+### qBraid
+
+qBraid is the cloud workspace where the project can be validated. A reader can upload or
+clone the repository into qBraid Lab, install the project, and run the notebook or command
+line tools.
+
+The normal qBraid validation flow is:
+
+```bash
+python -m pip install -e .
+python -m quantum_compare.cli check
+pytest
+python scripts/generate_report.py
+python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv
+```
+
+In plain English, those commands mean:
+
+- Install this project into the qBraid Python environment.
+- Check that the command-line tool starts.
+- Run the tests to make sure the code still behaves correctly.
+- Rebuild the result tables, figures, and reports.
+- Compare the regenerated results against the verified baseline file.
+
+The qBraid notebook, `notebooks/qbraid_validation.ipynb`, does the same kind of work in a
+step-by-step notebook format. It may also run a small Bell circuit on a local
+qBraid-compatible Qiskit Aer simulator if that simulator is available. That simulator
+check is only a platform sanity check. It is not an IBM or Quantinuum hardware result.
+
+### IBM
+
+The IBM path in this repository asks: "What happens if the same logical circuit is
+compiled for an IBM-style superconducting layout?"
+
+The code does this in two layers:
+
+- `src/quantum_compare/architecture.py` uses `IBMArchitectureModel` to model an
+  IBM-style line-connected superconducting proxy.
+- `src/quantum_compare/backends/ibm_superconducting.py` provides a dry-run IBM backend
+  adapter so the experiment runner can include IBM-labeled rows without pretending that
+  live IBM hardware is available.
+
+In plain English, the IBM proxy does this:
+
+1. Start with the same logical circuit used everywhere else.
+2. Pretend the qubits sit in a line, where only neighbors can easily interact.
+3. Add SWAP moves when two qubits need to interact but are not neighbors.
+4. Convert the circuit into the IBM proxy's allowed native gates: `rz`, `sx`, `x`, and
+   `cx`, plus allowed non-unitary operations like measurement.
+5. Check that the final native circuit still matches the original circuit's quantum
+   behavior, ignoring the final measurements.
+6. Save counts such as depth, gate count, SWAP count, estimated proxy duration, and
+   estimated proxy success probability.
+
+The important wording is "IBM-style proxy." The saved IBM rows are useful for studying
+architecture effects, but they are not measured IBM device performance and they do not
+contain live IBM calibration data.
+
+### Quantinuum
+
+The Quantinuum path asks: "What happens if the same logical circuit is compiled for a
+Quantinuum-style trapped-ion layout?"
+
+The code also does this in two layers:
+
+- `src/quantum_compare/architecture.py` uses `QuantinuumArchitectureModel` to model a
+  Quantinuum H-series-style all-to-all trapped-ion proxy.
+- `src/quantum_compare/backends/quantinuum_trapped_ion.py` provides a dry-run Quantinuum
+  backend adapter so the experiment runner can include Quantinuum-labeled rows without
+  pretending that live Quantinuum hardware or emulator access is available.
+
+In plain English, the Quantinuum proxy does this:
+
+1. Start with the same logical circuit used for the IBM path.
+2. Pretend the qubits have all-to-all connectivity, meaning any qubit can interact with
+   any other qubit.
+3. Because of that all-to-all proxy layout, the tested circuits do not need routing SWAPs.
+4. Convert the circuit into the Quantinuum proxy's allowed native gates: `rz`, `rx`, and
+   Qiskit's `rzz` as an offline ZZ-type entangling proxy, plus measurement.
+5. Check that the final native circuit still matches the original circuit's quantum
+   behavior, ignoring the final measurements.
+6. Save the same kinds of metrics as the IBM path so the two architecture styles can be
+   compared fairly.
+
+The important wording is "Quantinuum-style proxy." The saved Quantinuum rows are not
+official Quantinuum hardware or emulator measurements, and they are not official pytket
+Quantinuum compilation results.
+
+### Why This Still Counts As Running The Comparison
+
+The experiment really does execute the project workflow: it builds circuits, compiles
+them through both architecture-proxy paths, checks equivalence, calculates metrics, and
+writes result files. What it does not do by default is submit paid jobs to physical
+quantum computers. This is why the project can be safely reproduced in qBraid without
+API keys or spending hardware credits.
+
+## Main Project Files
+
+| File | Plain English label |
+| --- | --- |
+| `README.md` | The front door of the project. It explains what the project is, how to install it, how to run it, and what the main findings are. |
+| `PROJECT_OVERVIEW.md` | A short project summary for readers who want the story before the details. |
+| `PLAN.md` | The project plan. It lists the intended steps and checks for the research work. |
+| `FINAL_STATUS.md` | A final wrap-up that says what is complete, what was checked, and what the results support. |
+| `AGENTS.md` | Instructions for coding assistants working in this repository. |
+| `LICENSE` | The legal permission file that says how others may use the project. |
+| `CITATION.cff` | A citation helper so other people know how to cite this work. |
+| `.gitignore` | A list of files Git should usually ignore, such as cache files or private local files. |
+| `.env.example` | A safe example of environment-variable names. It is not supposed to contain real secrets or API keys. |
+| `pyproject.toml` | The Python project setup file. It lists package dependencies, test settings, and formatting settings. |
+
+## Source Code: `src/quantum_compare/`
+
+This folder is the main engine of the project.
+
+| File | Plain English label |
+| --- | --- |
+| `src/quantum_compare/__init__.py` | Marks `quantum_compare` as a Python package. It is intentionally tiny. |
+| `src/quantum_compare/circuits.py` | Builds the starting quantum circuits: Bell, GHZ, QFT, and Grover. These are the same logical circuits used for each architecture path. |
+| `src/quantum_compare/architecture.py` | Builds the offline architecture proxy models. It routes circuits, converts them to native gates, counts SWAPs, checks equivalence, and estimates proxy duration and proxy success probability. |
+| `src/quantum_compare/experiment.py` | Runs the full experiment. It builds each circuit, sends it through the ideal, IBM-proxy, and Quantinuum-proxy paths, calculates metrics, and saves CSV/JSON result files. |
+| `src/quantum_compare/metrics.py` | Contains the math helpers for probabilities, success probability, total variation distance, and Hellinger fidelity. |
+| `src/quantum_compare/visualization.py` | Turns saved result files into tables, figures, and a Markdown summary report. |
+| `src/quantum_compare/models.py` | Defines the experiment settings object: circuit families, qubit sizes, shots, repetitions, seed, backends, and output folders. |
+| `src/quantum_compare/config.py` | Loads and saves the YAML config file. |
+| `src/quantum_compare/cli.py` | Provides command-line commands such as `check`, `devices`, `run`, and `report`. |
+
+## Backend Adapters: `src/quantum_compare/backends/`
+
+These files give each backend path the same shape, so the experiment runner can talk to
+them in a consistent way.
+
+| File | Plain English label |
+| --- | --- |
+| `src/quantum_compare/backends/base.py` | Defines the required methods every backend adapter must have. It is like a checklist for backend classes. |
+| `src/quantum_compare/backends/ideal.py` | Runs the circuit on a noiseless Qiskit Aer simulator. This gives the clean reference answer. |
+| `src/quantum_compare/backends/ibm_superconducting.py` | A dry-run IBM adapter. It does not submit IBM hardware jobs. It clearly reports unavailable live execution unless real access is added separately. |
+| `src/quantum_compare/backends/quantinuum_trapped_ion.py` | A dry-run Quantinuum adapter. It does not submit Quantinuum hardware jobs. It keeps emulator or hardware access separate from the offline proxy study. |
+
+## Scripts: `scripts/`
+
+Scripts are small command shortcuts.
+
+| File | Plain English label |
+| --- | --- |
+| `scripts/check_environment.py` | Runs the CLI environment check. It is a quick "does the package start?" test. |
+| `scripts/run_core_suite.py` | Runs the ideal-only core suite from the config. |
+| `scripts/generate_report.py` | Runs the full configured suite and generates report artifacts. |
+| `scripts/list_devices.py` | Prints the available backend adapters and whether they are available in the current environment. |
+| `scripts/compare_run_artifacts.py` | Compares a new run against the verified baseline and checks that important result tables have the expected shape. |
+
+## Configuration: `config/`
+
+| File | Plain English label |
+| --- | --- |
+| `config/experiments.yaml` | The experiment recipe. It says which circuits to run, which qubit sizes to use, how many shots and repetitions to run, which backends to include, and where outputs should be saved. |
+
+## Tests: `tests/`
+
+Tests are safety checks. They make sure important behavior still works after changes.
+
+| File | Plain English label |
+| --- | --- |
+| `tests/test_architecture_models.py` | Checks the IBM and Quantinuum proxy models, including routing, native gates, and equivalence. |
+| `tests/test_backend_modes.py` | Checks that backend adapters correctly report dry-run or simulator behavior. |
+| `tests/test_circuits.py` | Checks that the Bell, GHZ, QFT, and Grover circuit builders create valid circuits. |
+| `tests/test_config.py` | Checks that config loading works. |
+| `tests/test_metrics.py` | Checks the probability and comparison math. |
+| `tests/test_smoke.py` | Runs small broad checks to make sure the project can start and basic commands work. |
+| `tests/test_visualization.py` | Checks that result tables, figures, and reports can be generated. |
+
+## Documentation: `docs/`
+
+These files explain the project for humans.
+
+| File | Plain English label |
+| --- | --- |
+| `docs/BEGINNER_GUIDE.md` | The easiest starting explanation for new readers. |
+| `docs/ARCHITECTURE.md` | Explains how the code is organized and how the main parts connect. |
+| `docs/DATA_DICTIONARY.md` | Explains the columns in the result files. |
+| `docs/EXPERIMENT_PROTOCOL.md` | Explains the steps used to run the experiment in a reproducible way. |
+| `docs/LIMITATIONS.md` | Explains what the project does not prove. This protects the research from overclaiming. |
+| `docs/METRICS.md` | Explains the measurements used to compare circuits. |
+| `docs/QBRAID_VALIDATION.md` | Explains how the project was validated in qBraid and what that validation means. |
+| `docs/PLAIN_ENGLISH_FILE_GUIDE.md` | This file. It labels the repository in simple language. |
+
+## Notebook: `notebooks/`
+
+| File | Plain English label |
+| --- | --- |
+| `notebooks/qbraid_validation.ipynb` | A notebook version of the qBraid validation workflow. It helps someone run checks step by step in a notebook environment. |
+
+## Processed Data: `data/processed/`
+
+Processed data files are saved experiment outputs. The verified public baseline is:
+
+| File | Plain English label |
+| --- | --- |
+| `data/processed/results_20260623T223649Z.csv` | The verified baseline results in spreadsheet form. This is usually the easiest results file to inspect. |
+| `data/processed/results_20260623T223649Z.json` | The same verified baseline results in JSON form, which is easier for programs to read. |
+| `data/processed/manifest_20260623T223649Z.json` | A small receipt for the verified baseline run. It records the timestamp, file names, and row count. |
+
+Your local folder may also contain extra files named like `results_YYYYMMDDTHHMMSSZ.csv`,
+`results_YYYYMMDDTHHMMSSZ.json`, and `manifest_YYYYMMDDTHHMMSSZ.json`. Those are older
+or repeated saved runs. The timestamp in the name says when the run was created in UTC.
+
+## Result Tables: `results/tables/`
+
+Tables are CSV files that summarize the experiment in different ways.
+
+| File | Plain English label |
+| --- | --- |
+| `results/tables/architecture_validation_table.csv` | The main detailed table for each architecture-proxy row. It includes depths, gates, SWAPs, estimates, and equivalence checks. |
+| `results/tables/qubit_grouped_statistics.csv` | Groups results by circuit, qubit count, and provider so trends are easier to see. |
+| `results/tables/matched_size_architecture_comparison.csv` | Compares IBM-proxy and Quantinuum-proxy rows at matching circuit sizes. |
+| `results/tables/proxy_assumptions_table.csv` | Lists the proxy timing and error assumptions. It also marks that they are not live calibration data. |
+| `results/tables/model_sensitivity_analysis.csv` | Tests how results change under optimistic, baseline, and pessimistic proxy assumptions. |
+| `results/tables/model_sensitivity_ordering.csv` | Checks whether the ordering of architectures stays stable under those sensitivity assumptions. |
+| `results/tables/results_interpretation_table.csv` | Gives a short human-readable interpretation of the main result patterns. |
+| `results/tables/native_depth_bar_raw_rows.csv` | Raw rows used for the native-depth bar chart and diagnostics. |
+| `results/tables/native_depth_bar_summary.csv` | Summary values for native compiled depth. |
+| `results/tables/appendix_family_mean_summary.csv` | Average values by circuit family for appendix-style reporting. |
+| `results/tables/grover_diagnostic_report.csv` | Extra detail for the small Grover circuit, because it is too small to show much routing difference. |
+
+## Figures: `results/figures/`
+
+Figures are PNG images made from the saved results.
+
+| File | Plain English label |
+| --- | --- |
+| `results/figures/key_metric_summary.png` | A summary picture of the most important comparison metrics. |
+| `results/figures/logical_depth_baseline.png` | Shows the starting logical circuit depth before architecture-specific compilation. |
+| `results/figures/routed_depth_scaling_by_family.png` | Shows how routed depth changes as circuits get larger. |
+| `results/figures/native_depth_scaling_by_family.png` | Shows how native compiled depth changes as circuits get larger. |
+| `results/figures/routing_swap_count_scaling_by_family.png` | Shows how many routing SWAPs were added. |
+| `results/figures/native_entangling_gate_count_scaling_by_family.png` | Shows how many native two-qubit-style gates were needed. |
+| `results/figures/estimated_native_duration_scaling_by_family.png` | Shows estimated native execution duration from proxy assumptions. |
+| `results/figures/estimated_proxy_success_scaling_by_family.png` | Shows estimated success probability from proxy error assumptions. |
+
+## Reports: `results/reports/`
+
+Reports are written explanations of the generated results.
+
+| File | Plain English label |
+| --- | --- |
+| `results/reports/summary_report.md` | A generated Markdown report summarizing the latest processed results. |
+| `results/reports/final_results_written_summary.md` | A longer written explanation of the final results and what they mean. |
+| `results/reports/qbraid_artifact_comparison.json` | A machine-readable report showing whether generated artifacts match the verified baseline checks. |
+
+## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
+
+These files are created by Python packaging tools. They help Python know what package was
+installed locally.
+
+| File | Plain English label |
+| --- | --- |
+| `src/quantum_architecture_comparison.egg-info/PKG-INFO` | Package summary information copied from project metadata. |
+| `src/quantum_architecture_comparison.egg-info/SOURCES.txt` | A list of files included in the package metadata. |
+| `src/quantum_architecture_comparison.egg-info/dependency_links.txt` | Packaging metadata for dependency links. It is usually empty. |
+| `src/quantum_architecture_comparison.egg-info/requires.txt` | Package dependency list used by packaging tools. |
+| `src/quantum_architecture_comparison.egg-info/top_level.txt` | Says the top-level import package is `quantum_compare`. |
+
+## Local Generated Folders You May See
+
+These are normal local helper folders. They are not the scientific results.
+
+| Folder or file | Plain English label |
+| --- | --- |
+| `.git/` | Git's private history folder. It tracks changes to the project. People usually do not edit it by hand. |
+| `.venv/` | The local Python environment. It stores installed packages for this computer. |
+| `.pytest_cache/` | A cache made by pytest so repeated tests can run more conveniently. |
+| `.ruff_cache/` | A cache made by Ruff, the code checker. |
+| `.mypy_cache/` | A cache made by mypy, the type checker. |
+| `__pycache__/` folders | Python's local speed-up files. They can be regenerated and are not research data. |
+
+## Result Column Labels In Kid-Friendly Words
+
+| Column or phrase | Simple meaning |
+| --- | --- |
+| `circuit_family` | Which circuit type was tested, such as Bell, GHZ, QFT, or Grover. |
+| `qubit_count` | How many qubits the circuit uses. |
+| `provider` | Which path made the row: ideal, IBM proxy, or Quantinuum proxy. |
+| `logical_depth` | How many layers the original circuit has before hardware-style rules are applied. |
+| `routed_depth` | How deep the circuit is after qubits are moved to where they can interact. |
+| `native_compiled_depth` | How deep the circuit is after it is rewritten using the target's allowed gates. |
+| `routing_swap_count` | How many SWAP moves were added to bring qubits next to each other. |
+| `native_entangling_gate_count` | How many native two-qubit-style gates were used. |
+| `estimated_native_execution_duration_ns` | Estimated duration in nanoseconds from the proxy assumptions, not from live hardware timing. |
+| `estimated_success_probability_from_proxy_error_model` | Estimated chance of success from the proxy error assumptions, not from measured hardware fidelity. |
+| `unsupported_operation_count` | How many gates were left that the target was not supposed to use. This should be zero for successful rows. |
+| `equivalence_passed` | Whether the compiled circuit still does the same quantum operation as the original circuit, ignoring final measurements. |
+| `null` | Means "not available" or "not meaningful here." It does not mean zero. |
+
+## How To Read The Main Result
+
+The safest interpretation is:
+
+- The same logical circuits were used for both architecture-proxy paths.
+- The IBM proxy's line connectivity can require extra SWAPs for larger GHZ and QFT
+  circuits.
+- The Quantinuum proxy's all-to-all connectivity avoids routing SWAPs for these tested
+  circuits.
+- The duration and success-probability numbers are estimates from proxy assumptions.
+- The project does not prove that one real hardware system is always better than another.
