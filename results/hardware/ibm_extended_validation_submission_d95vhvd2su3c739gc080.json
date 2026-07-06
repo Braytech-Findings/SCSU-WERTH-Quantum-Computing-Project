@@ -1,0 +1,12 @@
+{
+  "backend": "ibm_kingston",
+  "circuit_count": 115,
+  "job_id": "d95vhvd2su3c739gc080",
+  "notes": [
+    "This file intentionally excludes IBM Quantum tokens, CRNs, and account identifiers.",
+    "Fetch results later with scripts/fetch_ibm_hardware_job.py or a job-specific retrieval script."
+  ],
+  "plan_path": "results/hardware/ibm_extended_validation_plan.json",
+  "shots_per_circuit": 4096,
+  "submitted_at_utc": "2026-07-06T18:50:37.389941+00:00"
+}

@@ -132,3 +132,25 @@ python scripts/submit_ibm_extended_validation.py --backend ibm_kingston --shots 
 The submission command saves the IBM job ID under `results/hardware/` and keeps it
 separate from the offline proxy-model tables. Do not use this command casually: it can
 consume IBM Quantum quota or credits.
+
+## Extended Hardware Submission Record
+
+An extended IBM hardware validation job was submitted after the dry-run plan was reviewed.
+
+- Backend: `ibm_kingston`
+- IBM Runtime job ID: `d95vhvd2su3c739gc080`
+- Submitted at: `2026-07-06T18:50:37.389941+00:00`
+- Circuit count: `115`
+- Shots per circuit: `4096`
+- Total requested shots: `471040`
+- Submission record:
+  `results/hardware/ibm_extended_validation_submission_d95vhvd2su3c739gc080.json`
+
+IBM reported that `ibm_kingston` was in maintenance at submission time, so this job may
+wait in the queue or complete later than usual.
+
+After the job finishes, fetch the sanitized result artifacts with:
+
+```bash
+python scripts/fetch_ibm_hardware_job.py --job-id d95vhvd2su3c739gc080
+```

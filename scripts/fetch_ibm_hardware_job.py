@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import os
+import argparse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -12,11 +13,19 @@ from dotenv import load_dotenv
 
 JOB_ID = "d8up2d1ropqc738b44pg"
 LOCAL_ENV_PATH = Path(".env.ibm")
-OUTPUT_PATH = Path("results/hardware/ibm_job_d8up2d1ropqc738b44pg.json")
-SUMMARY_PATH = Path("results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv")
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Fetch and sanitize an IBM Quantum job result.")
+    parser.add_argument("--job-id", default=JOB_ID, help="IBM Runtime job ID to fetch")
+    parser.add_argument(
+        "--output-dir", default="results/hardware", help="Directory for sanitized artifacts"
+    )
+    return parser
 
 
 def main() -> int:
+    args = build_parser().parse_args()
     load_dotenv(LOCAL_ENV_PATH)
 
     token = os.getenv("IBM_QUANTUM_TOKEN") or os.getenv("QISKIT_IBM_TOKEN")
@@ -39,12 +48,12 @@ def main() -> int:
         token=token,
         instance=instance,
     )
-    job = service.job(JOB_ID)
+    job = service.job(args.job_id)
     result = job.result()
 
     safe_payload = {
         "provider": "ibm",
-        "job_id": JOB_ID,
+        "job_id": args.job_id,
         "retrieved_at_utc": datetime.now(timezone.utc).isoformat(),
         "status": _safe_string(job.status()),
         "backend": _backend_name(job),
@@ -57,11 +66,14 @@ def main() -> int:
         ],
     }
 
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    OUTPUT_PATH.write_text(json.dumps(safe_payload, indent=2, sort_keys=True), encoding="utf-8")
-    _write_summary_csv(safe_payload, SUMMARY_PATH)
-    print(f"Wrote sanitized IBM job data to {OUTPUT_PATH}")
-    print(f"Wrote compact IBM job summary to {SUMMARY_PATH}")
+    output_dir = Path(args.output_dir)
+    output_path = output_dir / f"ibm_job_{args.job_id}.json"
+    summary_path = output_dir / f"ibm_job_{args.job_id}_summary.csv"
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(json.dumps(safe_payload, indent=2, sort_keys=True), encoding="utf-8")
+    _write_summary_csv(safe_payload, summary_path)
+    print(f"Wrote sanitized IBM job data to {output_path}")
+    print(f"Wrote compact IBM job summary to {summary_path}")
     return 0
 
 
