@@ -5,14 +5,17 @@ type: software
 authors:
   - family-names: "Aly"
     given-names: "Abdellah"
+    email: "braytechfuturescape@icloud.com"
 repository-code: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
-abstract: "A sanitized independent research implementation comparing superconducting-proxy and trapped-ion-proxy quantum architecture compilation behavior using offline proxy models."
+url: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
+abstract: "An independent research implementation comparing superconducting and trapped-ion quantum computing architectures through compilation behavior, offline proxy models, and accessible cloud-based quantum computing resources."
 keywords:
   - quantum computing
-  - superconducting proxy
-  - trapped-ion proxy
+  - superconducting quantum computing
+  - trapped-ion quantum computing
+  - quantum architecture comparison
   - Qiskit
-  - architecture comparison
+  - cloud quantum computing
 license: MIT
 version: "0.1.0"
 date-released: "2026-06-24"
