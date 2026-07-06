@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 JOB_ID = "d8up2d1ropqc738b44pg"
 LOCAL_ENV_PATH = Path(".env.ibm")
 OUTPUT_PATH = Path("results/hardware/ibm_job_d8up2d1ropqc738b44pg.json")
+SUMMARY_PATH = Path("results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv")
 
 
 def main() -> int:
@@ -58,7 +59,9 @@ def main() -> int:
 
     OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT_PATH.write_text(json.dumps(safe_payload, indent=2, sort_keys=True), encoding="utf-8")
+    _write_summary_csv(safe_payload, SUMMARY_PATH)
     print(f"Wrote sanitized IBM job data to {OUTPUT_PATH}")
+    print(f"Wrote compact IBM job summary to {SUMMARY_PATH}")
     return 0
 
 
@@ -131,6 +134,69 @@ def _json_safe(value: Any) -> Any:
         return value
     except TypeError:
         return str(value)
+
+
+def _write_summary_csv(payload: dict[str, Any], path: Path) -> None:
+    import csv
+
+    fieldnames = [
+        "provider",
+        "backend",
+        "job_id",
+        "pub_index",
+        "register_name",
+        "bit_width",
+        "shots",
+        "all_zero_count",
+        "all_one_count",
+        "all_zero_or_all_one_count",
+        "all_zero_or_all_one_probability",
+        "distinct_outcomes",
+    ]
+    rows: list[dict[str, Any]] = []
+    for pub_result in payload.get("pub_results", []):
+        for register in pub_result.get("classical_registers", []):
+            counts = register.get("counts", {})
+            if not isinstance(counts, dict):
+                continue
+            int_counts = {
+                str(bitstring): int(count)
+                for bitstring, count in counts.items()
+                if isinstance(count, int)
+            }
+            if not int_counts:
+                continue
+            bit_width = max(len(bitstring) for bitstring in int_counts)
+            shots = sum(int_counts.values())
+            all_zero_count = int_counts.get("0" * bit_width, 0)
+            all_one_count = int_counts.get("1" * bit_width, 0)
+            all_zero_or_all_one_count = all_zero_count + all_one_count
+            rows.append(
+                {
+                    "provider": payload.get("provider"),
+                    "backend": payload.get("backend"),
+                    "job_id": payload.get("job_id"),
+                    "pub_index": pub_result.get("index"),
+                    "register_name": register.get("name"),
+                    "bit_width": bit_width,
+                    "shots": shots,
+                    "all_zero_count": all_zero_count,
+                    "all_one_count": all_one_count,
+                    "all_zero_or_all_one_count": all_zero_or_all_one_count,
+                    "all_zero_or_all_one_probability": round(
+                        all_zero_or_all_one_count / shots, 6
+                    )
+                    if shots
+                    else None,
+                    "distinct_outcomes": len(int_counts),
+                }
+            )
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    with path.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(rows)
 
 
 if __name__ == "__main__":

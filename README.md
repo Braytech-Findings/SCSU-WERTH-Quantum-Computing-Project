@@ -144,9 +144,10 @@ convert the Qiskit circuit to TKET when needed, request a cost estimate, and sub
 after explicitly deciding to spend the required credits or quota. Keep any real hardware
 or official emulator results in separate rows/files from the offline proxy-model results.
 
-An author-provided IBM Quantum job reference is documented separately in
-`docs/IBM_HARDWARE_VALIDATION.md`. It is not included in the proxy-model tables because
-the measured counts and backend metadata still need to be extracted and recorded.
+An IBM Quantum hardware job is documented separately in
+`docs/IBM_HARDWARE_VALIDATION.md`. Its sanitized counts are stored under
+`results/hardware/`. It is not included in the proxy-model tables because real hardware
+measurements and offline proxy estimates answer different questions.
 
 Official documentation checked for this section:
 
@@ -181,6 +182,8 @@ Official documentation checked for this section:
 - `results/tables/`: generated CSV tables used by the report.
 - `results/figures/`: generated PNG figures for presentation and review.
 - `results/reports/`: generated Markdown and JSON reports.
+- `results/hardware/`: sanitized real-hardware job artifacts kept separate from the
+  proxy-model result tables.
 - `notebooks/`: qBraid validation notebook.
 
 For a file-by-file explanation written for non-coders, see

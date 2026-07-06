@@ -20,6 +20,6 @@
 - Optional qBraid simulator checks are platform sanity checks only and are not IBM or
   Quantinuum hardware measurements.
 - The author-provided IBM Quantum job ID documented in
-  `docs/IBM_HARDWARE_VALIDATION.md` is separate from the proxy-model results. It should
-  not be analyzed as a hardware benchmark until counts, backend metadata, shot count, and
-  run date are recorded.
+  `docs/IBM_HARDWARE_VALIDATION.md` is separate from the proxy-model results. Its counts
+  are stored under `results/hardware/`, but it should not be mixed into the proxy-model
+  tables or used to claim a broad hardware benchmark.

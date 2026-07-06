@@ -9,6 +9,7 @@ from qiskit import QuantumCircuit, transpile
 from qiskit.quantum_info import Operator
 
 ALLOWED_NON_UNITARY_OPERATIONS = frozenset({"measure", "reset", "barrier", "delay"})
+TRANSPILER_NON_UNITARY_BASIS = ("measure", "reset", "delay")
 EQUIVALENCE_TOLERANCE = 1e-8
 
 
@@ -108,7 +109,7 @@ class ArchitectureModel:
         """Ask Qiskit to rewrite the circuit using this proxy's allowed gate names."""
         return transpile(
             circuit,
-            basis_gates=[*self.native_unitary_gates, *ALLOWED_NON_UNITARY_OPERATIONS],
+            basis_gates=[*self.native_unitary_gates, *TRANSPILER_NON_UNITARY_BASIS],
             optimization_level=1,
         )
 
@@ -335,7 +336,7 @@ class IBMArchitectureModel(ArchitectureModel):
     def to_native(self, circuit: QuantumCircuit) -> QuantumCircuit:
         native = transpile(
             circuit,
-            basis_gates=[*self.native_unitary_gates, "measure", "reset", "barrier"],
+            basis_gates=[*self.native_unitary_gates, *TRANSPILER_NON_UNITARY_BASIS],
             coupling_map=self.coupling_map(circuit.num_qubits),
             optimization_level=1,
             seed_transpiler=42,
@@ -405,7 +406,7 @@ class QuantinuumArchitectureModel(ArchitectureModel):
     def to_native(self, circuit: QuantumCircuit) -> QuantumCircuit:
         native = transpile(
             circuit,
-            basis_gates=[*self.native_unitary_gates, "measure", "reset", "barrier"],
+            basis_gates=[*self.native_unitary_gates, *TRANSPILER_NON_UNITARY_BASIS],
             optimization_level=1,
             seed_transpiler=42,
         )

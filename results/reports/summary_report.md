@@ -92,10 +92,12 @@ Quantinuum Nexus setup notes. Any real hardware or official emulator results sho
 saved separately from these proxy rows, with backend name, job id, shot count, date,
 measurement counts, and unavailable values recorded as `null`.
 
-An author-provided IBM Quantum job reference is recorded in
-`docs/IBM_HARDWARE_VALIDATION.md`: job ID `d8up2d1ropqc738b44pg`, author-reported target
-name IBM Kingston. Counts and backend metadata are not stored in this repository yet, so
-that job is documented separately and is not used in the proxy-model conclusions.
+An IBM Quantum hardware job is recorded separately in
+`docs/IBM_HARDWARE_VALIDATION.md`: job ID `d8up2d1ropqc738b44pg`, backend `ibm_kingston`,
+status `DONE`, 90 pub results, and 4096 shots per pub result. The sanitized counts are
+stored in `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`, with a compact summary in
+`results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv`. This hardware job is not
+used in the proxy-model conclusions.
 
 ## Remaining Scientific Limitations
 

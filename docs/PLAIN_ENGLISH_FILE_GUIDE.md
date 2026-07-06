@@ -338,6 +338,16 @@ Reports are written explanations of the generated results.
 | `results/reports/final_results_written_summary.md` | A longer written explanation of the final results and what they mean. |
 | `results/reports/qbraid_artifact_comparison.json` | A machine-readable report showing whether generated artifacts match the verified baseline checks. |
 
+## Hardware Artifacts: `results/hardware/`
+
+These files are sanitized records from an IBM Quantum hardware job. They are real
+hardware artifacts, but they are kept separate from the offline proxy-model tables.
+
+| File | Plain English label |
+| --- | --- |
+| `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json` | Safe raw IBM job output with backend, status, and measured counts. It does not include tokens, CRNs, or account identifiers. |
+| `results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv` | A smaller table summarizing each pub result by bit-width, shot count, and all-zero/all-one probability. |
+
 ## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
 
 These files are created by Python packaging tools. They help Python know what package was

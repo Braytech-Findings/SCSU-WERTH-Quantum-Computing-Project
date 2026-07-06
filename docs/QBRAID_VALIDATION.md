@@ -11,7 +11,8 @@ This validation does not require paid QPU access or private hardware credentials
 
 An author-provided IBM Quantum job reference is documented in
 `docs/IBM_HARDWARE_VALIDATION.md`. That job reference is separate from the qBraid
-offline validation workflow and is not included in the proxy-model result tables.
+offline validation workflow and is not included in the proxy-model result tables. Its
+sanitized counts are stored under `results/hardware/`.
 
 ## Study Scope
 
