@@ -9,6 +9,10 @@ against the verified run `20260623T223649Z`.
 
 This validation does not require paid QPU access or private hardware credentials.
 
+An author-provided IBM Quantum job reference is documented in
+`docs/IBM_HARDWARE_VALIDATION.md`. That job reference is separate from the qBraid
+offline validation workflow and is not included in the proxy-model result tables.
+
 ## Study Scope
 
 The repository is an offline architecture-proxy compilation and modeling study. The IBM
@@ -83,7 +87,7 @@ Qiskit Aer simulator when available.
 The current local validation result is:
 
 ```text
-26 passed
+27 passed
 ```
 
 qBraid should report the same tests passing if the environment has compatible package

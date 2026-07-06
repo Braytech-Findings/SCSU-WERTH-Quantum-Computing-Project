@@ -268,6 +268,7 @@ These files explain the project for humans.
 | `docs/ARCHITECTURE.md` | Explains how the code is organized and how the main parts connect. |
 | `docs/DATA_DICTIONARY.md` | Explains the columns in the result files. |
 | `docs/EXPERIMENT_PROTOCOL.md` | Explains the steps used to run the experiment in a reproducible way. |
+| `docs/IBM_HARDWARE_VALIDATION.md` | Records the separate author-provided IBM Quantum job reference and explains what still needs to be saved before it can be analyzed. |
 | `docs/LIMITATIONS.md` | Explains what the project does not prove. This protects the research from overclaiming. |
 | `docs/METRICS.md` | Explains the measurements used to compare circuits. |
 | `docs/QBRAID_VALIDATION.md` | Explains how the project was validated in qBraid and what that validation means. |

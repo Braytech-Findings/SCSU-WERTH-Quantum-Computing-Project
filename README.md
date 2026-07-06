@@ -144,6 +144,10 @@ convert the Qiskit circuit to TKET when needed, request a cost estimate, and sub
 after explicitly deciding to spend the required credits or quota. Keep any real hardware
 or official emulator results in separate rows/files from the offline proxy-model results.
 
+An author-provided IBM Quantum job reference is documented separately in
+`docs/IBM_HARDWARE_VALIDATION.md`. It is not included in the proxy-model tables because
+the measured counts and backend metadata still need to be extracted and recorded.
+
 Official documentation checked for this section:
 
 - IBM Qiskit installation:
@@ -170,7 +174,8 @@ Official documentation checked for this section:
 - `scripts/`: reproducibility, environment, device-listing, report, and artifact
   comparison helpers.
 - `docs/`: architecture notes, metrics, limitations, experiment protocol, beginner
-  guide, ownership/citation notes, and qBraid validation notes.
+  guide, ownership/citation notes, IBM hardware validation notes, and qBraid validation
+  notes.
 - `data/processed/`: timestamped processed experiment outputs. The verified public
   baseline is `results_20260623T223649Z`.
 - `results/tables/`: generated CSV tables used by the report.
