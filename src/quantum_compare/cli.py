@@ -6,8 +6,7 @@ from pathlib import Path
 import pandas as pd
 
 from quantum_compare.config import load_config
-from quantum_compare.experiment import ExperimentRunner
-from quantum_compare.visualization import generate_visualizations
+from quantum_compare.hardware import export_logical_circuit_qasm, hardware_readiness_text
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -33,6 +32,25 @@ def build_parser() -> argparse.ArgumentParser:
     )
     report_parser.add_argument(
         "--config", default="config/experiments.yaml", help="Path to YAML config"
+    )
+
+    hardware_parser = subparsers.add_parser(
+        "hardware-guide",
+        help="Print safe provider-specific steps for preparing real-hardware tests.",
+    )
+    hardware_parser.add_argument(
+        "--provider", default="all", help="Provider guidance: ibm, quantinuum, or all"
+    )
+    hardware_parser.add_argument(
+        "--export-family",
+        default=None,
+        help="Optional circuit family to export as OpenQASM 2: bell, ghz, qft, or grover",
+    )
+    hardware_parser.add_argument(
+        "--export-size", type=int, default=None, help="Qubit count for the exported circuit"
+    )
+    hardware_parser.add_argument(
+        "--output-dir", default="hardware_exports", help="Directory for exported QASM files"
     )
     return parser
 
@@ -61,6 +79,8 @@ def main() -> int:
         return 0
 
     if args.command == "run":
+        from quantum_compare.experiment import ExperimentRunner
+
         config = load_config(args.config)
         runner = ExperimentRunner(config, base_dir=Path.cwd())
         rows = runner.run_suite(backend_name=args.backend, suite=args.suite)
@@ -68,6 +88,8 @@ def main() -> int:
         return 0
 
     if args.command == "report":
+        from quantum_compare.visualization import generate_visualizations
+
         config = load_config(args.config)
         output_dir = Path.cwd() / "results" / "figures"
         latest_csv = latest_architecture_results_csv(Path.cwd() / config.output_dirs["processed"])
@@ -76,6 +98,18 @@ def main() -> int:
             return 0
         created_files = generate_visualizations(latest_csv, output_dir)
         print(f"Generated {len(created_files)} report artifact(s) from {latest_csv}")
+        return 0
+
+    if args.command == "hardware-guide":
+        print(hardware_readiness_text(args.provider))
+        if args.export_family is not None:
+            if args.export_size is None:
+                parser.error("--export-size is required when --export-family is used")
+            path = export_logical_circuit_qasm(
+                args.export_family, args.export_size, output_dir=args.output_dir
+            )
+            print(f"\nExported measured logical circuit to {path}")
+            print("No provider job was submitted.")
         return 0
 
     parser.error("Unsupported command")

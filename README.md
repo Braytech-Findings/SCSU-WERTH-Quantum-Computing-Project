@@ -109,6 +109,41 @@ ruff check .
 mypy src tests
 ```
 
+## Preparing A Real Hardware Test
+
+The default project workflow is offline and credit-safe. It does not submit IBM,
+Quantinuum, or other provider jobs. If you have provider access and want to try a small
+real-hardware experiment, start by exporting the exact same measured logical circuit used
+by the proxy comparison:
+
+```bash
+python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
+```
+
+This prints provider-specific setup notes and writes an OpenQASM 2 file under
+`hardware_exports/`. The command does not submit a job.
+
+For IBM Quantum, use the official Qiskit Runtime route after configuring an IBM Quantum
+Platform account and service instance. For Quantinuum, use the official Nexus route,
+convert the Qiskit circuit to TKET when needed, request a cost estimate, and submit only
+after explicitly deciding to spend the required credits or quota. Keep any real hardware
+or official emulator results in separate rows/files from the offline proxy-model results.
+
+Official documentation checked for this section:
+
+- IBM Qiskit installation:
+  `https://quantum.cloud.ibm.com/docs/en/guides/install-qiskit`
+- IBM Cloud/Quantum setup:
+  `https://quantum.cloud.ibm.com/docs/en/guides/cloud-setup`
+- IBM Runtime primitives:
+  `https://quantum.cloud.ibm.com/docs/en/guides/get-started-with-primitives`
+- Quantinuum documentation home:
+  `https://docs.quantinuum.com/`
+- Quantinuum Nexus getting started:
+  `https://docs.quantinuum.com/nexus/trainings/getting_started.html`
+- Quantinuum Qiskit-to-Nexus pathway:
+  `https://docs.quantinuum.com/systems/trainings/alternate_pathways/qiskit_h2.html`
+
 ## Repository Structure
 
 - `config/experiments.yaml`: circuit families, qubit sizes, repetitions, and output
@@ -120,7 +155,7 @@ mypy src tests
 - `scripts/`: reproducibility, environment, device-listing, report, and artifact
   comparison helpers.
 - `docs/`: architecture notes, metrics, limitations, experiment protocol, beginner
-  guide, and qBraid validation notes.
+  guide, ownership/citation notes, and qBraid validation notes.
 - `data/processed/`: timestamped processed experiment outputs. The verified public
   baseline is `results_20260623T223649Z`.
 - `results/tables/`: generated CSV tables used by the report.
@@ -130,6 +165,8 @@ mypy src tests
 
 For a file-by-file explanation written for non-coders, see
 `docs/PLAIN_ENGLISH_FILE_GUIDE.md`.
+
+For public authorship and citation notes, see `docs/OWNERSHIP_AND_CITATION.md`.
 
 ## Major Findings
 

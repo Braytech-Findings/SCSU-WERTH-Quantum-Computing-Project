@@ -3,10 +3,9 @@ title: "Quantum Architecture Comparison"
 message: "If you use this project, please cite it using this metadata."
 type: software
 authors:
-  - family-names: "Author family name placeholder"
-    given-names: "Author given names placeholder"
-    email: "author-email-placeholder@example.com"
-repository-code: "https://example.com/repository-url-placeholder"
+  - family-names: "Aly"
+    given-names: "Abdellah"
+repository-code: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
 abstract: "A sanitized independent research implementation comparing superconducting-proxy and trapped-ion-proxy quantum architecture compilation behavior using offline proxy models."
 keywords:
   - quantum computing

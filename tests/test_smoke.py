@@ -14,6 +14,31 @@ def test_cli_check_returns_zero(monkeypatch) -> None:
     assert main() == 0
 
 
+def test_cli_hardware_guide_exports_without_submission(monkeypatch, tmp_path: Path) -> None:
+    import sys
+
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "quantum_compare.cli",
+            "hardware-guide",
+            "--provider",
+            "ibm",
+            "--export-family",
+            "bell",
+            "--export-size",
+            "2",
+            "--output-dir",
+            str(tmp_path),
+        ],
+    )
+    assert main() == 0
+    exported = tmp_path / "bell_2_logical.qasm"
+    assert exported.exists()
+    assert "measure q[0] -> c[0];" in exported.read_text(encoding="utf-8")
+
+
 def test_ideal_runner_smoke(tmp_path: Path) -> None:
     config = load_config("config/experiments.yaml")
     runner = ExperimentRunner(config, base_dir=tmp_path)

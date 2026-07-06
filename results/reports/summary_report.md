@@ -68,6 +68,20 @@ Validation table: `results/tables/architecture_validation_table.csv`
 Native-depth raw rows: `results/tables/native_depth_bar_raw_rows.csv`
 Grover diagnostics: `results/tables/grover_diagnostic_report.csv`
 
+## Optional Real-Hardware Preparation
+
+This report is still an offline proxy-model report. To prepare a small provider test
+without submitting a job, run:
+
+```bash
+python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
+```
+
+That command exports the same measured logical Bell circuit and prints IBM Quantum and
+Quantinuum Nexus setup notes. Any real hardware or official emulator results should be
+saved separately from these proxy rows, with backend name, job id, shot count, date,
+measurement counts, and unavailable values recorded as `null`.
+
 ## Remaining Scientific Limitations
 
 - Targets are offline proxies, not current calibrated hardware snapshots.

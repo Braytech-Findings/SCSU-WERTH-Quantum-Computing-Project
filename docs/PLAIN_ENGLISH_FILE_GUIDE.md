@@ -122,6 +122,65 @@ writes result files. What it does not do by default is submit paid jobs to physi
 quantum computers. This is why the project can be safely reproduced in qBraid without
 API keys or spending hardware credits.
 
+## How To Prepare A Small Real-Hardware Test
+
+The safest first step is to export one tiny circuit and read the provider instructions:
+
+```bash
+python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
+```
+
+In plain English, this command does three things:
+
+- It explains how IBM and Quantinuum hardware access would be set up.
+- It saves the same measured Bell circuit used by the project as an OpenQASM file in
+  `hardware_exports/`.
+- It does not submit a job, does not use an API key, and does not spend credits.
+
+The exported circuit measures qubit 0 into classical bit 0, qubit 1 into classical bit 1,
+and so on. Qiskit usually prints bitstrings with the highest classical bit on the left.
+That means a reader should write down any bit-order conversion before comparing provider
+counts with this project's saved results.
+
+### IBM Hardware In Plain English
+
+To run on IBM hardware, a reader needs an IBM Quantum Platform account, a configured
+service instance, and the `qiskit-ibm-runtime` package. The official IBM Runtime workflow
+selects an operational non-simulator backend, transpiles the circuit for that backend,
+and runs it with a Runtime primitive such as Sampler. This project does not do those
+steps automatically because they may depend on the reader's account, region, backend
+availability, queue, and pricing.
+
+If a reader does run an IBM job, they should save the backend name, job id, shot count,
+date, measured counts, and any provider-reported metadata. If a value is unavailable,
+they should record `null`, not zero.
+
+### Quantinuum Hardware In Plain English
+
+To run on Quantinuum hardware, a reader needs Quantinuum Nexus access and the packages
+`pytket-qiskit`, `pytket`, and `qnexus`. The official Quantinuum pathway can convert a
+Qiskit circuit into a TKET circuit, upload it to Nexus, compile it for a selected target,
+estimate cost, and then execute it. This project stops before submission so nobody
+accidentally spends HQCs or account quota.
+
+If a reader does run a Quantinuum job, they should keep those rows separate from the
+offline proxy rows. Official Quantinuum emulator or hardware measurements are real
+provider outputs; the existing Quantinuum rows in this repository are architecture-proxy
+rows.
+
+### Other Hardware Providers
+
+Other quantum providers can be tested in the same careful way:
+
+1. Export or rebuild the same logical circuit from `src/quantum_compare/circuits.py`.
+2. Compile it using the provider's official tools.
+3. Record the provider, backend, job id, shot count, date, and measured counts.
+4. Keep unavailable values as `null`.
+5. Do not mix real hardware measurements with offline proxy estimates in the same label.
+
+The science rule is simple: same starting circuit, clearly named target, honest source
+for every measurement.
+
 ## Main Project Files
 
 | File | Plain English label |
@@ -149,9 +208,10 @@ This folder is the main engine of the project.
 | `src/quantum_compare/experiment.py` | Runs the full experiment. It builds each circuit, sends it through the ideal, IBM-proxy, and Quantinuum-proxy paths, calculates metrics, and saves CSV/JSON result files. |
 | `src/quantum_compare/metrics.py` | Contains the math helpers for probabilities, success probability, total variation distance, and Hellinger fidelity. |
 | `src/quantum_compare/visualization.py` | Turns saved result files into tables, figures, and a Markdown summary report. |
+| `src/quantum_compare/hardware.py` | Exports the same logical circuits for optional real-hardware testing and prints safe provider setup guidance without submitting jobs. |
 | `src/quantum_compare/models.py` | Defines the experiment settings object: circuit families, qubit sizes, shots, repetitions, seed, backends, and output folders. |
 | `src/quantum_compare/config.py` | Loads and saves the YAML config file. |
-| `src/quantum_compare/cli.py` | Provides command-line commands such as `check`, `devices`, `run`, and `report`. |
+| `src/quantum_compare/cli.py` | Provides command-line commands such as `check`, `devices`, `run`, `report`, and `hardware-guide`. |
 
 ## Backend Adapters: `src/quantum_compare/backends/`
 
@@ -211,6 +271,7 @@ These files explain the project for humans.
 | `docs/METRICS.md` | Explains the measurements used to compare circuits. |
 | `docs/QBRAID_VALIDATION.md` | Explains how the project was validated in qBraid and what that validation means. |
 | `docs/PLAIN_ENGLISH_FILE_GUIDE.md` | This file. It labels the repository in simple language. |
+| `docs/OWNERSHIP_AND_CITATION.md` | Explains how to mark the project as public independent work and how readers should cite it. |
 
 ## Notebook: `notebooks/`
 
