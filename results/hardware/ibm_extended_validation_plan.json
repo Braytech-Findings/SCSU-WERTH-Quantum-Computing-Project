@@ -1,0 +1,1427 @@
+{
+  "backend": "ibm_kingston",
+  "circuit_count": 115,
+  "circuits": [
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 0,
+      "name": "ghz_like_2_rep_1",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 2,
+      "depth": 4,
+      "index": 1,
+      "name": "reverse_ladder_2_rep_1",
+      "operations": {
+        "cx": 2,
+        "h": 2,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 4,
+      "depth": 5,
+      "index": 2,
+      "name": "ghz_like_4_rep_1",
+      "operations": {
+        "cx": 3,
+        "h": 1,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 8,
+      "index": 3,
+      "name": "reverse_ladder_4_rep_1",
+      "operations": {
+        "cx": 6,
+        "h": 4,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 7,
+      "index": 4,
+      "name": "ring_entangler_4_rep_1",
+      "operations": {
+        "cx": 4,
+        "h": 4,
+        "measure": 4,
+        "rz": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 6,
+      "depth": 7,
+      "index": 5,
+      "name": "ghz_like_6_rep_1",
+      "operations": {
+        "cx": 5,
+        "h": 1,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 12,
+      "index": 6,
+      "name": "reverse_ladder_6_rep_1",
+      "operations": {
+        "cx": 10,
+        "h": 6,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 9,
+      "index": 7,
+      "name": "ring_entangler_6_rep_1",
+      "operations": {
+        "cx": 6,
+        "h": 6,
+        "measure": 6,
+        "rz": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 8,
+      "depth": 9,
+      "index": 8,
+      "name": "ghz_like_8_rep_1",
+      "operations": {
+        "cx": 7,
+        "h": 1,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 16,
+      "index": 9,
+      "name": "reverse_ladder_8_rep_1",
+      "operations": {
+        "cx": 14,
+        "h": 8,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 11,
+      "index": 10,
+      "name": "ring_entangler_8_rep_1",
+      "operations": {
+        "cx": 8,
+        "h": 8,
+        "measure": 8,
+        "rz": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 10,
+      "depth": 11,
+      "index": 11,
+      "name": "ghz_like_10_rep_1",
+      "operations": {
+        "cx": 9,
+        "h": 1,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 20,
+      "index": 12,
+      "name": "reverse_ladder_10_rep_1",
+      "operations": {
+        "cx": 18,
+        "h": 10,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 13,
+      "index": 13,
+      "name": "ring_entangler_10_rep_1",
+      "operations": {
+        "cx": 10,
+        "h": 10,
+        "measure": 10,
+        "rz": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 12,
+      "depth": 13,
+      "index": 14,
+      "name": "ghz_like_12_rep_1",
+      "operations": {
+        "cx": 11,
+        "h": 1,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 24,
+      "index": 15,
+      "name": "reverse_ladder_12_rep_1",
+      "operations": {
+        "cx": 22,
+        "h": 12,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 15,
+      "index": 16,
+      "name": "ring_entangler_12_rep_1",
+      "operations": {
+        "cx": 12,
+        "h": 12,
+        "measure": 12,
+        "rz": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 14,
+      "depth": 15,
+      "index": 17,
+      "name": "ghz_like_14_rep_1",
+      "operations": {
+        "cx": 13,
+        "h": 1,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 28,
+      "index": 18,
+      "name": "reverse_ladder_14_rep_1",
+      "operations": {
+        "cx": 26,
+        "h": 14,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 17,
+      "index": 19,
+      "name": "ring_entangler_14_rep_1",
+      "operations": {
+        "cx": 14,
+        "h": 14,
+        "measure": 14,
+        "rz": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 16,
+      "depth": 17,
+      "index": 20,
+      "name": "ghz_like_16_rep_1",
+      "operations": {
+        "cx": 15,
+        "h": 1,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 32,
+      "index": 21,
+      "name": "reverse_ladder_16_rep_1",
+      "operations": {
+        "cx": 30,
+        "h": 16,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 19,
+      "index": 22,
+      "name": "ring_entangler_16_rep_1",
+      "operations": {
+        "cx": 16,
+        "h": 16,
+        "measure": 16,
+        "rz": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 23,
+      "name": "ghz_like_2_rep_2",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 2,
+      "depth": 4,
+      "index": 24,
+      "name": "reverse_ladder_2_rep_2",
+      "operations": {
+        "cx": 2,
+        "h": 2,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 4,
+      "depth": 5,
+      "index": 25,
+      "name": "ghz_like_4_rep_2",
+      "operations": {
+        "cx": 3,
+        "h": 1,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 8,
+      "index": 26,
+      "name": "reverse_ladder_4_rep_2",
+      "operations": {
+        "cx": 6,
+        "h": 4,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 7,
+      "index": 27,
+      "name": "ring_entangler_4_rep_2",
+      "operations": {
+        "cx": 4,
+        "h": 4,
+        "measure": 4,
+        "rz": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 6,
+      "depth": 7,
+      "index": 28,
+      "name": "ghz_like_6_rep_2",
+      "operations": {
+        "cx": 5,
+        "h": 1,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 12,
+      "index": 29,
+      "name": "reverse_ladder_6_rep_2",
+      "operations": {
+        "cx": 10,
+        "h": 6,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 9,
+      "index": 30,
+      "name": "ring_entangler_6_rep_2",
+      "operations": {
+        "cx": 6,
+        "h": 6,
+        "measure": 6,
+        "rz": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 8,
+      "depth": 9,
+      "index": 31,
+      "name": "ghz_like_8_rep_2",
+      "operations": {
+        "cx": 7,
+        "h": 1,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 16,
+      "index": 32,
+      "name": "reverse_ladder_8_rep_2",
+      "operations": {
+        "cx": 14,
+        "h": 8,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 11,
+      "index": 33,
+      "name": "ring_entangler_8_rep_2",
+      "operations": {
+        "cx": 8,
+        "h": 8,
+        "measure": 8,
+        "rz": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 10,
+      "depth": 11,
+      "index": 34,
+      "name": "ghz_like_10_rep_2",
+      "operations": {
+        "cx": 9,
+        "h": 1,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 20,
+      "index": 35,
+      "name": "reverse_ladder_10_rep_2",
+      "operations": {
+        "cx": 18,
+        "h": 10,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 13,
+      "index": 36,
+      "name": "ring_entangler_10_rep_2",
+      "operations": {
+        "cx": 10,
+        "h": 10,
+        "measure": 10,
+        "rz": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 12,
+      "depth": 13,
+      "index": 37,
+      "name": "ghz_like_12_rep_2",
+      "operations": {
+        "cx": 11,
+        "h": 1,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 24,
+      "index": 38,
+      "name": "reverse_ladder_12_rep_2",
+      "operations": {
+        "cx": 22,
+        "h": 12,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 15,
+      "index": 39,
+      "name": "ring_entangler_12_rep_2",
+      "operations": {
+        "cx": 12,
+        "h": 12,
+        "measure": 12,
+        "rz": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 14,
+      "depth": 15,
+      "index": 40,
+      "name": "ghz_like_14_rep_2",
+      "operations": {
+        "cx": 13,
+        "h": 1,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 28,
+      "index": 41,
+      "name": "reverse_ladder_14_rep_2",
+      "operations": {
+        "cx": 26,
+        "h": 14,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 17,
+      "index": 42,
+      "name": "ring_entangler_14_rep_2",
+      "operations": {
+        "cx": 14,
+        "h": 14,
+        "measure": 14,
+        "rz": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 16,
+      "depth": 17,
+      "index": 43,
+      "name": "ghz_like_16_rep_2",
+      "operations": {
+        "cx": 15,
+        "h": 1,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 32,
+      "index": 44,
+      "name": "reverse_ladder_16_rep_2",
+      "operations": {
+        "cx": 30,
+        "h": 16,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 19,
+      "index": 45,
+      "name": "ring_entangler_16_rep_2",
+      "operations": {
+        "cx": 16,
+        "h": 16,
+        "measure": 16,
+        "rz": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 46,
+      "name": "ghz_like_2_rep_3",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 2,
+      "depth": 4,
+      "index": 47,
+      "name": "reverse_ladder_2_rep_3",
+      "operations": {
+        "cx": 2,
+        "h": 2,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 4,
+      "depth": 5,
+      "index": 48,
+      "name": "ghz_like_4_rep_3",
+      "operations": {
+        "cx": 3,
+        "h": 1,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 8,
+      "index": 49,
+      "name": "reverse_ladder_4_rep_3",
+      "operations": {
+        "cx": 6,
+        "h": 4,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 7,
+      "index": 50,
+      "name": "ring_entangler_4_rep_3",
+      "operations": {
+        "cx": 4,
+        "h": 4,
+        "measure": 4,
+        "rz": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 6,
+      "depth": 7,
+      "index": 51,
+      "name": "ghz_like_6_rep_3",
+      "operations": {
+        "cx": 5,
+        "h": 1,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 12,
+      "index": 52,
+      "name": "reverse_ladder_6_rep_3",
+      "operations": {
+        "cx": 10,
+        "h": 6,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 9,
+      "index": 53,
+      "name": "ring_entangler_6_rep_3",
+      "operations": {
+        "cx": 6,
+        "h": 6,
+        "measure": 6,
+        "rz": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 8,
+      "depth": 9,
+      "index": 54,
+      "name": "ghz_like_8_rep_3",
+      "operations": {
+        "cx": 7,
+        "h": 1,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 16,
+      "index": 55,
+      "name": "reverse_ladder_8_rep_3",
+      "operations": {
+        "cx": 14,
+        "h": 8,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 11,
+      "index": 56,
+      "name": "ring_entangler_8_rep_3",
+      "operations": {
+        "cx": 8,
+        "h": 8,
+        "measure": 8,
+        "rz": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 10,
+      "depth": 11,
+      "index": 57,
+      "name": "ghz_like_10_rep_3",
+      "operations": {
+        "cx": 9,
+        "h": 1,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 20,
+      "index": 58,
+      "name": "reverse_ladder_10_rep_3",
+      "operations": {
+        "cx": 18,
+        "h": 10,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 13,
+      "index": 59,
+      "name": "ring_entangler_10_rep_3",
+      "operations": {
+        "cx": 10,
+        "h": 10,
+        "measure": 10,
+        "rz": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 12,
+      "depth": 13,
+      "index": 60,
+      "name": "ghz_like_12_rep_3",
+      "operations": {
+        "cx": 11,
+        "h": 1,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 24,
+      "index": 61,
+      "name": "reverse_ladder_12_rep_3",
+      "operations": {
+        "cx": 22,
+        "h": 12,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 15,
+      "index": 62,
+      "name": "ring_entangler_12_rep_3",
+      "operations": {
+        "cx": 12,
+        "h": 12,
+        "measure": 12,
+        "rz": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 14,
+      "depth": 15,
+      "index": 63,
+      "name": "ghz_like_14_rep_3",
+      "operations": {
+        "cx": 13,
+        "h": 1,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 28,
+      "index": 64,
+      "name": "reverse_ladder_14_rep_3",
+      "operations": {
+        "cx": 26,
+        "h": 14,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 17,
+      "index": 65,
+      "name": "ring_entangler_14_rep_3",
+      "operations": {
+        "cx": 14,
+        "h": 14,
+        "measure": 14,
+        "rz": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 16,
+      "depth": 17,
+      "index": 66,
+      "name": "ghz_like_16_rep_3",
+      "operations": {
+        "cx": 15,
+        "h": 1,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 32,
+      "index": 67,
+      "name": "reverse_ladder_16_rep_3",
+      "operations": {
+        "cx": 30,
+        "h": 16,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 19,
+      "index": 68,
+      "name": "ring_entangler_16_rep_3",
+      "operations": {
+        "cx": 16,
+        "h": 16,
+        "measure": 16,
+        "rz": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 69,
+      "name": "ghz_like_2_rep_4",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 2,
+      "depth": 4,
+      "index": 70,
+      "name": "reverse_ladder_2_rep_4",
+      "operations": {
+        "cx": 2,
+        "h": 2,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 4,
+      "depth": 5,
+      "index": 71,
+      "name": "ghz_like_4_rep_4",
+      "operations": {
+        "cx": 3,
+        "h": 1,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 8,
+      "index": 72,
+      "name": "reverse_ladder_4_rep_4",
+      "operations": {
+        "cx": 6,
+        "h": 4,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 7,
+      "index": 73,
+      "name": "ring_entangler_4_rep_4",
+      "operations": {
+        "cx": 4,
+        "h": 4,
+        "measure": 4,
+        "rz": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 6,
+      "depth": 7,
+      "index": 74,
+      "name": "ghz_like_6_rep_4",
+      "operations": {
+        "cx": 5,
+        "h": 1,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 12,
+      "index": 75,
+      "name": "reverse_ladder_6_rep_4",
+      "operations": {
+        "cx": 10,
+        "h": 6,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 9,
+      "index": 76,
+      "name": "ring_entangler_6_rep_4",
+      "operations": {
+        "cx": 6,
+        "h": 6,
+        "measure": 6,
+        "rz": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 8,
+      "depth": 9,
+      "index": 77,
+      "name": "ghz_like_8_rep_4",
+      "operations": {
+        "cx": 7,
+        "h": 1,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 16,
+      "index": 78,
+      "name": "reverse_ladder_8_rep_4",
+      "operations": {
+        "cx": 14,
+        "h": 8,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 11,
+      "index": 79,
+      "name": "ring_entangler_8_rep_4",
+      "operations": {
+        "cx": 8,
+        "h": 8,
+        "measure": 8,
+        "rz": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 10,
+      "depth": 11,
+      "index": 80,
+      "name": "ghz_like_10_rep_4",
+      "operations": {
+        "cx": 9,
+        "h": 1,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 20,
+      "index": 81,
+      "name": "reverse_ladder_10_rep_4",
+      "operations": {
+        "cx": 18,
+        "h": 10,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 13,
+      "index": 82,
+      "name": "ring_entangler_10_rep_4",
+      "operations": {
+        "cx": 10,
+        "h": 10,
+        "measure": 10,
+        "rz": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 12,
+      "depth": 13,
+      "index": 83,
+      "name": "ghz_like_12_rep_4",
+      "operations": {
+        "cx": 11,
+        "h": 1,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 24,
+      "index": 84,
+      "name": "reverse_ladder_12_rep_4",
+      "operations": {
+        "cx": 22,
+        "h": 12,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 15,
+      "index": 85,
+      "name": "ring_entangler_12_rep_4",
+      "operations": {
+        "cx": 12,
+        "h": 12,
+        "measure": 12,
+        "rz": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 14,
+      "depth": 15,
+      "index": 86,
+      "name": "ghz_like_14_rep_4",
+      "operations": {
+        "cx": 13,
+        "h": 1,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 28,
+      "index": 87,
+      "name": "reverse_ladder_14_rep_4",
+      "operations": {
+        "cx": 26,
+        "h": 14,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 17,
+      "index": 88,
+      "name": "ring_entangler_14_rep_4",
+      "operations": {
+        "cx": 14,
+        "h": 14,
+        "measure": 14,
+        "rz": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 16,
+      "depth": 17,
+      "index": 89,
+      "name": "ghz_like_16_rep_4",
+      "operations": {
+        "cx": 15,
+        "h": 1,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 32,
+      "index": 90,
+      "name": "reverse_ladder_16_rep_4",
+      "operations": {
+        "cx": 30,
+        "h": 16,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 19,
+      "index": 91,
+      "name": "ring_entangler_16_rep_4",
+      "operations": {
+        "cx": 16,
+        "h": 16,
+        "measure": 16,
+        "rz": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 92,
+      "name": "ghz_like_2_rep_5",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 2,
+      "depth": 4,
+      "index": 93,
+      "name": "reverse_ladder_2_rep_5",
+      "operations": {
+        "cx": 2,
+        "h": 2,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 4,
+      "depth": 5,
+      "index": 94,
+      "name": "ghz_like_4_rep_5",
+      "operations": {
+        "cx": 3,
+        "h": 1,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 8,
+      "index": 95,
+      "name": "reverse_ladder_4_rep_5",
+      "operations": {
+        "cx": 6,
+        "h": 4,
+        "measure": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 4,
+      "depth": 7,
+      "index": 96,
+      "name": "ring_entangler_4_rep_5",
+      "operations": {
+        "cx": 4,
+        "h": 4,
+        "measure": 4,
+        "rz": 4
+      },
+      "qubits": 4
+    },
+    {
+      "clbits": 6,
+      "depth": 7,
+      "index": 97,
+      "name": "ghz_like_6_rep_5",
+      "operations": {
+        "cx": 5,
+        "h": 1,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 12,
+      "index": 98,
+      "name": "reverse_ladder_6_rep_5",
+      "operations": {
+        "cx": 10,
+        "h": 6,
+        "measure": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 6,
+      "depth": 9,
+      "index": 99,
+      "name": "ring_entangler_6_rep_5",
+      "operations": {
+        "cx": 6,
+        "h": 6,
+        "measure": 6,
+        "rz": 6
+      },
+      "qubits": 6
+    },
+    {
+      "clbits": 8,
+      "depth": 9,
+      "index": 100,
+      "name": "ghz_like_8_rep_5",
+      "operations": {
+        "cx": 7,
+        "h": 1,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 16,
+      "index": 101,
+      "name": "reverse_ladder_8_rep_5",
+      "operations": {
+        "cx": 14,
+        "h": 8,
+        "measure": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 8,
+      "depth": 11,
+      "index": 102,
+      "name": "ring_entangler_8_rep_5",
+      "operations": {
+        "cx": 8,
+        "h": 8,
+        "measure": 8,
+        "rz": 8
+      },
+      "qubits": 8
+    },
+    {
+      "clbits": 10,
+      "depth": 11,
+      "index": 103,
+      "name": "ghz_like_10_rep_5",
+      "operations": {
+        "cx": 9,
+        "h": 1,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 20,
+      "index": 104,
+      "name": "reverse_ladder_10_rep_5",
+      "operations": {
+        "cx": 18,
+        "h": 10,
+        "measure": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 10,
+      "depth": 13,
+      "index": 105,
+      "name": "ring_entangler_10_rep_5",
+      "operations": {
+        "cx": 10,
+        "h": 10,
+        "measure": 10,
+        "rz": 10
+      },
+      "qubits": 10
+    },
+    {
+      "clbits": 12,
+      "depth": 13,
+      "index": 106,
+      "name": "ghz_like_12_rep_5",
+      "operations": {
+        "cx": 11,
+        "h": 1,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 24,
+      "index": 107,
+      "name": "reverse_ladder_12_rep_5",
+      "operations": {
+        "cx": 22,
+        "h": 12,
+        "measure": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 12,
+      "depth": 15,
+      "index": 108,
+      "name": "ring_entangler_12_rep_5",
+      "operations": {
+        "cx": 12,
+        "h": 12,
+        "measure": 12,
+        "rz": 12
+      },
+      "qubits": 12
+    },
+    {
+      "clbits": 14,
+      "depth": 15,
+      "index": 109,
+      "name": "ghz_like_14_rep_5",
+      "operations": {
+        "cx": 13,
+        "h": 1,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 28,
+      "index": 110,
+      "name": "reverse_ladder_14_rep_5",
+      "operations": {
+        "cx": 26,
+        "h": 14,
+        "measure": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 14,
+      "depth": 17,
+      "index": 111,
+      "name": "ring_entangler_14_rep_5",
+      "operations": {
+        "cx": 14,
+        "h": 14,
+        "measure": 14,
+        "rz": 14
+      },
+      "qubits": 14
+    },
+    {
+      "clbits": 16,
+      "depth": 17,
+      "index": 112,
+      "name": "ghz_like_16_rep_5",
+      "operations": {
+        "cx": 15,
+        "h": 1,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 32,
+      "index": 113,
+      "name": "reverse_ladder_16_rep_5",
+      "operations": {
+        "cx": 30,
+        "h": 16,
+        "measure": 16
+      },
+      "qubits": 16
+    },
+    {
+      "clbits": 16,
+      "depth": 19,
+      "index": 114,
+      "name": "ring_entangler_16_rep_5",
+      "operations": {
+        "cx": 16,
+        "h": 16,
+        "measure": 16,
+        "rz": 16
+      },
+      "qubits": 16
+    }
+  ],
+  "created_at_utc": "2026-07-06T18:48:30.183733+00:00",
+  "max_qubits": 16,
+  "repetitions": 5,
+  "safety_note": "This is a real-hardware validation plan. It is separate from offline proxy-model results and may use IBM Quantum quota or credits if submitted.",
+  "shots_per_circuit": 4096,
+  "total_requested_shots": 471040
+}

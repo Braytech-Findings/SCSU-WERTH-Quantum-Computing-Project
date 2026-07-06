@@ -104,3 +104,31 @@ Save these fields before describing the hardware result:
 - any provider-reported mitigation or calibration metadata
 
 If any value is unavailable, record it as `null`, not zero.
+
+## Extended Hardware Validation Suite
+
+For a larger IBM hardware validation, use the extended validation helper. It creates a
+substantial circuit bundle and writes a plan first.
+
+Dry-run plan only:
+
+```bash
+python scripts/submit_ibm_extended_validation.py --backend ibm_kingston --shots 4096 --repetitions 5 --max-qubits 16
+```
+
+This writes:
+
+`results/hardware/ibm_extended_validation_plan.json`
+
+No job is submitted in dry-run mode.
+
+To submit the planned workload to IBM hardware after reviewing the plan and confirming
+quota/credit use:
+
+```bash
+python scripts/submit_ibm_extended_validation.py --backend ibm_kingston --shots 4096 --repetitions 5 --max-qubits 16 --submit-hardware --i-understand-this-may-use-credits
+```
+
+The submission command saves the IBM job ID under `results/hardware/` and keeps it
+separate from the offline proxy-model tables. Do not use this command casually: it can
+consume IBM Quantum quota or credits.
