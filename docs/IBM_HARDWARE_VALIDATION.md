@@ -27,6 +27,19 @@ stay separate unless the exact backend, date, shots, counts, and result format a
 Do not commit IBM Quantum tokens, CRNs, service instances, or account identifiers. Put
 private account values in environment variables or local-only files.
 
+The easiest local workflow in this repository is:
+
+1. Open `.env.ibm`.
+2. Fill in `IBM_QUANTUM_TOKEN` and `IBM_QUANTUM_INSTANCE`.
+3. Run:
+
+```bash
+python scripts/fetch_ibm_hardware_job.py
+```
+
+The `.env.ibm` file is ignored by Git. The script writes a sanitized public artifact to
+`results/hardware/ibm_job_d8up2d1ropqc738b44pg.json` if the job can be retrieved.
+
 ```python
 import os
 
