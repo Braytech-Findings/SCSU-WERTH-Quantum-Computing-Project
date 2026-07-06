@@ -1,19 +1,22 @@
 cff-version: 1.2.0
-title: "Quantum Architecture Comparison"
-message: "If you use this project, please cite it using this metadata."
+title: “Quantum Architecture Comparison”
+message: “If you use this project, please cite it using this metadata.”
 type: software
 authors:
-  - family-names: "Aly"
-    given-names: "Abdellah"
-    email: "braytechfuturescape@icloud.com"
-repository-code: "https://example.com/repository-url-placeholder"
-abstract: "An independent research implementation comparing superconducting-modality and trapped-ion-modality quantum architecture compilation behavior using offline proxy models & accessible quantum computer via cloud."
-keywords:
-  - quantum computing
-  - superconducting proxy
-  - trapped-ion proxy
-  - Qiskit
-  - architecture comparison
-license: MIT
-version: "0.1.0"
-date-released: "2026-06-24"
+
+* family-names: “Aly”
+    given-names: “Abdellah”
+    email: “braytechfuturescape@icloud.com”
+    repository-code: “https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project”
+    url: “https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project”
+    abstract: “An independent research implementation comparing superconducting and trapped-ion quantum computing architectures through compilation behavior, offline proxy models, and accessible cloud-based quantum computing resources.”
+    keywords:
+* quantum computing
+* superconducting quantum computing
+* trapped-ion quantum computing
+* quantum architecture comparison
+* Qiskit
+* cloud quantum computing
+    license: MIT
+    version: “0.1.0”
+    date-released: “2026-06-24”
