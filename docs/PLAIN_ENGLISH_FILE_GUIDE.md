@@ -264,6 +264,7 @@ These files explain the project for humans.
 | File | Plain English label |
 | --- | --- |
 | `docs/BEGINNER_GUIDE.md` | The easiest starting explanation for new readers. |
+| `docs/CODE_WALKTHROUGH.md` | A simple map of how the main code files work together. |
 | `docs/ARCHITECTURE.md` | Explains how the code is organized and how the main parts connect. |
 | `docs/DATA_DICTIONARY.md` | Explains the columns in the result files. |
 | `docs/EXPERIMENT_PROTOCOL.md` | Explains the steps used to run the experiment in a reproducible way. |

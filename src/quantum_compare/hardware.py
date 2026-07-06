@@ -17,7 +17,7 @@ SUPPORTED_PROVIDER_NAMES = ("ibm", "quantinuum")
 
 
 def build_named_logical_circuit(family: str, size: int) -> QuantumCircuit:
-    """Build the same measured logical circuits used by the comparison suite."""
+    """Build one of the same starting circuits used by the comparison suite."""
     if family == "bell":
         return build_bell_state()
     if family == "ghz":
@@ -32,7 +32,11 @@ def build_named_logical_circuit(family: str, size: int) -> QuantumCircuit:
 def export_logical_circuit_qasm(
     family: str, size: int, output_dir: str | Path = "hardware_exports"
 ) -> Path:
-    """Export a measured logical circuit as OpenQASM 2 without submitting any job."""
+    """Export a circuit file for humans or provider tools to inspect.
+
+    This only writes a local file. It does not connect to IBM, Quantinuum, qBraid, or any
+    other provider, and it does not submit a job.
+    """
     circuit = build_named_logical_circuit(family, size)
     destination = Path(output_dir)
     destination.mkdir(parents=True, exist_ok=True)
@@ -42,7 +46,7 @@ def export_logical_circuit_qasm(
 
 
 def hardware_readiness_text(provider: str = "all") -> str:
-    """Return safe, current high-level hardware guidance without credentials or submission."""
+    """Return safe hardware preparation guidance without credentials or submission."""
     provider = provider.lower()
     if provider not in (*SUPPORTED_PROVIDER_NAMES, "all"):
         raise ValueError("Provider must be 'ibm', 'quantinuum', or 'all'.")

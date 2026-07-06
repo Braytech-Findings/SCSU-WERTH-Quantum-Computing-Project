@@ -14,7 +14,11 @@ EQUIVALENCE_TOLERANCE = 1e-8
 
 @dataclass(frozen=True)
 class NativeCompileResult:
-    """Three-level architecture compilation result."""
+    """Store the three versions of a circuit.
+
+    Logical is the starting recipe. Routed is after qubits are moved as needed. Native is
+    after the circuit is rewritten into the gate set for one architecture proxy.
+    """
 
     logical: QuantumCircuit
     routed: QuantumCircuit
@@ -28,7 +32,11 @@ class NativeCompileResult:
 
 
 class ArchitectureModel:
-    """Base class for reproducible offline architecture targets."""
+    """Base class for reproducible offline architecture targets.
+
+    A target is a simplified stand-in for a hardware style. It lets the project compare
+    architecture effects without claiming that live hardware was used.
+    """
 
     def __init__(
         self,
@@ -64,8 +72,11 @@ class ArchitectureModel:
         return frozenset(self.native_unitary_gates) | ALLOWED_NON_UNITARY_OPERATIONS
 
     def compile(self, circuit: QuantumCircuit) -> NativeCompileResult:
+        """Route, translate, and validate one circuit for this architecture proxy."""
         logical = circuit.copy()
+        # Step 1: place or move qubits so required two-qubit gates can happen.
         routed = self.route(logical)
+        # Step 2: rewrite the circuit into the gate "alphabet" this proxy accepts.
         native = self.to_native(routed)
         unsupported = self.unsupported_operations(native)
         if unsupported:
@@ -73,6 +84,7 @@ class ArchitectureModel:
             raise ValueError(
                 f"{self.target_model} native circuit contains unsupported operations: {names}"
             )
+        # Step 3: make sure the rewrite did not change the intended quantum operation.
         equivalence_passed = self.equivalent_to_logical(logical, native)
         if not equivalence_passed:
             raise ValueError(f"{self.target_model} native compilation changed circuit behavior.")
@@ -89,9 +101,11 @@ class ArchitectureModel:
         )
 
     def route(self, circuit: QuantumCircuit) -> QuantumCircuit:
+        """Return a routed circuit. The base model does not need to move anything."""
         return circuit.copy()
 
     def to_native(self, circuit: QuantumCircuit) -> QuantumCircuit:
+        """Ask Qiskit to rewrite the circuit using this proxy's allowed gate names."""
         return transpile(
             circuit,
             basis_gates=[*self.native_unitary_gates, *ALLOWED_NON_UNITARY_OPERATIONS],
@@ -99,6 +113,7 @@ class ArchitectureModel:
         )
 
     def summarize(self, result: NativeCompileResult) -> dict[str, Any]:
+        """Turn compiled circuits into numbers that can be saved in tables."""
         logical = result.logical
         routed = result.routed
         native = result.native_compiled
@@ -169,6 +184,7 @@ class ArchitectureModel:
         )
 
     def estimate_duration(self, circuit: QuantumCircuit) -> float | None:
+        """Add up assumed operation times. Return None if any time is unavailable."""
         total = 0.0
         for instruction in circuit.data:
             name = instruction.operation.name
@@ -179,6 +195,7 @@ class ArchitectureModel:
         return round(total, 6)
 
     def estimate_success_probability(self, circuit: QuantumCircuit) -> dict[str, float | None]:
+        """Multiply simple proxy success factors for each operation in the circuit."""
         one_qubit = 1.0
         entangling = 1.0
         measurement = 1.0
@@ -217,6 +234,7 @@ class ArchitectureModel:
         }
 
     def _unitary_circuit(self, circuit: QuantumCircuit) -> QuantumCircuit:
+        """Remove final measurements so two circuits can be compared mathematically."""
         unitary_circuit = circuit.remove_final_measurements(inplace=False)
         for instruction in unitary_circuit.data:
             if instruction.operation.name in ALLOWED_NON_UNITARY_OPERATIONS:
@@ -263,6 +281,8 @@ class IBMArchitectureModel(ArchitectureModel):
             return routed
 
         routed = QuantumCircuit(circuit.num_qubits, circuit.num_clbits, name=circuit.name)
+        # layout[position] tells us which original logical qubit is currently sitting at
+        # that physical line position. The IBM proxy uses a simple nearest-neighbor line.
         layout = list(range(circuit.num_qubits))
         swap_count = 0
         deferred_measurements: list[tuple[int, int]] = []
@@ -277,6 +297,8 @@ class IBMArchitectureModel(ArchitectureModel):
                 continue
             if operation.num_qubits == 2 and len(qarg_indices) == 2:
                 left_logical, right_logical = qarg_indices
+                # If two logical qubits are not neighbors on the line, add SWAPs until
+                # they become neighbors. Each SWAP is counted as routing overhead.
                 while abs(layout.index(left_logical) - layout.index(right_logical)) > 1:
                     left_position = layout.index(left_logical)
                     right_position = layout.index(right_logical)
@@ -294,6 +316,7 @@ class IBMArchitectureModel(ArchitectureModel):
                 mapped_qargs = [routed.qubits[layout.index(qarg)] for qarg in qarg_indices]
                 routed.append(operation, mapped_qargs)
 
+        # Move qubits back to their original measurement positions before measuring.
         for physical_position, logical_qubit in enumerate(list(layout)):
             while logical_qubit != physical_position:
                 target_position = layout.index(physical_position)
@@ -373,6 +396,7 @@ class QuantinuumArchitectureModel(ArchitectureModel):
         )
 
     def route(self, circuit: QuantumCircuit) -> QuantumCircuit:
+        """All-to-all connectivity means this proxy does not need routing SWAPs."""
         routed = circuit.copy()
         routed.metadata["routing_swap_count"] = 0
         routed.metadata["coupling_map"] = "all-to-all"

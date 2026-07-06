@@ -2,6 +2,10 @@
 
 ## Overview
 
+In one sentence: this project asks, "If we give two different quantum-computer styles
+the same small circuits, how much does each style have to rewrite those circuits before
+it can run them?"
+
 This repository is a sanitized independent research implementation comparing how the
 same logical quantum circuits compile under two architecture-aware offline proxy models:
 an IBM-style superconducting proxy and a Quantinuum-style trapped-ion proxy.
@@ -10,6 +14,17 @@ The study is intentionally cautious. It is not a direct benchmark of physical IB
 Quantinuum hardware, and it does not claim measured device fidelity, measured execution
 time, queue behavior, or live calibration performance. Estimated native execution
 duration and estimated success probability come from documented proxy assumptions.
+
+## Start Here
+
+- The starting circuits are the same for every comparison.
+- The IBM-style proxy acts like qubits are sitting in a line, so some qubits must be
+  moved next to each other before they can interact.
+- The Quantinuum-style proxy acts like any qubit can interact with any other qubit.
+- The code measures how much extra work each style needs: extra moves, extra gates,
+  deeper circuits, estimated time, and estimated success.
+- The saved results are offline model results. They are useful for learning and
+  comparison, but they are not claims about live IBM or Quantinuum hardware.
 
 ## Research Question
 
@@ -165,6 +180,8 @@ Official documentation checked for this section:
 
 For a file-by-file explanation written for non-coders, see
 `docs/PLAIN_ENGLISH_FILE_GUIDE.md`.
+
+For a simple walkthrough of the code path, see `docs/CODE_WALKTHROUGH.md`.
 
 For public authorship and citation notes, see `docs/OWNERSHIP_AND_CITATION.md`.
 

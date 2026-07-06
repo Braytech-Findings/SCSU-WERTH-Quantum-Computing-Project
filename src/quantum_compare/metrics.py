@@ -5,7 +5,10 @@ import math
 
 
 def count_to_probabilities(counts: Mapping[str, int], shots: int | None = None) -> dict[str, float]:
-    """Convert counts to probabilities, validating the shot count and normalizing safely."""
+    """Convert raw outcome counts into probabilities.
+
+    Example: if "00" appears 50 times out of 100 shots, its probability is 0.5.
+    """
     if not counts:
         raise ValueError("Counts cannot be empty.")
     if shots is None:
@@ -34,7 +37,7 @@ def expected_state_probability(probabilities: Mapping[str, float], state: str) -
 def success_probability(
     circuit_family: str, probabilities: Mapping[str, float], qubit_count: int
 ) -> float | None:
-    """Return a circuit-family-specific success probability when it is scientifically defined."""
+    """Return the answer rate for circuits where one clear answer is defined."""
     if circuit_family == "bell":
         return expected_state_probability(probabilities, "00") + expected_state_probability(
             probabilities, "11"
@@ -53,7 +56,10 @@ def success_probability(
 
 
 def total_variation_distance(p: Mapping[str, float], q: Mapping[str, float]) -> float:
-    """Compute the TVD between two probability distributions."""
+    """Measure how different two probability distributions are.
+
+    A value of 0 means the two distributions match exactly.
+    """
     all_states = sorted(set(p) | set(q))
     total = 0.0
     for state in all_states:
@@ -62,7 +68,10 @@ def total_variation_distance(p: Mapping[str, float], q: Mapping[str, float]) -> 
 
 
 def hellinger_fidelity(p: Mapping[str, float], q: Mapping[str, float]) -> float:
-    """Compute the Hellinger fidelity between two probability distributions."""
+    """Measure how similar two probability distributions are.
+
+    A value near 1 means the two distributions are very similar.
+    """
     all_states = sorted(set(p) | set(q))
     sum_term = 0.0
     for state in all_states:

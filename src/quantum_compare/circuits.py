@@ -10,7 +10,11 @@ def _validate_qubit_count(size: int, minimum: int, name: str) -> None:
 
 
 def build_bell_state() -> QuantumCircuit:
-    """Build a two-qubit Bell state |00> + |11> with measurements in bit-order 0,1."""
+    """Build a two-qubit Bell circuit.
+
+    Plain English: make two qubits act like a linked pair, then measure both of them.
+    The measurement maps qubit 0 to classical bit 0 and qubit 1 to classical bit 1.
+    """
     circuit = QuantumCircuit(2, 2, name="bell_state")
     circuit.h(0)
     circuit.cx(0, 1)
@@ -19,7 +23,10 @@ def build_bell_state() -> QuantumCircuit:
 
 
 def build_ghz_state(num_qubits: int) -> QuantumCircuit:
-    """Build an n-qubit GHZ state with equal superposition over |0...0> and |1...1>."""
+    """Build a GHZ circuit.
+
+    Plain English: link several qubits so the ideal result is all zeros or all ones.
+    """
     _validate_qubit_count(num_qubits, 3, "GHZ state")
     circuit = QuantumCircuit(num_qubits, num_qubits, name=f"ghz_{num_qubits}")
     circuit.h(0)
@@ -30,7 +37,11 @@ def build_ghz_state(num_qubits: int) -> QuantumCircuit:
 
 
 def build_qft(num_qubits: int) -> QuantumCircuit:
-    """Build a QFT circuit on the requested number of qubits."""
+    """Build a QFT circuit on the requested number of qubits.
+
+    Plain English: QFT is a standard test circuit with many interactions, so it is useful
+    for seeing how much work each architecture proxy has to do.
+    """
     _validate_qubit_count(num_qubits, 3, "QFT")
     circuit = QuantumCircuit(num_qubits, num_qubits, name=f"qft_{num_qubits}")
     qft = QFT(num_qubits, do_swaps=True).decompose()
@@ -50,8 +61,11 @@ def build_grover_search(num_qubits: int) -> QuantumCircuit:
     if num_qubits != 2:
         raise ValueError("Grover search is currently implemented for 2 qubits only.")
     circuit = QuantumCircuit(num_qubits, num_qubits, name="grover_search_2")
+    # The first Hadamards spread the starting state across all possible answers.
     circuit.h(range(num_qubits))
+    # The CZ marks the answer this tiny Grover circuit is searching for: bitstring 11.
     circuit.cz(0, 1)
+    # The remaining gates amplify the marked answer so it appears most often ideally.
     circuit.h(range(num_qubits))
     circuit.x(range(num_qubits))
     circuit.cz(0, 1)
