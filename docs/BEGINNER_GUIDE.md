@@ -5,9 +5,10 @@ This project compares two different ways a quantum computer might be built. It u
 same small quantum circuits for both sides. Then it asks how much each hardware style has
 to change the circuit before it is ready for that style.
 
-The project does not secretly run paid quantum hardware. Most of the comparison is an
-offline model. That means the code runs on a normal computer and uses clear assumptions
-instead of live hardware calibration data.
+Most of the architecture comparison is an offline model. That means the code runs on a
+normal computer and uses clear assumptions instead of live hardware calibration data. The
+repository also includes separate IBM Quantum hardware validation files from jobs that
+were actually run on an IBM machine.
 
 ## Classical bits
 A classical bit can be either 0 or 1. It is like a light switch that is either off or on.

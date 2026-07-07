@@ -1,7 +1,9 @@
 # IBM Hardware Validation Note
 
-This page records a separate IBM Quantum hardware job reference provided by the project
-author. It is not part of the offline proxy-model result tables.
+This page records IBM Quantum hardware jobs provided by the project author. These are
+real machine results. They are kept separate from the offline proxy-model result tables
+so readers can tell which numbers came from architecture estimates and which numbers
+came from IBM hardware.
 
 ## Current Status
 

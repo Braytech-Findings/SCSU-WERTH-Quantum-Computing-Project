@@ -5,9 +5,10 @@ reader who has never coded before. Think of the project like a science fair expe
 the code builds the experiment, the config says what to test, the data stores what
 happened, and the reports explain what the results mean.
 
-Important safety note: this project compares offline proxy models. It does not claim
-that paid IBM or Quantinuum hardware jobs were submitted, and it does not invent live
-hardware calibration values.
+Important safety note: this project has two parts. The comparison tables use offline
+proxy models. The IBM hardware validation files are real IBM Quantum machine results
+saved separately under `results/hardware/`. The project does not invent live hardware
+calibration values.
 
 ## Big Picture
 
@@ -23,8 +24,8 @@ hardware calibration values.
 
 Here is the simple version: qBraid is the place where the project can be opened, tested,
 and run. IBM and Quantinuum are the two architecture styles being compared by the code.
-In this repository, the IBM and Quantinuum comparison rows are offline proxy-model rows,
-not paid hardware jobs.
+In this repository, the IBM and Quantinuum comparison rows are offline proxy-model rows.
+The separate IBM hardware files are actual IBM Quantum results.
 
 ### qBraid
 
@@ -406,4 +407,6 @@ The safest interpretation is:
 - The Quantinuum proxy's all-to-all connectivity avoids routing SWAPs for these tested
   circuits.
 - The duration and success-probability numbers are estimates from proxy assumptions.
+- The IBM hardware validation files are real IBM Quantum results and are stored
+  separately from those estimates.
 - The project does not prove that one real hardware system is always better than another.

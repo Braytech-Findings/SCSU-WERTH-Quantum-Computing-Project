@@ -4,22 +4,23 @@ This document explains how to validate the completed repository in qBraid Lab.
 
 Development was performed in VS Code. qBraid Lab is used here for reproducibility and
 platform validation: the notebook verifies imports, dependency versions, tests, the full
-offline proxy-model experiment pipeline, report generation, and artifact comparison
-against the verified run `20260623T223649Z`.
+proxy-model experiment pipeline, report generation, hardware-artifact presence, and
+artifact comparison against the verified run `20260623T223649Z`.
 
 This validation does not require paid QPU access or private hardware credentials.
 
-An author-provided IBM Quantum job reference is documented in
-`docs/IBM_HARDWARE_VALIDATION.md`. That job reference is separate from the qBraid
-offline validation workflow and is not included in the proxy-model result tables. Its
-sanitized counts are stored under `results/hardware/`.
+Author-provided IBM Quantum hardware jobs are documented in
+`docs/IBM_HARDWARE_VALIDATION.md`. Those real hardware results are separate from the
+qBraid proxy-table validation workflow and are not included in the proxy-model result
+tables. Their sanitized counts are stored under `results/hardware/`.
 
 ## Study Scope
 
-The repository is an offline architecture-proxy compilation and modeling study. The IBM
-and Quantinuum rows are proxy-model compilation results, not measured hardware
-performance. Optional simulator output, if run in qBraid Lab, is stored separately and
-must not be described as IBM or Quantinuum hardware measurement.
+The repository now contains two kinds of evidence. The architecture comparison tables
+are offline proxy-model compilation results. The IBM hardware validation artifacts are
+real machine results stored separately under `results/hardware/`. Optional simulator
+output, if run in qBraid Lab, is stored separately and must not be described as IBM or
+Quantinuum hardware measurement.
 
 ## qBraid Environment
 
@@ -183,8 +184,10 @@ Final figures:
 
 ## Remaining Limitations
 
-- The IBM and Quantinuum targets are offline proxy models, not live calibrated hardware
-  snapshots.
+- The IBM and Quantinuum architecture-comparison targets are offline proxy models, not
+  live calibrated hardware snapshots.
+- The separate IBM hardware validation artifacts are real IBM Quantum results, but they
+  are not broad hardware benchmarks.
 - Duration and success-probability values come from proxy assumptions, not provider
   calibration data.
 - Quantinuum compilation uses a Qiskit `rzz` proxy rather than pytket Quantinuum passes.

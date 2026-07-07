@@ -4,7 +4,7 @@
 2. Install the package and dependencies.
 3. Review `config/experiments.yaml`.
 4. Run the environment check with `python -m quantum_compare.cli check`.
-5. Run the full offline proxy-model suite with
+5. Run the full proxy-model suite with
    `python -m quantum_compare.cli run --backend all --suite core`.
 6. Generate tables, figures, and the written report with
    `python -m quantum_compare.cli report`.
@@ -16,5 +16,6 @@
 
 The same logical circuits must be used for every architecture-proxy pipeline. The goal
 is to compare logical, routed, and native-compiled circuit structure under documented
-offline proxy assumptions. Results must not be described as physical IBM or Quantinuum
-hardware benchmarks.
+offline proxy assumptions. The separate IBM hardware validation artifacts under
+`results/hardware/` are real IBM Quantum machine results, but they must not be mixed into
+the proxy-model tables or described as a broad IBM-versus-Quantinuum hardware benchmark.

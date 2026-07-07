@@ -1,7 +1,10 @@
 # Limitations
 
-- This is an architecture-aware offline proxy-model study, not a direct benchmark of
-  physical IBM or Quantinuum hardware.
+- The architecture comparison tables are an offline proxy-model study, not a direct
+  benchmark of physical IBM or Quantinuum hardware.
+- The repository also includes real IBM Quantum hardware validation artifacts under
+  `results/hardware/`. Those artifacts show what one IBM backend returned for submitted
+  jobs, but they are not a broad IBM-versus-Quantinuum hardware benchmark.
 - The IBM proxy is a line-coupled GenericBackendV2-style superconducting proxy, not a
   live calibrated backend snapshot.
 - The Quantinuum proxy is an all-to-all H-series-style trapped-ion RZZ proxy, not an
@@ -19,7 +22,7 @@
 - The results do not prove that one quantum architecture is universally superior.
 - Optional qBraid simulator checks are platform sanity checks only and are not IBM or
   Quantinuum hardware measurements.
-- The author-provided IBM Quantum job ID documented in
-  `docs/IBM_HARDWARE_VALIDATION.md` is separate from the proxy-model results. Its counts
-  are stored under `results/hardware/`, but it should not be mixed into the proxy-model
-  tables or used to claim a broad hardware benchmark.
+- The author-provided IBM Quantum job IDs documented in
+  `docs/IBM_HARDWARE_VALIDATION.md` are separate from the proxy-model results. Their
+  counts are stored under `results/hardware/`, but they should not be mixed into the
+  proxy-model tables or used to claim a broad hardware benchmark.

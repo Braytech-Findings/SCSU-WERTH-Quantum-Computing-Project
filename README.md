@@ -7,13 +7,17 @@ the same small circuits, how much does each style have to rewrite those circuits
 it can run them?"
 
 This repository is a sanitized independent research implementation comparing how the
-same logical quantum circuits compile under two architecture-aware offline proxy models:
-an IBM-style superconducting proxy and a Quantinuum-style trapped-ion proxy.
+same logical quantum circuits compile under two architecture-aware proxy models, then
+recording real IBM Quantum hardware validation as separate evidence. The architecture
+comparison tables use an IBM-style superconducting proxy and a Quantinuum-style
+trapped-ion proxy. The hardware validation files show what an actual IBM backend
+returned for submitted jobs.
 
-The study is intentionally cautious. It is not a direct benchmark of physical IBM or
-Quantinuum hardware, and it does not claim measured device fidelity, measured execution
-time, queue behavior, or live calibration performance. Estimated native execution
-duration and estimated success probability come from documented proxy assumptions.
+The study is intentionally cautious. The proxy tables are not direct hardware
+benchmarks, and they do not claim measured device fidelity, measured execution time,
+queue behavior, or live calibration performance. Estimated native execution duration
+and estimated success probability come from documented proxy assumptions. Real IBM
+hardware counts are saved separately under `results/hardware/`.
 
 ## Start Here
 
@@ -23,8 +27,10 @@ duration and estimated success probability come from documented proxy assumption
 - The Quantinuum-style proxy acts like any qubit can interact with any other qubit.
 - The code measures how much extra work each style needs: extra moves, extra gates,
   deeper circuits, estimated time, and estimated success.
-- The saved results are offline model results. They are useful for learning and
-  comparison, but they are not claims about live IBM or Quantinuum hardware.
+- The architecture comparison tables are offline model results. They are useful for
+  learning and comparison, but they are not claims about live IBM or Quantinuum hardware.
+- The IBM hardware validation artifacts are real machine results and are kept in
+  `results/hardware/` so readers can see them without mixing them into the proxy tables.
 
 ## Research Question
 
@@ -124,12 +130,15 @@ ruff check .
 mypy src tests
 ```
 
-## Preparing A Real Hardware Test
+## Real Hardware Validation
 
 The default project workflow is offline and credit-safe. It does not submit IBM,
-Quantinuum, or other provider jobs. If you have provider access and want to try a small
-real-hardware experiment, start by exporting the exact same measured logical circuit used
-by the proxy comparison:
+Quantinuum, or other provider jobs. This repository now also includes sanitized results
+from real IBM Quantum hardware jobs that were submitted separately and documented under
+`docs/IBM_HARDWARE_VALIDATION.md`.
+
+If you have provider access and want to try another small real-hardware experiment,
+start by exporting the exact same measured logical circuit used by the proxy comparison:
 
 ```bash
 python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
@@ -144,10 +153,10 @@ convert the Qiskit circuit to TKET when needed, request a cost estimate, and sub
 after explicitly deciding to spend the required credits or quota. Keep any real hardware
 or official emulator results in separate rows/files from the offline proxy-model results.
 
-An IBM Quantum hardware job is documented separately in
-`docs/IBM_HARDWARE_VALIDATION.md`. Its sanitized counts are stored under
-`results/hardware/`. It is not included in the proxy-model tables because real hardware
-measurements and offline proxy estimates answer different questions.
+Two IBM Quantum hardware jobs are documented separately in
+`docs/IBM_HARDWARE_VALIDATION.md`. Their sanitized counts are stored under
+`results/hardware/`. They are not included in the proxy-model tables because real
+hardware measurements and offline proxy estimates answer different questions.
 
 Official documentation checked for this section:
 
@@ -234,8 +243,8 @@ Primary reports:
 
 The qBraid validation path is documented in `docs/QBRAID_VALIDATION.md` and
 `notebooks/qbraid_validation.ipynb`. It validates imports, package versions, tests, the
-offline proxy-model experiment pipeline, report generation, and artifact comparison
-against `data/processed/results_20260623T223649Z.csv`.
+proxy-model experiment pipeline, report generation, hardware-artifact presence, and
+artifact comparison against `data/processed/results_20260623T223649Z.csv`.
 
 This validation does not require paid QPU access. Optional local simulator output in
 qBraid is a platform sanity check only and must not be described as IBM or Quantinuum
@@ -243,8 +252,10 @@ hardware measurement.
 
 ## Limitations
 
-- The study uses architecture-aware offline proxy models, not live calibrated hardware.
-- Results are not direct benchmarks of physical IBM or Quantinuum hardware.
+- The architecture comparison tables use architecture-aware offline proxy models.
+- The repository also includes real IBM Quantum hardware validation artifacts under
+  `results/hardware/`.
+- The proxy tables are not direct benchmarks of physical IBM or Quantinuum hardware.
 - Estimated native execution duration depends on proxy timing assumptions.
 - Estimated success probability depends on proxy error-rate assumptions.
 - The Quantinuum proxy uses Qiskit `rzz` as an offline ZZ-type entangling proxy rather

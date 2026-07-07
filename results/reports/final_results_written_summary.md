@@ -15,8 +15,10 @@ The tables below use proxy-model labels:
 The CSV schema stores the proxy-model key in a column named `provider`; this report
 displays it as a proxy model rather than as a hardware provider.
 
-No values below are real-hardware measurements. This is an offline architecture-proxy
-compilation and modeling study.
+No values in the comparison tables below are real-hardware measurements. They are
+offline architecture-proxy compilation and modeling results. Real IBM Quantum hardware
+counts are stored separately under `results/hardware/` and documented in
+`docs/IBM_HARDWARE_VALIDATION.md`.
 
 ## Verification Result
 
