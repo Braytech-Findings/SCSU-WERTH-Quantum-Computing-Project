@@ -154,3 +154,45 @@ After the job finishes, fetch the sanitized result artifacts with:
 ```bash
 python scripts/fetch_ibm_hardware_job.py --job-id d95vhvd2su3c739gc080
 ```
+
+## Extended Hardware Result
+
+The extended IBM hardware validation job finished and was retrieved successfully.
+
+- Backend: `ibm_kingston`
+- IBM Runtime job ID: `d95vhvd2su3c739gc080`
+- Job status at retrieval: `DONE`
+- Retrieved at: `2026-07-07T17:05:08.704922+00:00`
+- Result type: `PrimitiveResult`
+- Pub results retrieved: `115`
+- Classical register name: `c`
+- Shot count: `4096` shots per pub result
+- Total retrieved shots: `471040`
+- Counts artifact: `results/hardware/ibm_job_d95vhvd2su3c739gc080.json`
+- Summary artifact: `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv`
+- Backend metadata beyond backend name: `null`
+- Run date: `null`
+
+These results are real IBM hardware counts, but they are still separate from the offline
+proxy-model tables. The proxy tables compare architecture assumptions in a controlled
+offline model. The IBM job shows what one real backend returned for this submitted
+validation bundle.
+
+### Extended Compact Result Summary
+
+Each row in the summary CSV is one pub result. The
+`all_zero_or_all_one_probability` column is easiest to read for Bell/GHZ-style circuits:
+larger values mean the result landed more often in the two simplest ideal states, all
+zeros or all ones. Other circuit families can naturally spread counts over many bit
+strings, so this column should not be treated as a universal score for every row.
+
+| Bit width | Pub results | Min all-zero/all-one probability | Mean | Max |
+| --- | ---: | ---: | ---: | ---: |
+| 2 | 10 | 0.491455 | 0.735156 | 0.971680 |
+| 4 | 15 | 0.123047 | 0.403613 | 0.959229 |
+| 6 | 15 | 0.027588 | 0.316471 | 0.916260 |
+| 8 | 15 | 0.007080 | 0.292334 | 0.861572 |
+| 10 | 15 | 0.000977 | 0.259066 | 0.791504 |
+| 12 | 15 | 0.000244 | 0.239827 | 0.728516 |
+| 14 | 15 | 0.000000 | 0.220459 | 0.677002 |
+| 16 | 15 | 0.000000 | 0.203939 | 0.624023 |

@@ -347,6 +347,10 @@ hardware artifacts, but they are kept separate from the offline proxy-model tabl
 | --- | --- |
 | `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json` | Safe raw IBM job output with backend, status, and measured counts. It does not include tokens, CRNs, or account identifiers. |
 | `results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv` | A smaller table summarizing each pub result by bit-width, shot count, and all-zero/all-one probability. |
+| `results/hardware/ibm_extended_validation_plan.json` | The reviewed plan for the longer IBM hardware validation run. It lists the planned circuits before any hardware job is submitted. |
+| `results/hardware/ibm_extended_validation_submission_d95vhvd2su3c739gc080.json` | The public submission record for the longer IBM job. It includes the job id, backend, circuit count, and shot count, but no private account data. |
+| `results/hardware/ibm_job_d95vhvd2su3c739gc080.json` | Safe raw output from the longer IBM hardware job after it finished. It keeps the measured counts and removes private IBM account details. |
+| `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv` | A smaller table summarizing the longer IBM job by pub result, bit-width, shot count, and all-zero/all-one probability. |
 
 ## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
 

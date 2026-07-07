@@ -92,11 +92,15 @@ Quantinuum Nexus setup notes. Any real hardware or official emulator results sho
 saved separately from these proxy rows, with backend name, job id, shot count, date,
 measurement counts, and unavailable values recorded as `null`.
 
-An IBM Quantum hardware job is recorded separately in
-`docs/IBM_HARDWARE_VALIDATION.md`: job ID `d8up2d1ropqc738b44pg`, backend `ibm_kingston`,
-status `DONE`, 90 pub results, and 4096 shots per pub result. The sanitized counts are
-stored in `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`, with a compact summary in
-`results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv`. This hardware job is not
+Two IBM Quantum hardware jobs are recorded separately in
+`docs/IBM_HARDWARE_VALIDATION.md`. The first job, `d8up2d1ropqc738b44pg`, finished on
+backend `ibm_kingston` with 90 pub results and 4096 shots per pub result. The longer
+extended validation job, `d95vhvd2su3c739gc080`, also finished on `ibm_kingston` with 115
+pub results and 471,040 total retrieved shots. Sanitized artifacts are stored in
+`results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`,
+`results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv`,
+`results/hardware/ibm_job_d95vhvd2su3c739gc080.json`, and
+`results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv`. These hardware jobs are not
 used in the proxy-model conclusions.
 
 ## Remaining Scientific Limitations
