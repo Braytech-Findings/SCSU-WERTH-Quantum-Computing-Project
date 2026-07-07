@@ -47,8 +47,8 @@ Option A: upload the repository folder into qBraid Lab.
 Option B: clone the repository in a qBraid terminal:
 
 ```bash
-git clone <your-repository-url>
-cd quantum-architecture-comparison
+git clone https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project.git
+cd SCSU-WERTH-Quantum-Computing-Project
 ```
 
 If dependencies are not already available in the selected qBraid environment, install
