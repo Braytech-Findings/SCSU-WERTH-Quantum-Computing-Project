@@ -17,9 +17,9 @@ The target names ending in `E` look like emulator targets. The target names endi
 `SC` look like syntax-checker targets. Treat both as official Quantinuum/Nexus validation
 paths, but do not describe them as physical H2 hardware unless the Nexus dashboard shows
 a non-emulator hardware target and an execution job is actually submitted to that target.
-During validation, `H2-1E` accepted compilation but rejected execution for this account
-with a machine-access error. The Nexus-hosted `H2-1LE` emulator target accepted both
-compilation and execution.
+During validation, `H2-1E` and `H2-2E` accepted compilation but rejected execution for
+this account with a machine-access error. The Nexus-hosted `H2-1LE` emulator target
+accepted both compilation and execution.
 
 ## Safe First Run
 
@@ -65,6 +65,18 @@ The first Quantinuum Nexus validation was completed on July 14, 2026.
   machine-access error for this account.
 - Submission artifact:
   `results/hardware/quantinuum_submission_H2-1E_20260714T173701Z.json`
+
+### H2-2E Compile-Only Check
+
+- Target: `H2-2E`
+- Suite: `small`
+- Shots requested per circuit: `100`
+- Circuits: `3`
+- Compile job name: `compile-H2-2E-20260714T174745Z`
+- Execution status: direct `H2-2E` execution returned a machine-access error for this
+  account.
+- Submission artifact:
+  `results/hardware/quantinuum_submission_H2-2E_20260714T174745Z.json`
 
 ### H2-1LE Emulator Execution
 

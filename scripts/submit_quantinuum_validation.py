@@ -211,6 +211,7 @@ def run_nexus_workflow(
 
     execute_job_name = None
     execute_job = None
+    execute_error = None
     downloaded_results: list[dict[str, Any]] = []
     if args.execute_nexus:
         if not compiled_refs:
@@ -225,12 +226,17 @@ def run_nexus_workflow(
         )
         print(f"Started Quantinuum execute job: {execute_job_name}")
         if args.wait:
-            qnx_client.jobs.wait_for(execute_job)
-            result_refs = qnx_client.jobs.results(execute_job)
-            downloaded_results = [
-                extract_quantinuum_result(index, result_ref.download_result())
-                for index, result_ref in enumerate(result_refs)
-            ]
+            try:
+                qnx_client.jobs.wait_for(execute_job)
+            except Exception as exc:  # noqa: BLE001
+                execute_error = str(exc)
+                print(f"Quantinuum execute job failed: {execute_error}")
+            else:
+                result_refs = qnx_client.jobs.results(execute_job)
+                downloaded_results = [
+                    extract_quantinuum_result(index, result_ref.download_result())
+                    for index, result_ref in enumerate(result_refs)
+                ]
 
     submission = {
         "submitted_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -244,6 +250,7 @@ def run_nexus_workflow(
         "plan_path": str(plan_path),
         "compile_job_name": compile_job_name,
         "execute_job_name": execute_job_name,
+        "execute_error": execute_error,
         "cost_estimates": cost_estimates,
         "result_count": len(downloaded_results),
         "notes": [
@@ -277,6 +284,8 @@ def run_nexus_workflow(
         print(f"Wrote Quantinuum result data to {result_path}")
         print(f"Wrote Quantinuum compact summary to {summary_path}")
 
+    if execute_error is not None:
+        return 1
     return 0
 
 

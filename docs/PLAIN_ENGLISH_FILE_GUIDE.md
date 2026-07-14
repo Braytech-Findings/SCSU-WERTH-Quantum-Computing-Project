@@ -362,8 +362,9 @@ estimates.
 | `results/hardware/ibm_extended_validation_submission_d95vhvd2su3c739gc080.json` | The public submission record for the longer IBM job. It includes the job id, backend, circuit count, and shot count, but no private account data. |
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080.json` | Safe raw output from the longer IBM hardware job after it finished. It keeps the measured counts and removes private IBM account details. |
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv` | A smaller table summarizing the longer IBM job by pub result, bit-width, shot count, and all-zero/all-one probability. |
-| `results/hardware/quantinuum_validation_plan.json` | The first safe Quantinuum Nexus dry-run plan for `H2-1E`. It lists the planned circuits and shots before any Nexus job is created. |
+| `results/hardware/quantinuum_validation_plan.json` | The latest safe Quantinuum Nexus validation plan. It lists the planned circuits and shots before or during a Nexus validation attempt. |
 | `results/hardware/quantinuum_submission_H2-1E_20260714T173701Z.json` | Safe metadata for the `H2-1E` Nexus compile-only validation. Execution on this target was not used for the saved result. |
+| `results/hardware/quantinuum_submission_H2-2E_20260714T174745Z.json` | Safe metadata for the `H2-2E` Nexus compile-only validation. Execution on this target returned a machine-access error. |
 | `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json` | Safe metadata for the successful `H2-1LE` Nexus emulator execution. |
 | `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json` | Downloaded counts from the successful `H2-1LE` Nexus emulator execution. |
 | `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv` | Compact summary of the successful `H2-1LE` Nexus emulator execution. |
