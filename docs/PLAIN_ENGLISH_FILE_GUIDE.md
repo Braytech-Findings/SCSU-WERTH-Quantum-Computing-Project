@@ -322,6 +322,7 @@ Tables are CSV files that summarize the experiment in different ways.
 | `results/tables/native_depth_bar_summary.csv` | Summary values for native compiled depth. |
 | `results/tables/appendix_family_mean_summary.csv` | Average values by circuit family for appendix-style reporting. |
 | `results/tables/grover_diagnostic_report.csv` | Extra detail for the small Grover circuit, because it is too small to show much routing difference. |
+| `results/tables/quantinuum_validation_plot_rows.csv` | The small table used to draw the Quantinuum Nexus validation graph. |
 
 ## Figures: `results/figures/`
 
@@ -337,6 +338,7 @@ Figures are PNG images made from the saved results.
 | `results/figures/native_entangling_gate_count_scaling_by_family.png` | Shows how many native two-qubit-style gates were needed. |
 | `results/figures/estimated_native_duration_scaling_by_family.png` | Shows estimated native execution duration from proxy assumptions. |
 | `results/figures/estimated_proxy_success_scaling_by_family.png` | Shows estimated success probability from proxy error assumptions. |
+| `results/figures/quantinuum_validation_expected_state_probability.png` | Shows the Quantinuum Nexus emulator validation results for Bell, GHZ-3, and Grover-2. |
 
 ## Reports: `results/reports/`
 

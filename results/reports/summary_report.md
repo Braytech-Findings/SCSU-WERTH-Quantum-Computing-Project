@@ -53,6 +53,7 @@ entangling-gate counts are recorded after final native-basis decomposition.
 - `results/figures/estimated_native_duration_scaling_by_family.png`
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
 - `results/figures/logical_depth_baseline.png`
+- `results/figures/quantinuum_validation_expected_state_probability.png`
 
 ## Plain-Language Interpretation
 
@@ -121,6 +122,10 @@ The Nexus-hosted `H2-Emulator` target also completed execution with 3 small circ
 `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json`, and
 `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv`. This is a
 provider emulator result, not a physical H2 hardware measurement.
+
+The Quantinuum Nexus validation graph is stored at
+`results/figures/quantinuum_validation_expected_state_probability.png`, with source rows
+in `results/tables/quantinuum_validation_plot_rows.csv`.
 
 ## Remaining Scientific Limitations
 

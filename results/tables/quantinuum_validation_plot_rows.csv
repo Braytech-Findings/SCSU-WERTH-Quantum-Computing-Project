@@ -1,0 +1,7 @@
+target,circuit,result_index,shots,all_zero_or_all_one_probability,distinct_outcomes
+H2-1LE,Bell,0,100,1.0,2
+H2-1LE,GHZ-3,1,100,1.0,2
+H2-1LE,Grover-2,2,100,1.0,1
+H2-Emulator,Bell,0,100,1.0,2
+H2-Emulator,GHZ-3,1,100,0.99,3
+H2-Emulator,Grover-2,2,100,0.99,2

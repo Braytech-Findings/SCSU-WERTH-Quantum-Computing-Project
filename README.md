@@ -239,6 +239,7 @@ Primary figures:
 - `results/figures/native_entangling_gate_count_scaling_by_family.png`
 - `results/figures/estimated_native_duration_scaling_by_family.png`
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
+- `results/figures/quantinuum_validation_expected_state_probability.png`
 
 Primary reports:
 

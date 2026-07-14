@@ -131,6 +131,17 @@ Compact result summary:
 These are real Quantinuum Nexus H2 emulator results, not offline proxy estimates and
 not physical H2 hardware measurements.
 
+## Validation Figure
+
+The Quantinuum Nexus validation graph compares the all-zero/all-one probability for the
+small Bell, GHZ-3, and Grover-2 validation circuits on `H2-1LE` and `H2-Emulator`.
+
+- Figure: `results/figures/quantinuum_validation_expected_state_probability.png`
+- Source table: `results/tables/quantinuum_validation_plot_rows.csv`
+
+This graph is meant for presentation and review. It should be described as provider
+emulator validation, not physical H2 hardware benchmarking.
+
 ## What The Script Saves
 
 The script writes sanitized files under `results/hardware/`.
