@@ -195,9 +195,7 @@ def _write_summary_csv(payload: dict[str, Any], path: Path) -> None:
                     "all_zero_count": all_zero_count,
                     "all_one_count": all_one_count,
                     "all_zero_or_all_one_count": all_zero_or_all_one_count,
-                    "all_zero_or_all_one_probability": round(
-                        all_zero_or_all_one_count / shots, 6
-                    )
+                    "all_zero_or_all_one_probability": round(all_zero_or_all_one_count / shots, 6)
                     if shots
                     else None,
                     "distinct_outcomes": len(int_counts),

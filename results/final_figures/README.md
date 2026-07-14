@@ -12,6 +12,13 @@ This folder contains the curated, presentation-ready figures for the project.
 
 The first three figures are simulated/proxy-model results. The IBM figure is real hardware output. The Quantinuum figure is provider emulator output, not physical H2 hardware output.
 
+Expanded R visualizations are stored in:
+
+`results/final_figures/r_visualizations/`
+
+Those figures are documented in `docs/FIGURE_INTERPRETATION_GUIDE.md` and
+`reports/R_VISUAL_ANALYSIS.md`.
+
 Regenerate these files with:
 
 ```bash

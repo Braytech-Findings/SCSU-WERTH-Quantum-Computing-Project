@@ -151,7 +151,9 @@ def build_ring_entangler(width: int) -> QuantumCircuit:
     return circuit
 
 
-def submit_to_ibm(circuits: list[QuantumCircuit], backend_name: str, shots: int, plan_path: Path) -> int:
+def submit_to_ibm(
+    circuits: list[QuantumCircuit], backend_name: str, shots: int, plan_path: Path
+) -> int:
     load_dotenv(LOCAL_ENV_PATH)
     token = os.getenv("IBM_QUANTUM_TOKEN") or os.getenv("QISKIT_IBM_TOKEN")
     instance = os.getenv("IBM_QUANTUM_INSTANCE")

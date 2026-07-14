@@ -1,4 +1,4 @@
-# Quantum Architecture Comparison Report
+# Different Roads to the Same Circuit: Quantum Architecture Comparison Report
 
 This report summarizes the architecture-proxy comparison tables. Those tables separate
 algorithmic logical circuits, topology-routed circuits, and final native-basis circuits.
@@ -60,6 +60,12 @@ entangling-gate counts are recorded after final native-basis decomposition.
 The curated presentation figures are stored in `results/final_figures/`. They include
 the main simulated/proxy architecture comparisons, the extended IBM hardware validation
 figure, and the Quantinuum Nexus emulator validation figure.
+
+The expanded R visualization package is stored in
+`results/final_figures/r_visualizations/`, with a manifest at
+`results/final_figures/r_visualizations/r_visualizations_manifest.csv`. The graph
+interpretation guide is `docs/FIGURE_INTERPRETATION_GUIDE.md`, and the R analysis report
+is `reports/R_VISUAL_ANALYSIS.md`.
 
 ## Plain-Language Interpretation
 

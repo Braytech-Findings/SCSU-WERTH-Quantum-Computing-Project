@@ -187,12 +187,16 @@ ibm_plot <- ggplot(
   scale_color_manual(values = hardware_colors) +
   scale_y_continuous(labels = scales::percent_format(accuracy = 1), limits = c(0, 1)) +
   labs(
-    title = "IBM Hardware Validation: Expected-State Probability by Bit Width",
-    subtitle = "The extended IBM validation job produced real ibm_kingston counts across 115 pub results.",
+    title = "IBM Hardware Validation: All-Zero/All-One Probability by Bit Width",
+    subtitle = paste0(
+      "Mixed validation circuits from ",
+      nrow(ibm_summary),
+      " real ibm_kingston hardware results"
+    ),
     x = "Measured bit width",
     y = "All-zero/all-one probability",
     color = NULL,
-    caption = "Source: IBM job d95vhvd2su3c739gc080. Mixed circuit families are shown together; this hardware result is separate from the offline proxy comparison."
+    caption = "Source: IBM job d95vhvd2su3c739gc080. This Bell/GHZ-style indicator is not a universal success metric for every circuit family."
   ) +
   theme_final()
 
@@ -241,7 +245,7 @@ manifest <- tibble::tribble(
   "01_simulated_success_probability.png", "Proxy-model estimate of success probability for superconducting and trapped-ion architectures.",
   "02_simulated_routing_swap_cost.png", "Proxy-model routing overhead, showing where limited connectivity adds SWAP operations.",
   "03_simulated_time_reliability_tradeoff.png", "Proxy-model tradeoff between estimated runtime and estimated success probability.",
-  "04_ibm_hardware_expected_state_probability.png", "Real IBM ibm_kingston hardware validation counts summarized by measured bit width.",
+  "04_ibm_hardware_expected_state_probability.png", "Real IBM ibm_kingston hardware validation counts summarized by all-zero/all-one probability and measured bit width.",
   "05_quantinuum_nexus_emulator_validation.png", "Quantinuum Nexus emulator validation counts for Bell, GHZ-3, and Grover-2."
 )
 
@@ -261,6 +265,13 @@ readme_lines <- c(
   "| `05_quantinuum_nexus_emulator_validation.png` | Quantinuum Nexus emulator validation counts from `H2-1LE` and `H2-Emulator`. |",
   "",
   "The first three figures are simulated/proxy-model results. The IBM figure is real hardware output. The Quantinuum figure is provider emulator output, not physical H2 hardware output.",
+  "",
+  "Expanded R visualizations are stored in:",
+  "",
+  "`results/final_figures/r_visualizations/`",
+  "",
+  "Those figures are documented in `docs/FIGURE_INTERPRETATION_GUIDE.md` and",
+  "`reports/R_VISUAL_ANALYSIS.md`.",
   "",
   "Regenerate these files with:",
   "",

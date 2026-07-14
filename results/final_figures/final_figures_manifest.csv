@@ -2,5 +2,5 @@ file,plain_english_meaning
 01_simulated_success_probability.png,Proxy-model estimate of success probability for superconducting and trapped-ion architectures.
 02_simulated_routing_swap_cost.png,"Proxy-model routing overhead, showing where limited connectivity adds SWAP operations."
 03_simulated_time_reliability_tradeoff.png,Proxy-model tradeoff between estimated runtime and estimated success probability.
-04_ibm_hardware_expected_state_probability.png,Real IBM ibm_kingston hardware validation counts summarized by measured bit width.
+04_ibm_hardware_expected_state_probability.png,Real IBM ibm_kingston hardware validation counts summarized by all-zero/all-one probability and measured bit width.
 05_quantinuum_nexus_emulator_validation.png,"Quantinuum Nexus emulator validation counts for Bell, GHZ-3, and Grover-2."

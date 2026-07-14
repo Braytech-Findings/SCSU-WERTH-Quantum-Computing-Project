@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Quantum Architecture Comparison"
+title: "Different Roads to the Same Circuit: Quantum Architecture Comparison"
 message: "If you use this project, please cite it using this metadata."
 type: software
 authors:
@@ -8,7 +8,7 @@ authors:
     email: "braytechfuturescape@icloud.com"
 repository-code: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
 url: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
-abstract: "An independent research implementation comparing superconducting and trapped-ion quantum computing architectures through compilation behavior, offline proxy models, and accessible cloud-based quantum computing resources."
+abstract: "An independent research implementation comparing superconducting and trapped-ion quantum computing architectures through compilation behavior, offline proxy models, IBM hardware validation, and Quantinuum Nexus emulator validation."
 keywords:
   - quantum computing
   - superconducting quantum computing
@@ -17,5 +17,5 @@ keywords:
   - Qiskit
   - cloud quantum computing
 license: MIT
-version: "0.1.0"
-date-released: "2026-06-24"
+version: "1.0.0"
+date-released: "2026-07-14"

@@ -2,12 +2,23 @@
 from __future__ import annotations
 
 import csv
+import os
+import tempfile
 from pathlib import Path
 
-import matplotlib
+_CACHE_ROOT = Path(tempfile.gettempdir()) / "quantum-architecture-comparison-cache"
+_MPL_CACHE = _CACHE_ROOT / "matplotlib"
+_XDG_CACHE = _CACHE_ROOT / "xdg"
+_MPL_CACHE.mkdir(parents=True, exist_ok=True)
+_XDG_CACHE.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(_MPL_CACHE))
+os.environ.setdefault("XDG_CACHE_HOME", str(_XDG_CACHE))
+
+# Matplotlib reads cache locations during import, so cache env vars must be set first.
+import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt  # noqa: E402
 
 
 SUMMARY_FILES = [
@@ -80,9 +91,7 @@ def plot_rows(rows: list[dict[str, str | float | int]], path: Path) -> None:
     circuits = ["Bell", "GHZ-3", "Grover-2"]
     targets = ["H2-1LE", "H2-Emulator"]
     values = {
-        (str(row["target"]), str(row["circuit"])): float(
-            row["all_zero_or_all_one_probability"]
-        )
+        (str(row["target"]), str(row["circuit"])): float(row["all_zero_or_all_one_probability"])
         for row in rows
     }
 

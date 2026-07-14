@@ -279,7 +279,9 @@ def run_nexus_workflow(
         }
         result_path = output_dir / f"quantinuum_job_{args.target}_{name_suffix}.json"
         summary_path = output_dir / f"quantinuum_job_{args.target}_{name_suffix}_summary.csv"
-        result_path.write_text(json.dumps(result_payload, indent=2, sort_keys=True), encoding="utf-8")
+        result_path.write_text(
+            json.dumps(result_payload, indent=2, sort_keys=True), encoding="utf-8"
+        )
         write_summary_csv(result_payload, summary_path)
         print(f"Wrote Quantinuum result data to {result_path}")
         print(f"Wrote Quantinuum compact summary to {summary_path}")
@@ -289,7 +291,9 @@ def run_nexus_workflow(
     return 0
 
 
-def estimate_costs(qnx: Any, compiled_refs: list[Any], target: str, shots: int) -> list[dict[str, Any]]:
+def estimate_costs(
+    qnx: Any, compiled_refs: list[Any], target: str, shots: int
+) -> list[dict[str, Any]]:
     estimates = []
     backend_config = qnx.QuantinuumConfig(device_name=target)
     for index, ref in enumerate(compiled_refs):
@@ -362,9 +366,7 @@ def write_summary_csv(payload: dict[str, Any], path: Path) -> None:
                 "all_zero_count": all_zero_count,
                 "all_one_count": all_one_count,
                 "all_zero_or_all_one_count": all_zero_or_all_one_count,
-                "all_zero_or_all_one_probability": round(
-                    all_zero_or_all_one_count / shots, 6
-                )
+                "all_zero_or_all_one_probability": round(all_zero_or_all_one_count / shots, 6)
                 if shots
                 else None,
                 "distinct_outcomes": len(int_counts),

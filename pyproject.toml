@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "quantum-architecture-comparison"
-version = "0.1.0"
-description = "Compare superconducting and trapped-ion quantum architectures using qBraid"
+version = "1.0.0"
+description = "Different Roads to the Same Circuit: Quantum Architecture Comparison"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
@@ -29,6 +29,9 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
+filterwarnings = [
+  "ignore:Since backends now support running jobs that contain both fractional gates and dynamic circuit, IBMFractionalTranslationPlugin is deprecated.*:DeprecationWarning:stevedore.extension",
+]
 
 [tool.ruff]
 line-length = 100

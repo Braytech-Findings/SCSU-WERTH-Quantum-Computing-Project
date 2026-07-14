@@ -1,4 +1,4 @@
-# Quantum Architecture Comparison
+# Different Roads to the Same Circuit: Quantum Architecture Comparison
 
 ## Overview
 
@@ -245,6 +245,51 @@ Primary figures:
 The `results/final_figures/` folder is the curated presentation set. It includes the
 most important simulated/proxy architecture figures, the IBM hardware validation figure,
 and the Quantinuum Nexus emulator validation figure.
+
+## Final Figures and R Visualizations
+
+The original curated final figure package is stored in `results/final_figures/`.
+The expanded R visualization package is stored in
+`results/final_figures/r_visualizations/`.
+
+Helpful links:
+
+- Final figure package: `results/final_figures/`
+- R visualization folder: `results/final_figures/r_visualizations/`
+- R figure manifest:
+  `results/final_figures/r_visualizations/r_visualizations_manifest.csv`
+- Figure interpretation guide: `docs/FIGURE_INTERPRETATION_GUIDE.md`
+- R visual analysis report: `reports/R_VISUAL_ANALYSIS.md`
+
+Multiple graph types are used because each graph answers a different question. Bar
+graphs compare categories, box plots show spread, scatter plots show relationships
+between two measurements, line graphs show changes across ordered circuit sizes, heat
+maps show matrix-style patterns, and slope graphs show paired changes. The graph type is
+chosen from the question and data structure, not simply for visual variety.
+
+Evidence types are kept separate:
+
+- `offline_proxy`: architecture-model tables produced without contacting hardware.
+- `physical_hardware`: IBM `ibm_kingston` hardware counts retrieved from saved jobs.
+- `emulator`: Quantinuum Nexus emulator validation counts.
+
+The R visualization script uses these R packages:
+
+```r
+install.packages(c(
+  "ggplot2",
+  "dplyr",
+  "tidyr",
+  "readr",
+  "scales"
+))
+```
+
+Regenerate the expanded R figures from the repository root:
+
+```bash
+Rscript analysis/generate_final_figures_r.R
+```
 
 Primary reports:
 

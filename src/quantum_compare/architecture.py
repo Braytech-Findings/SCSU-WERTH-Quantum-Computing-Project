@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from collections import Counter
 from dataclasses import dataclass
-from datetime import date
 from typing import Any
 
 from qiskit import QuantumCircuit, transpile
@@ -11,6 +10,7 @@ from qiskit.quantum_info import Operator
 ALLOWED_NON_UNITARY_OPERATIONS = frozenset({"measure", "reset", "barrier", "delay"})
 TRANSPILER_NON_UNITARY_BASIS = ("measure", "reset", "delay")
 EQUIVALENCE_TOLERANCE = 1e-8
+DEFAULT_PROXY_ASSUMPTIONS_DATE = "2026-06-23"
 
 
 @dataclass(frozen=True)
@@ -62,7 +62,7 @@ class ArchitectureModel:
         self.operation_error_rates = operation_error_rates
         self.duration_source = duration_source
         self.error_source = error_source
-        self.assumptions_date = assumptions_date or date.today().isoformat()
+        self.assumptions_date = assumptions_date or DEFAULT_PROXY_ASSUMPTIONS_DATE
 
     @property
     def native_unitary_gates(self) -> tuple[str, ...]:

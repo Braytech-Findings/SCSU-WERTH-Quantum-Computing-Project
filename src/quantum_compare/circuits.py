@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from qiskit import QuantumCircuit
-from qiskit.circuit.library import QFT
+from qiskit.circuit.library import QFTGate
 
 
 def _validate_qubit_count(size: int, minimum: int, name: str) -> None:
@@ -44,7 +44,9 @@ def build_qft(num_qubits: int) -> QuantumCircuit:
     """
     _validate_qubit_count(num_qubits, 3, "QFT")
     circuit = QuantumCircuit(num_qubits, num_qubits, name=f"qft_{num_qubits}")
-    qft = QFT(num_qubits, do_swaps=True).decompose()
+    qft = QuantumCircuit(num_qubits)
+    qft.append(QFTGate(num_qubits), range(num_qubits))
+    qft = qft.decompose()
     circuit.compose(qft, inplace=True)
     circuit.measure(list(range(num_qubits)), list(range(num_qubits)))
     return circuit

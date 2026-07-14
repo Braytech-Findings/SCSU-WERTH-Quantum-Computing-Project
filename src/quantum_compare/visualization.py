@@ -1,16 +1,27 @@
 from __future__ import annotations
 
 import json
+import os
+import tempfile
 from pathlib import Path
 from typing import Any
 
-import matplotlib
+_CACHE_ROOT = Path(tempfile.gettempdir()) / "quantum-architecture-comparison-cache"
+_MPL_CACHE = _CACHE_ROOT / "matplotlib"
+_XDG_CACHE = _CACHE_ROOT / "xdg"
+_MPL_CACHE.mkdir(parents=True, exist_ok=True)
+_XDG_CACHE.mkdir(parents=True, exist_ok=True)
+os.environ.setdefault("MPLCONFIGDIR", str(_MPL_CACHE))
+os.environ.setdefault("XDG_CACHE_HOME", str(_XDG_CACHE))
+
+# Matplotlib reads cache locations during import, so cache env vars must be set first.
+import matplotlib  # noqa: E402
 
 matplotlib.use("Agg")
-import matplotlib.pyplot as plt
-from matplotlib.ticker import FixedLocator, FormatStrFormatter
-import numpy as np
-import pandas as pd
+import matplotlib.pyplot as plt  # noqa: E402
+from matplotlib.ticker import FixedLocator, FormatStrFormatter  # noqa: E402
+import numpy as np  # noqa: E402
+import pandas as pd  # noqa: E402
 
 ARCHITECTURE_LABELS = {
     "ibm": "IBM proxy",
@@ -567,9 +578,7 @@ def _plot_key_metric_summary(cleaned: pd.DataFrame, output_dir: Path) -> list[Pa
     colors = {"ibm": "#1f77b4", "quantinuum": "#ff7f0e"}
     for ax, (metric, ylabel, note) in zip(axes.flatten(), specs, strict=True):
         aggregate = (
-            plotting.groupby("provider", dropna=False)[metric]
-            .mean()
-            .reindex(ARCHITECTURE_ORDER)
+            plotting.groupby("provider", dropna=False)[metric].mean().reindex(ARCHITECTURE_ORDER)
         )
         x_positions = np.arange(len(ARCHITECTURE_ORDER))
         values = aggregate.to_numpy(dtype=float)
@@ -800,7 +809,7 @@ def _write_report(
     success_label = "estimated_success_probability_from_proxy_error_model"
 
     lines = [
-        "# Quantum Architecture Comparison Report",
+        "# Different Roads to the Same Circuit: Quantum Architecture Comparison Report",
         "",
         "This report summarizes the architecture-proxy comparison tables. Those tables separate",
         "algorithmic logical circuits, topology-routed circuits, and final native-basis circuits.",
@@ -862,6 +871,12 @@ def _write_report(
         "The curated presentation figures are stored in `results/final_figures/`. They include",
         "the main simulated/proxy architecture comparisons, the extended IBM hardware validation",
         "figure, and the Quantinuum Nexus emulator validation figure.",
+        "",
+        "The expanded R visualization package is stored in",
+        "`results/final_figures/r_visualizations/`, with a manifest at",
+        "`results/final_figures/r_visualizations/r_visualizations_manifest.csv`. The graph",
+        "interpretation guide is `docs/FIGURE_INTERPRETATION_GUIDE.md`, and the R analysis report",
+        "is `reports/R_VISUAL_ANALYSIS.md`.",
         "",
         "## Plain-Language Interpretation",
         "",
