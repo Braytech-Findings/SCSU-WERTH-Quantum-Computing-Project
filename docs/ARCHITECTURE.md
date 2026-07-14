@@ -2,7 +2,8 @@
 
 The project is organized around one shared logical-circuit layer and two
 architecture-aware offline proxy compilation models. It also stores separate IBM
-Quantum hardware validation artifacts under `results/hardware/`.
+Quantum hardware validation artifacts under `results/hardware/` and includes a safe
+Quantinuum Nexus validation path.
 
 - Circuits: reusable Qiskit logical circuit builders for Bell, GHZ, QFT, and Grover.
 - Architecture models: IBM proxy and Quantinuum proxy compilation, routing, native-basis
@@ -12,7 +13,8 @@ Quantum hardware validation artifacts under `results/hardware/`.
 - Experiment runner: orchestration, result rows, processed CSV/JSON files, tables,
   figures, and reports.
 - Hardware artifacts: sanitized IBM Quantum job records that are real machine results,
-  kept separate from the proxy-model comparison rows.
+  plus a Quantinuum Nexus validation workflow, kept separate from the proxy-model
+  comparison rows.
 - CLI: commands for environment checks, experiment runs, and report generation.
 
 The IBM proxy represents line-coupled superconducting-proxy compilation behavior. The

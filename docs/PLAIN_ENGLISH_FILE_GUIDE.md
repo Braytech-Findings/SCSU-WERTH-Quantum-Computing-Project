@@ -115,6 +115,11 @@ The important wording is "Quantinuum-style proxy." The saved Quantinuum rows are
 official Quantinuum hardware or emulator measurements, and they are not official pytket
 Quantinuum compilation results.
 
+The separate Quantinuum Nexus validation path is documented in
+`docs/QUANTINUUM_HARDWARE_VALIDATION.md`. That path can use the author's Nexus access to
+prepare, compile, and, after explicit approval, execute official Quantinuum emulator or
+syntax-checker jobs.
+
 ### Why This Still Counts As Running The Comparison
 
 The experiment really does execute the project workflow: it builds circuits, compiles
@@ -237,6 +242,7 @@ Scripts are small command shortcuts.
 | `scripts/generate_report.py` | Runs the full configured suite and generates report artifacts. |
 | `scripts/list_devices.py` | Prints the available backend adapters and whether they are available in the current environment. |
 | `scripts/compare_run_artifacts.py` | Compares a new run against the verified baseline and checks that important result tables have the expected shape. |
+| `scripts/submit_quantinuum_validation.py` | Builds a Quantinuum Nexus validation plan, and can upload, compile, estimate cost, or execute only when explicit flags are used. |
 
 ## Configuration: `config/`
 
@@ -269,7 +275,8 @@ These files explain the project for humans.
 | `docs/ARCHITECTURE.md` | Explains how the code is organized and how the main parts connect. |
 | `docs/DATA_DICTIONARY.md` | Explains the columns in the result files. |
 | `docs/EXPERIMENT_PROTOCOL.md` | Explains the steps used to run the experiment in a reproducible way. |
-| `docs/IBM_HARDWARE_VALIDATION.md` | Records the separate author-provided IBM Quantum job reference and explains what still needs to be saved before it can be analyzed. |
+| `docs/IBM_HARDWARE_VALIDATION.md` | Records real IBM Quantum hardware job references and the safe sanitized artifacts saved from them. |
+| `docs/QUANTINUUM_HARDWARE_VALIDATION.md` | Explains the safe Quantinuum Nexus validation path for `H2-1E`, `H2-2E`, `H2-1SC`, and `H2-2SC`. |
 | `docs/LIMITATIONS.md` | Explains what the project does not prove. This protects the research from overclaiming. |
 | `docs/METRICS.md` | Explains the measurements used to compare circuits. |
 | `docs/QBRAID_VALIDATION.md` | Explains how the project was validated in qBraid and what that validation means. |
@@ -341,8 +348,9 @@ Reports are written explanations of the generated results.
 
 ## Hardware Artifacts: `results/hardware/`
 
-These files are sanitized records from an IBM Quantum hardware job. They are real
-hardware artifacts, but they are kept separate from the offline proxy-model tables.
+These files are sanitized provider records and validation plans. They are kept separate
+from the offline proxy-model tables so readers can tell provider outputs from model
+estimates.
 
 | File | Plain English label |
 | --- | --- |
@@ -352,6 +360,7 @@ hardware artifacts, but they are kept separate from the offline proxy-model tabl
 | `results/hardware/ibm_extended_validation_submission_d95vhvd2su3c739gc080.json` | The public submission record for the longer IBM job. It includes the job id, backend, circuit count, and shot count, but no private account data. |
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080.json` | Safe raw output from the longer IBM hardware job after it finished. It keeps the measured counts and removes private IBM account details. |
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv` | A smaller table summarizing the longer IBM job by pub result, bit-width, shot count, and all-zero/all-one probability. |
+| `results/hardware/quantinuum_validation_plan.json` | The first safe Quantinuum Nexus dry-run plan for `H2-1E`. It lists the planned circuits and shots before any Nexus job is created. |
 
 ## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
 

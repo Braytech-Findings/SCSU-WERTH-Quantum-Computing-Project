@@ -1,0 +1,54 @@
+{
+  "circuit_count": 3,
+  "circuits": [
+    {
+      "clbits": 2,
+      "depth": 3,
+      "index": 0,
+      "name": "bell_state",
+      "operations": {
+        "cx": 1,
+        "h": 1,
+        "measure": 2
+      },
+      "qubits": 2
+    },
+    {
+      "clbits": 3,
+      "depth": 4,
+      "index": 1,
+      "name": "ghz_3",
+      "operations": {
+        "cx": 2,
+        "h": 1,
+        "measure": 3
+      },
+      "qubits": 3
+    },
+    {
+      "clbits": 2,
+      "depth": 8,
+      "index": 2,
+      "name": "grover_search_2",
+      "operations": {
+        "cz": 2,
+        "h": 6,
+        "measure": 2,
+        "x": 4
+      },
+      "qubits": 2
+    }
+  ],
+  "created_at_utc": "2026-07-14T17:33:28.271960+00:00",
+  "execute_requested": false,
+  "optimization_level": 0,
+  "project": "SCSU WERTH Quantum Validation",
+  "provider": "quantinuum",
+  "route": "Quantinuum Nexus",
+  "safety_note": "This is a Quantinuum Nexus validation plan. It is separate from offline proxy-model results. Execution can consume HQCs, simulator quota, or other account quota depending on the selected target.",
+  "shots_per_circuit": 100,
+  "suite": "small",
+  "target": "H2-1E",
+  "target_note": "Target name looks like an emulator. It may use simulator quota rather than hardware HQCs.",
+  "total_requested_shots": 300
+}

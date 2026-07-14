@@ -14,13 +14,18 @@ Author-provided IBM Quantum hardware jobs are documented in
 qBraid proxy-table validation workflow and are not included in the proxy-model result
 tables. Their sanitized counts are stored under `results/hardware/`.
 
+The Quantinuum Nexus validation path is documented in
+`docs/QUANTINUUM_HARDWARE_VALIDATION.md`. It starts with a dry-run plan and keeps
+syntax-checker, emulator, and hardware outputs separate from the proxy-model tables.
+
 ## Study Scope
 
 The repository now contains two kinds of evidence. The architecture comparison tables
 are offline proxy-model compilation results. The IBM hardware validation artifacts are
-real machine results stored separately under `results/hardware/`. Optional simulator
-output, if run in qBraid Lab, is stored separately and must not be described as IBM or
-Quantinuum hardware measurement.
+real machine results stored separately under `results/hardware/`. Quantinuum Nexus
+syntax-checker or emulator validation should also be stored separately under
+`results/hardware/`. Optional simulator output, if run in qBraid Lab, is stored
+separately and must not be described as IBM or Quantinuum hardware measurement.
 
 ## qBraid Environment
 

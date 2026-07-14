@@ -155,8 +155,11 @@ or official emulator results in separate rows/files from the offline proxy-model
 
 Two IBM Quantum hardware jobs are documented separately in
 `docs/IBM_HARDWARE_VALIDATION.md`. Their sanitized counts are stored under
-`results/hardware/`. They are not included in the proxy-model tables because real
-hardware measurements and offline proxy estimates answer different questions.
+`results/hardware/`. The Quantinuum Nexus validation path is documented in
+`docs/QUANTINUUM_HARDWARE_VALIDATION.md`, with safe plan/compile/execute commands for
+the reported `H2-1E`, `H2-2E`, `H2-1SC`, and `H2-2SC` targets. These provider artifacts
+are not included in the proxy-model tables because real provider outputs and offline
+proxy estimates answer different questions.
 
 Official documentation checked for this section:
 
@@ -184,8 +187,8 @@ Official documentation checked for this section:
 - `scripts/`: reproducibility, environment, device-listing, report, and artifact
   comparison helpers.
 - `docs/`: architecture notes, metrics, limitations, experiment protocol, beginner
-  guide, ownership/citation notes, IBM hardware validation notes, and qBraid validation
-  notes.
+  guide, ownership/citation notes, IBM and Quantinuum hardware validation notes, and
+  qBraid validation notes.
 - `data/processed/`: timestamped processed experiment outputs. The verified public
   baseline is `results_20260623T223649Z`.
 - `results/tables/`: generated CSV tables used by the report.

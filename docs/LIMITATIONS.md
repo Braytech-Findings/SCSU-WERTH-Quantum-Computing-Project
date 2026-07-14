@@ -9,6 +9,9 @@
   live calibrated backend snapshot.
 - The Quantinuum proxy is an all-to-all H-series-style trapped-ion RZZ proxy, not an
   official hardware execution path or pytket Quantinuum compilation result.
+- The Quantinuum Nexus targets reported so far are `H2-1E`, `H2-2E`, `H2-1SC`, and
+  `H2-2SC`. Treat those as emulator or syntax-checker validation targets unless Nexus
+  clearly shows a physical hardware target and a hardware execution is actually run.
 - Estimated native execution duration depends on documented proxy timing assumptions.
   It is not experimentally measured execution time.
 - Estimated success probability depends on documented proxy error-rate assumptions. It
