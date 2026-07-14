@@ -89,16 +89,22 @@ The notebook also imports the project, constructs and displays a Bell circuit an
 3-qubit GHZ circuit, and optionally runs a Bell circuit on a local qBraid-compatible
 Qiskit Aer simulator when available.
 
-## Expected Test Result
+## Test-Count Notes
 
-The current local validation result is:
+The historical qBraid reproduction described by the manuscript passed `26/26`
+automated checks. That number refers to the qBraid reproduction checklist at the time,
+not to every future local pytest count.
+
+The current local repository suite during v1.0.0 release preparation passed:
 
 ```text
-27 passed
+28 passed
 ```
 
-qBraid should report the same tests passing if the environment has compatible package
-versions.
+qBraid should report the current tests passing if the environment has compatible
+package versions. If qBraid is rerun later and the test suite changes, record the new
+pytest count separately instead of overwriting the historical `26/26` reproduction
+statement.
 
 During repository preparation, the comparison script was run locally against the
 verified baseline run without rerunning the experiment, and it reported:

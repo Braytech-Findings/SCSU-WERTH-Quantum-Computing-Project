@@ -16,8 +16,9 @@ Quantinuum-side companion to `docs/IBM_HARDWARE_VALIDATION.md`.
 
 The target names ending in `E` look like emulator targets. The target names ending in
 `SC` look like syntax-checker targets. Treat both as official Quantinuum/Nexus validation
-paths, but do not describe them as physical H2 hardware unless the Nexus dashboard shows
-a non-emulator hardware target and an execution job is actually submitted to that target.
+paths, but do not describe them as physical Quantinuum QPU evidence unless the Nexus
+dashboard shows a non-emulator hardware target and an execution job is actually
+submitted to that target.
 During validation, `H2-1E` and `H2-2E` accepted compilation but rejected execution for
 this account with a machine-access error. The Nexus-hosted `H2-1LE` and `H2-Emulator`
 targets accepted both compilation and execution.
@@ -103,7 +104,7 @@ Compact result summary:
 | 2 | Grover-2 | 2 | 100 | `11`: 100 |
 
 These are real Quantinuum Nexus emulator results, not offline proxy estimates and not
-physical H2 hardware measurements.
+physical Quantinuum QPU measurements.
 
 ### H2-Emulator Execution
 
@@ -129,7 +130,7 @@ Compact result summary:
 | 2 | Grover-2 | 2 | 100 | `11`: 99, one `10` count |
 
 These are real Quantinuum Nexus H2 emulator results, not offline proxy estimates and
-not physical H2 hardware measurements.
+not physical Quantinuum QPU measurements.
 
 ## Validation Figure
 
@@ -140,7 +141,7 @@ small Bell, GHZ-3, and Grover-2 validation circuits on `H2-1LE` and `H2-Emulator
 - Source table: `results/tables/quantinuum_validation_plot_rows.csv`
 
 This graph is meant for presentation and review. It should be described as provider
-emulator validation, not physical H2 hardware benchmarking.
+emulator validation, not physical Quantinuum QPU benchmarking.
 
 ## What The Script Saves
 
@@ -171,8 +172,8 @@ Save these fields before describing a Quantinuum result:
 ## Scope
 
 Quantinuum emulator or syntax-checker results are real provider workflow outputs, but
-they are not the same as physical H2 hardware measurements. Keep them separate from the
-offline proxy-model tables and label them by target name.
+they are not the same as physical Quantinuum QPU measurements. Keep them separate from
+the offline proxy-model tables and label them by target name.
 
 Official Quantinuum docs used for this workflow:
 

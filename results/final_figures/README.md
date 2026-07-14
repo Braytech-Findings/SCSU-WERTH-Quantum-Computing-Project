@@ -10,7 +10,11 @@ This folder contains the curated, presentation-ready figures for the project.
 | `04_ibm_hardware_expected_state_probability.png` | Real IBM `ibm_kingston` hardware validation counts from job `d95vhvd2su3c739gc080`. |
 | `05_quantinuum_nexus_emulator_validation.png` | Quantinuum Nexus emulator validation counts from `H2-1LE` and `H2-Emulator`. |
 
-The first three figures are simulated/proxy-model results. The IBM figure is real hardware output. The Quantinuum figure is provider emulator output, not physical H2 hardware output.
+The first three figures are simulated/proxy-model results. The IBM figure is real hardware output. The Quantinuum figure is provider emulator output, not physical Quantinuum QPU output.
+
+Figure labels are separate from the manuscript's Figure 1-13 numbering. The IBM
+validation graph is repository supplemental figure H04, and the Quantinuum emulator
+graph is repository supplemental figure Q01.
 
 Expanded R visualizations are stored in:
 

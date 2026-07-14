@@ -5,7 +5,7 @@ real machine results. They are kept separate from the offline proxy-model result
 so readers can tell which numbers came from architecture estimates and which numbers
 came from IBM hardware.
 
-## Current Status
+## IBM Experiment A - Original GHZ Stress Study
 
 - Provider: IBM Quantum
 - Retrieved backend identifier: `ibm_kingston`
@@ -20,9 +20,13 @@ came from IBM hardware.
 - Backend metadata beyond backend name: `null`
 - Run date: pending extraction
 
-The measured counts are now stored in a separate hardware artifact. This hardware job
-should still not be mixed into the proxy-model tables because the proxy study and the
-IBM hardware job answer different questions.
+This is the original 90-circuit GHZ stress experiment used in the manuscript's IBM
+figures and correlation/regression analysis. It should not be replaced by the later
+115-circuit validation package.
+
+The measured counts are stored in a separate hardware artifact. This hardware job should
+still not be mixed into the proxy-model tables because the proxy study and the IBM
+hardware job answer different questions.
 
 ## Compact Result Summary
 
@@ -107,7 +111,7 @@ Save these fields before describing the hardware result:
 
 If any value is unavailable, record it as `null`, not zero.
 
-## Extended Hardware Validation Suite
+## IBM Experiment B - Expanded Hardware Validation Suite
 
 For a larger IBM hardware validation, use the extended validation helper. It creates a
 substantial circuit bundle and writes a plan first.

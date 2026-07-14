@@ -10,6 +10,15 @@ The visual analysis keeps three evidence types separate:
 - `offline_proxy`: architecture-model compilation and proxy-estimate rows.
 - `physical_hardware`: IBM `ibm_kingston` hardware counts.
 - `emulator`: Quantinuum Nexus emulator counts.
+- `syntax_checker`: compile-only workflow checks, when present.
+
+## Relationship To The Manuscript
+
+The R figures are repository supplemental visualizations. They do not replace the July
+2026 manuscript's Figure 1 through Figure 13 numbering. In particular, R08 uses the
+later 115-circuit IBM validation package and should not be treated as a recalculation of
+the manuscript's original 90-circuit GHZ distribution-fidelity analysis. R09 uses
+Quantinuum Nexus emulator results and is not physical Quantinuum QPU evidence.
 
 ## Data Sources
 
@@ -42,6 +51,9 @@ The script `analysis/generate_final_figures_r.R`:
 - Proxy metrics: native-compiled depth, native entangling-gate count, routing SWAP
   count, estimated native execution duration, and estimated success probability.
 - Hardware/emulator metrics: all-zero/all-one counts and probability.
+- Manuscript IBM metric: distribution fidelity for the original 90-circuit GHZ stress
+  experiment. The R IBM validation figure uses all-zero/all-one probability instead,
+  because it summarizes the later mixed validation package.
 
 ## Why Each Graph Type Was Used
 
@@ -66,8 +78,8 @@ The script `analysis/generate_final_figures_r.R`:
 - The IBM hardware validation figure shows real `ibm_kingston` counts, but the
   all-zero/all-one probability should be read most carefully for Bell/GHZ-style
   circuits.
-- The Quantinuum Nexus figures are emulator validation evidence, not physical H2
-  hardware benchmarking.
+- The Quantinuum Nexus figures are emulator validation evidence, not physical
+  Quantinuum QPU benchmarking.
 - The evidence-summary graph shows record counts only; it does not rank evidence
   quality.
 

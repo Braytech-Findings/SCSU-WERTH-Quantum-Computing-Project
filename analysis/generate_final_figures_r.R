@@ -117,15 +117,17 @@ add_manifest <- function(
   interpretation_warning
 ) {
   manifest_rows[[length(manifest_rows) + 1]] <<- data.frame(
-    figure_number = figure_number,
-    filename = filename,
-    graph_type = graph_type,
+    repository_filename = filename,
+    repository_figure_label = sprintf("Repository supplemental figure R%02d", figure_number),
+    manuscript_figure_number = "",
+    figure_type = graph_type,
     research_question = research_question,
-    data_source = data_source,
+    dataset = data_source,
     evidence_type = evidence_type,
-    main_metric = main_metric,
-    aggregation_used = aggregation_used,
-    sample_size = sample_size,
+    number_of_observations = sample_size,
+    metric = main_metric,
+    statistical_summary = aggregation_used,
+    release_context = "R alternative visualization",
     script = "analysis/generate_final_figures_r.R",
     interpretation_warning = interpretation_warning,
     stringsAsFactors = FALSE
@@ -455,7 +457,7 @@ r08 <- ggplot(ibm_ci, aes(x = bit_width, y = estimate)) +
   scale_color_manual(values = hardware_palette) +
   scale_y_continuous(labels = percent_format(accuracy = 1), limits = c(0, 1)) +
   labs(
-    title = "IBM Hardware: All-Zero/All-One Probability with Wilson Intervals",
+    title = "IBM Hardware Validation: All-Zero/All-One Probability by Bit Width",
     subtitle = "Intervals aggregate mixed validation circuits by measured bit width.",
     x = "Measured bit width",
     y = "All-zero/all-one probability",
@@ -509,7 +511,7 @@ r09 <- ggplot(
     x = "Validation circuit",
     y = "All-zero/all-one probability",
     fill = NULL,
-    caption = "Source: Quantinuum Nexus emulator artifacts. These are emulator results, not physical H2 hardware measurements."
+    caption = "Source: Quantinuum Nexus emulator artifacts. These are emulator results, not physical Quantinuum QPU measurements."
   ) +
   theme_release()
 
@@ -524,7 +526,7 @@ add_manifest(
   "all_zero_or_all_one_probability",
   "Raw row per target and validation circuit.",
   nrow(quantinuum_rows),
-  "These are Nexus emulator results and must not be described as physical H2 hardware measurements."
+  "These are Nexus emulator results and must not be described as physical Quantinuum QPU measurements."
 )
 
 # R10: evidence summary counts records by evidence type without implying quality.

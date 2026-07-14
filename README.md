@@ -20,6 +20,37 @@ and estimated success probability come from documented proxy assumptions. Real I
 hardware counts and Quantinuum Nexus emulator counts are saved separately under
 `results/hardware/`.
 
+## Relationship To The July 2026 Manuscript
+
+The formal manuscript for this project is titled **"Do Standardized Quantum Algorithms
+Perform Differently Across Hardware?"** The repository release is titled **"Different
+Roads to the Same Circuit: Quantum Architecture Comparison."** These are not competing
+titles: the manuscript is the research paper, while this repository is the broader
+public code, data, documentation, and figure archive.
+
+The manuscript's main statistical IBM analysis is the original 90-circuit IBM Kingston
+GHZ stress experiment. After that manuscript was written, the repository added a
+separate 115-circuit IBM Kingston validation package and Quantinuum Nexus emulator
+validation. These additions broaden the evidence record, but they do not convert the
+study into a matched physical IBM-versus-Quantinuum QPU comparison.
+
+Current evidence structure:
+
+- Phase I: controlled architecture proxies for Bell, GHZ, Grover, and QFT.
+- Phase II: IBM Kingston physical-hardware evidence, with the original 90-circuit GHZ
+  stress study kept separate from the later 115-circuit validation package.
+- Phase III: Quantinuum Nexus emulator validation for the stored small-circuit suite.
+
+Useful links:
+
+- Manuscript/repository alignment: `docs/MANUSCRIPT_REPOSITORY_ALIGNMENT.md`
+- Manuscript revision notes: `docs/MANUSCRIPT_REVISION_NOTES.md`
+- IBM hardware validation: `docs/IBM_HARDWARE_VALIDATION.md`
+- Quantinuum Nexus validation: `docs/QUANTINUUM_HARDWARE_VALIDATION.md`
+- Final figures: `results/final_figures/`
+- R visualizations: `results/final_figures/r_visualizations/`
+- Figure interpretation guide: `docs/FIGURE_INTERPRETATION_GUIDE.md`
+
 ## Start Here
 
 - The starting circuits are the same for every comparison.
@@ -272,6 +303,8 @@ Evidence types are kept separate:
 - `offline_proxy`: architecture-model tables produced without contacting hardware.
 - `physical_hardware`: IBM `ibm_kingston` hardware counts retrieved from saved jobs.
 - `emulator`: Quantinuum Nexus emulator validation counts.
+- `syntax_checker`: Quantinuum/Nexus compile-only checks that validate workflow
+  compatibility but are not execution outcomes.
 
 The R visualization script uses these R packages:
 

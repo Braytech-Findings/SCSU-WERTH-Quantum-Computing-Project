@@ -13,6 +13,7 @@ This repository contains three clearly separated evidence categories:
 - `offline_proxy`: the main architecture comparison using controlled proxy models.
 - `physical_hardware`: saved IBM `ibm_kingston` hardware validation counts.
 - `emulator`: saved Quantinuum Nexus emulator validation counts.
+- `syntax_checker`: Quantinuum/Nexus compile-only workflow checks, when present.
 
 The project is no longer described as offline-only. The proxy comparison remains the
 main controlled architecture study, while IBM hardware and Quantinuum emulator artifacts
@@ -54,7 +55,33 @@ Pipeline status:
 ## IBM Physical-Hardware Validation
 
 The repository preserves two sanitized IBM hardware retrieval records under
-`results/hardware/`. The extended validation job is the main IBM hardware figure source:
+`results/hardware/`. They are separate experimental packages and must not be merged into
+one statistical analysis.
+
+### IBM Experiment A - Original GHZ Stress Study
+
+This is the IBM experiment used in the July 2026 manuscript's GHZ stress curves,
+heatmap, fidelity analysis, and correlation/regression discussion.
+
+- Backend: `ibm_kingston`
+- IBM Runtime job ID: `d8up2d1ropqc738b44pg`
+- Pub results retrieved: `90`
+- GHZ sizes: 2, 4, 6, 8, 12, and 16 qubits
+- Stress layers: 0, 1, 2, 4, and 8
+- Repetitions per condition: `3` transpiler-seed mappings
+- Aggregate conditions: `30`
+- Shots per pub result: `4096`
+- Total retrieved shots: `368640`
+- Counts artifact: `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`
+- Summary artifact: `results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv`
+
+The manuscript statistics, including the reported Pearson `r = -0.911`, Spearman
+`rho = -0.876`, slope, and `R^2`, belong to this original 30-condition GHZ analysis.
+
+### IBM Experiment B - Expanded Hardware Validation
+
+This later package is the main source for the repository's supplemental IBM final
+figure. It is not the same dataset as the original manuscript analysis.
 
 - Backend: `ibm_kingston`
 - IBM Runtime job ID: `d95vhvd2su3c739gc080`
@@ -82,7 +109,7 @@ Quantinuum Nexus validation artifacts are saved separately from the offline prox
 
 Targets labeled `H2-1LE`, `H2-1E`, `H2-2E`, and similarly named emulator or
 syntax-checker targets are emulator-based or workflow-validation evidence in this
-repository. They are not physical H2 hardware results.
+repository. They are not physical Quantinuum QPU results.
 
 ## Figure Packages
 

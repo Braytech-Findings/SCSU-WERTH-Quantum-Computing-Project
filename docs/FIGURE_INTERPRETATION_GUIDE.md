@@ -6,9 +6,27 @@ project uses three evidence categories:
 - `offline_proxy`: compiled/model-estimated architecture comparison rows.
 - `physical_hardware`: saved IBM `ibm_kingston` hardware counts.
 - `emulator`: saved Quantinuum Nexus emulator counts.
+- `syntax_checker`: compile-only provider workflow checks, when present.
 
 No figure claims statistical significance. The figures are meant to communicate the
 stored evidence clearly and conservatively.
+
+## Relationship To Manuscript Figures
+
+The July 2026 manuscript has its own Figure 1 through Figure 13 numbering. Repository
+figures added after the manuscript keep separate labels so readers do not mistake a
+supplemental graph for an original manuscript figure.
+
+- Manuscript Figures 1-13: original paper figures and IBM GHZ stress analysis.
+- Repository figures 01-03: curated proxy-model presentation figures.
+- Repository supplemental figure H04: post-manuscript IBM 115-circuit validation graph.
+- Repository supplemental figure Q01: Quantinuum Nexus emulator validation graph.
+- Repository supplemental figures R01-R10: expanded R alternative visualizations.
+
+The original manuscript IBM figures use distribution fidelity for the 90-circuit GHZ
+stress study. The later IBM validation graphs use all-zero/all-one probability for the
+115-circuit package; that metric is easiest to interpret for Bell/GHZ-style outcomes and
+is not a universal algorithm success score.
 
 ## Original Final Figure Package
 
@@ -68,6 +86,9 @@ stored evidence clearly and conservatively.
 ### 04 IBM Hardware Probability By Bit Width
 
 - File: `results/final_figures/04_ibm_hardware_expected_state_probability.png`
+- Repository label: supplemental figure H04.
+- Manuscript correspondence: post-manuscript validation figure; it is not Manuscript
+  Figure 9, 10, 11, or 12.
 - Graph type: box plot with visible observations.
 - Why this graph type: the IBM job has multiple pub results per measured bit-width
   group, so a box plot shows spread and individual observations.
@@ -80,6 +101,7 @@ stored evidence clearly and conservatively.
   Bell/GHZ-style circuits and is not a universal success metric for QFT, Grover, or
   every quantum algorithm.
 - Evidence type: `physical_hardware`.
+- Dataset: later 115-circuit IBM validation package, job `d95vhvd2su3c739gc080`.
 - Presentation script: "This is the real IBM hardware validation. It is separate from
   the proxy-model tables, and the metric is easiest to interpret for Bell and GHZ-style
   circuits."
@@ -87,6 +109,8 @@ stored evidence clearly and conservatively.
 ### 05 Quantinuum Nexus Emulator Validation
 
 - File: `results/final_figures/05_quantinuum_nexus_emulator_validation.png`
+- Repository label: supplemental figure Q01.
+- Manuscript correspondence: post-manuscript emulator validation figure.
 - Graph type: grouped bar graph.
 - Why this graph type: there are a few named validation circuits and two emulator
   targets, which makes category comparison appropriate.
@@ -95,10 +119,11 @@ stored evidence clearly and conservatively.
 - Fill color: Nexus emulator target.
 - Main result visible: the small emulator validation circuits returned expected-state
   probabilities near 99-100%.
-- What it does not prove: these are not physical H2 hardware measurements.
+- What it does not prove: these are not physical Quantinuum QPU measurements.
 - Evidence type: `emulator`.
 - Presentation script: "This shows the Quantinuum Nexus emulator validation only. It
-  confirms the workflow and small circuit behavior, but it is not physical H2 hardware."
+  confirms the workflow and small circuit behavior, but it is not physical Quantinuum
+  QPU evidence."
 
 ## Expanded R Visualization Package
 
@@ -220,6 +245,9 @@ stored evidence clearly and conservatively.
 ### R08 IBM Hardware Probability CI
 
 - File: `results/final_figures/r_visualizations/r08_ibm_hardware_probability_ci.png`
+- Repository label: supplemental figure R08.
+- Manuscript correspondence: post-manuscript validation figure; it is not one of the
+  manuscript's IBM GHZ distribution-fidelity figures.
 - Graph type: dot plot with Wilson confidence intervals.
 - Why this graph type: shot counts support binomial intervals after aggregating by bit
   width.
@@ -231,6 +259,8 @@ stored evidence clearly and conservatively.
 - What it does not prove: this all-zero/all-one metric is not universal algorithm
   accuracy.
 - Evidence type: `physical_hardware`.
+- Dataset: later 115-circuit IBM validation package, not the original 90-circuit GHZ
+  stress study.
 - Presentation script: "This IBM hardware plot adds uncertainty intervals from the
   saved shot counts, while keeping the interpretation limited to this specific metric."
 
@@ -243,10 +273,10 @@ stored evidence clearly and conservatively.
 - Y-axis: all-zero/all-one probability.
 - Fill color: Nexus emulator target.
 - Main result visible: both emulator targets returned near-ideal small-circuit results.
-- What it does not prove: it is not physical Quantinuum H2 hardware evidence.
+- What it does not prove: it is not physical Quantinuum QPU evidence.
 - Evidence type: `emulator`.
 - Presentation script: "This figure is intentionally labeled as emulator validation,
-  because it should not be mistaken for physical H2 hardware."
+  because it should not be mistaken for physical Quantinuum QPU evidence."
 
 ### R10 Evidence Summary
 

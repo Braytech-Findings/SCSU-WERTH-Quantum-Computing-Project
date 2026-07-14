@@ -131,7 +131,7 @@ def plot_rows(rows: list[dict[str, str | float | int]], path: Path) -> None:
     ax.text(
         0.5,
         -0.22,
-        "100 shots per circuit. Results are Nexus emulator outputs, not physical H2 hardware measurements.",
+        "100 shots per circuit. Results are Nexus emulator outputs, not physical Quantinuum QPU measurements.",
         transform=ax.transAxes,
         ha="center",
         va="top",
