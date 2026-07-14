@@ -34,6 +34,12 @@ is not a universal algorithm success score.
 
 - File: `results/final_figures/01_simulated_success_probability.png`
 - Graph type: faceted line/point graph.
+- Evidence type: `offline_proxy`.
+- Source script: `scripts/generate_final_figures.R`.
+- Source data: `results/tables/qubit_grouped_statistics.csv`.
+- Number of observations: 14 grouped proxy rows.
+- Main research question: How does model-estimated success change by circuit family,
+  qubit count, and architecture proxy?
 - Why this graph type: qubit count is ordered, so lines can show how the proxy estimate
   changes as circuit size increases.
 - X-axis: qubits in the logical circuit.
@@ -42,9 +48,10 @@ is not a universal algorithm success score.
 - Facets: algorithm family.
 - Main result visible: GHZ and QFT show a larger separation between the two proxy models
   as size increases.
-- What it does not prove: it does not prove measured hardware fidelity or universal
-  superiority.
-- Evidence type: `offline_proxy`.
+- Plain-language explanation: Higher points mean the model predicts the circuit is more
+  likely to finish correctly. The biggest differences appear for larger GHZ and QFT
+  circuits.
+- Scientific warning: Proxy-estimated success is not measured hardware fidelity.
 - Presentation script: "This figure shows the modeled success probability for the same
   circuits after each architecture proxy compiles them. The main takeaway is that
   topology matters more for some circuit families than for others."
@@ -53,6 +60,11 @@ is not a universal algorithm success score.
 
 - File: `results/final_figures/02_simulated_routing_swap_cost.png`
 - Graph type: faceted line/point graph.
+- Evidence type: `offline_proxy`.
+- Source script: `scripts/generate_final_figures.R`.
+- Source data: `results/tables/qubit_grouped_statistics.csv`.
+- Number of observations: 14 grouped proxy rows.
+- Main research question: How much routing detour work does each architecture proxy add?
 - Why this graph type: routing SWAP count is tracked across ordered qubit counts.
 - X-axis: qubits in the logical circuit.
 - Y-axis: mean routing SWAP count.
@@ -61,8 +73,10 @@ is not a universal algorithm success score.
 - Main result visible: GHZ and QFT require added SWAPs on the line-connected
   superconducting proxy, while the all-to-all trapped-ion proxy avoids routing SWAPs in
   these tested cases.
-- What it does not prove: it does not measure real device runtime or noise.
-- Evidence type: `offline_proxy`.
+- Plain-language explanation: A SWAP is an extra move the computer must make when two
+  qubits cannot connect directly. More SWAPs mean the circuit must take more detours.
+- Scientific warning: Routing SWAP count is a compiler/proxy metric, not a direct
+  provider benchmark.
 - Presentation script: "This graph shows why connectivity matters. When long-range
   interactions are needed, the line-connected model has to add routing moves."
 
@@ -70,6 +84,12 @@ is not a universal algorithm success score.
 
 - File: `results/final_figures/03_simulated_time_reliability_tradeoff.png`
 - Graph type: faceted scatter plot.
+- Evidence type: `offline_proxy`.
+- Source script: `scripts/generate_final_figures.R`.
+- Source data: `results/tables/qubit_grouped_statistics.csv`.
+- Number of observations: 14 grouped proxy rows.
+- Main research question: How do model-estimated runtime and model-estimated reliability
+  move together?
 - Why this graph type: it compares two numerical model outputs at the same time.
 - X-axis: estimated native execution duration in microseconds.
 - Y-axis: estimated success probability.
@@ -77,8 +97,11 @@ is not a universal algorithm success score.
 - Point size: qubit count.
 - Facets: algorithm family.
 - Main result visible: the proxy models separate most strongly for GHZ and QFT.
-- What it does not prove: it does not prove causation or measured physical performance.
-- Evidence type: `offline_proxy`.
+- Plain-language explanation: Points farther right take more estimated time. Points
+  higher up have better estimated reliability, so the best area is usually toward the
+  upper left.
+- Scientific warning: Runtime and success are calculated from fixed assumptions, not
+  measured hardware timing.
 - Presentation script: "This plot puts speed and reliability estimates on the same
   page. It shows that the main conclusion depends on the circuit family, not one single
   winner across everything."
@@ -90,6 +113,12 @@ is not a universal algorithm success score.
 - Manuscript correspondence: post-manuscript validation figure; it is not Manuscript
   Figure 9, 10, 11, or 12.
 - Graph type: box plot with visible observations.
+- Evidence type: `physical_hardware`.
+- Source script: `scripts/generate_final_figures.R`.
+- Source data: `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv`.
+- Number of observations: 115 physical-hardware validation circuits.
+- Main research question: What all-zero/all-one probability did the later IBM Kingston
+  validation package return by bit width?
 - Why this graph type: the IBM job has multiple pub results per measured bit-width
   group, so a box plot shows spread and individual observations.
 - X-axis: measured bit width.
@@ -97,10 +126,11 @@ is not a universal algorithm success score.
 - Color: IBM `ibm_kingston` hardware.
 - Main result visible: the all-zero/all-one probability generally declines and spreads
   across wider mixed validation circuits.
-- What it does not prove: all-zero/all-one probability is especially meaningful for
-  Bell/GHZ-style circuits and is not a universal success metric for QFT, Grover, or
-  every quantum algorithm.
-- Evidence type: `physical_hardware`.
+- Plain-language explanation: Higher values mean the real IBM hardware measured all
+  zeros or all ones more often. This measure is most useful for Bell and GHZ-style
+  circuits and is not a score for every algorithm.
+- Scientific warning: All-zero/all-one probability is most direct for Bell/GHZ-style
+  circuits and is not a universal algorithm success metric.
 - Dataset: later 115-circuit IBM validation package, job `d95vhvd2su3c739gc080`.
 - Presentation script: "This is the real IBM hardware validation. It is separate from
   the proxy-model tables, and the metric is easiest to interpret for Bell and GHZ-style
@@ -112,15 +142,24 @@ is not a universal algorithm success score.
 - Repository label: supplemental figure Q01.
 - Manuscript correspondence: post-manuscript emulator validation figure.
 - Graph type: grouped bar graph.
+- Evidence type: `emulator`.
+- Source script: `scripts/generate_final_figures.R`.
+- Source data: `results/tables/quantinuum_validation_plot_rows.csv`.
+- Number of observations: 6 emulator result rows.
+- Main research question: What did the Quantinuum Nexus emulator return for the stored
+  small validation circuits?
 - Why this graph type: there are a few named validation circuits and two emulator
   targets, which makes category comparison appropriate.
 - X-axis: validation circuit.
 - Y-axis: all-zero/all-one probability.
 - Fill color: Nexus emulator target.
-- Main result visible: the small emulator validation circuits returned expected-state
-  probabilities near 99-100%.
-- What it does not prove: these are not physical Quantinuum QPU measurements.
-- Evidence type: `emulator`.
+- Main result visible: the small emulator validation circuits returned the expected
+  answer pattern near 99-100%.
+- Plain-language explanation: Higher bars mean the emulator returned the expected answer
+  pattern more often. These results came from a Quantinuum Nexus emulator, not a
+  physical H2 quantum computer.
+- Scientific warning: Nexus emulator results are not physical Quantinuum QPU
+  measurements.
 - Presentation script: "This shows the Quantinuum Nexus emulator validation only. It
   confirms the workflow and small circuit behavior, but it is not physical Quantinuum
   QPU evidence."
