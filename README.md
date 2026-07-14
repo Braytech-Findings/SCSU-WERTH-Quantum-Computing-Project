@@ -231,6 +231,7 @@ not prove that one architecture is universally superior.
 
 Primary figures:
 
+- `results/final_figures/`
 - `results/figures/key_metric_summary.png`
 - `results/figures/logical_depth_baseline.png`
 - `results/figures/routed_depth_scaling_by_family.png`
@@ -240,6 +241,10 @@ Primary figures:
 - `results/figures/estimated_native_duration_scaling_by_family.png`
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
 - `results/figures/quantinuum_validation_expected_state_probability.png`
+
+The `results/final_figures/` folder is the curated presentation set. It includes the
+most important simulated/proxy architecture figures, the IBM hardware validation figure,
+and the Quantinuum Nexus emulator validation figure.
 
 Primary reports:
 

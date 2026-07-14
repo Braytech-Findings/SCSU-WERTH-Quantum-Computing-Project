@@ -55,6 +55,12 @@ entangling-gate counts are recorded after final native-basis decomposition.
 - `results/figures/logical_depth_baseline.png`
 - `results/figures/quantinuum_validation_expected_state_probability.png`
 
+## Final Figure Set
+
+The curated presentation figures are stored in `results/final_figures/`. They include
+the main simulated/proxy architecture comparisons, the extended IBM hardware validation
+figure, and the Quantinuum Nexus emulator validation figure.
+
 ## Plain-Language Interpretation
 
 | Circuit family | Connectivity demand | IBM proxy behavior | Quantinuum proxy behavior | Supported conclusion | Important limitation |

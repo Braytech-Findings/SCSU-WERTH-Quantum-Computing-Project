@@ -340,6 +340,21 @@ Figures are PNG images made from the saved results.
 | `results/figures/estimated_proxy_success_scaling_by_family.png` | Shows estimated success probability from proxy error assumptions. |
 | `results/figures/quantinuum_validation_expected_state_probability.png` | Shows the Quantinuum Nexus emulator validation results for Bell, GHZ-3, and Grover-2. |
 
+## Final Figures: `results/final_figures/`
+
+These are the curated presentation figures. They focus on the strongest evidence instead
+of showing every possible table column.
+
+| File | Plain English label |
+| --- | --- |
+| `results/final_figures/01_simulated_success_probability.png` | Compares estimated success probability for the superconducting proxy and trapped-ion proxy. |
+| `results/final_figures/02_simulated_routing_swap_cost.png` | Shows where restricted connectivity adds routing SWAPs in the simulated/proxy study. |
+| `results/final_figures/03_simulated_time_reliability_tradeoff.png` | Shows the estimated runtime and reliability tradeoff for the simulated/proxy study. |
+| `results/final_figures/04_ibm_hardware_expected_state_probability.png` | Summarizes the extended IBM `ibm_kingston` hardware validation counts. |
+| `results/final_figures/05_quantinuum_nexus_emulator_validation.png` | Summarizes the Quantinuum Nexus emulator validation counts. |
+| `results/final_figures/final_figures_manifest.csv` | Lists the final figures and what each one means. |
+| `results/final_figures/README.md` | Explains the final figure folder and how to regenerate it. |
+
 ## Reports: `results/reports/`
 
 Reports are written explanations of the generated results.
