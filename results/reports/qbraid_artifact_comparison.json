@@ -1,6 +1,6 @@
 {
   "baseline_csv": "data/processed/results_20260623T223649Z.csv",
-  "candidate_csv": "data/processed/results_20260623T223649Z.csv",
+  "candidate_csv": "data/processed/results_20260714T191232Z.csv",
   "results_match": true,
   "mismatch": null,
   "table_checks": {
