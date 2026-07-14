@@ -1,0 +1,49 @@
+{
+  "execute_job_name": "execute-H2-1LE-20260714T173914Z",
+  "notes": [
+    "This file intentionally excludes Quantinuum passwords, tokens, account secrets, and internal Nexus UUID refs.",
+    "These data are separate from the offline proxy-model result tables."
+  ],
+  "project": "SCSU WERTH Quantum Validation",
+  "provider": "quantinuum",
+  "results": [
+    {
+      "counts": {
+        "00": 43,
+        "11": 57
+      },
+      "distribution": {
+        "00": 0.43,
+        "11": 0.57
+      },
+      "index": 0,
+      "result_type": "BackendResult"
+    },
+    {
+      "counts": {
+        "000": 54,
+        "111": 46
+      },
+      "distribution": {
+        "000": 0.54,
+        "111": 0.46
+      },
+      "index": 1,
+      "result_type": "BackendResult"
+    },
+    {
+      "counts": {
+        "11": 100
+      },
+      "distribution": {
+        "11": 1.0
+      },
+      "index": 2,
+      "result_type": "BackendResult"
+    }
+  ],
+  "retrieved_at_utc": "2026-07-14T17:40:25.273022+00:00",
+  "route": "Quantinuum Nexus",
+  "shots_per_circuit": 100,
+  "target": "H2-1LE"
+}

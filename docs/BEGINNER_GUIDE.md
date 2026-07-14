@@ -7,8 +7,8 @@ to change the circuit before it is ready for that style.
 
 Most of the architecture comparison is an offline model. That means the code runs on a
 normal computer and uses clear assumptions instead of live hardware calibration data. The
-repository also includes separate IBM Quantum hardware validation files from jobs that
-were actually run on an IBM machine.
+repository also includes separate IBM Quantum hardware validation files and Quantinuum
+Nexus emulator validation files from jobs that were actually run through provider tools.
 
 ## Classical bits
 A classical bit can be either 0 or 1. It is like a light switch that is either off or on.

@@ -191,8 +191,9 @@ Final figures:
 
 - The IBM and Quantinuum architecture-comparison targets are offline proxy models, not
   live calibrated hardware snapshots.
-- The separate IBM hardware validation artifacts are real IBM Quantum results, but they
-  are not broad hardware benchmarks.
+- The separate IBM hardware validation artifacts are real IBM Quantum results, and the
+  separate Quantinuum Nexus artifacts are real provider emulator results. They are not
+  broad hardware benchmarks.
 - Duration and success-probability values come from proxy assumptions, not provider
   calibration data.
 - Quantinuum compilation uses a Qiskit `rzz` proxy rather than pytket Quantinuum passes.

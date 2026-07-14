@@ -6,7 +6,8 @@ the code builds the experiment, the config says what to test, the data stores wh
 happened, and the reports explain what the results mean.
 
 Important safety note: this project has two parts. The comparison tables use offline
-proxy models. The IBM hardware validation files are real IBM Quantum machine results
+proxy models. The IBM hardware validation files are real IBM Quantum machine results,
+and the Quantinuum Nexus validation files are real provider emulator results. Both are
 saved separately under `results/hardware/`. The project does not invent live hardware
 calibration values.
 
@@ -25,7 +26,8 @@ calibration values.
 Here is the simple version: qBraid is the place where the project can be opened, tested,
 and run. IBM and Quantinuum are the two architecture styles being compared by the code.
 In this repository, the IBM and Quantinuum comparison rows are offline proxy-model rows.
-The separate IBM hardware files are actual IBM Quantum results.
+The separate IBM hardware files are actual IBM Quantum results, and the separate
+Quantinuum Nexus files are actual provider emulator results.
 
 ### qBraid
 
@@ -361,6 +363,10 @@ estimates.
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080.json` | Safe raw output from the longer IBM hardware job after it finished. It keeps the measured counts and removes private IBM account details. |
 | `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv` | A smaller table summarizing the longer IBM job by pub result, bit-width, shot count, and all-zero/all-one probability. |
 | `results/hardware/quantinuum_validation_plan.json` | The first safe Quantinuum Nexus dry-run plan for `H2-1E`. It lists the planned circuits and shots before any Nexus job is created. |
+| `results/hardware/quantinuum_submission_H2-1E_20260714T173701Z.json` | Safe metadata for the `H2-1E` Nexus compile-only validation. Execution on this target was not used for the saved result. |
+| `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json` | Safe metadata for the successful `H2-1LE` Nexus emulator execution. |
+| `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json` | Downloaded counts from the successful `H2-1LE` Nexus emulator execution. |
+| `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv` | Compact summary of the successful `H2-1LE` Nexus emulator execution. |
 
 ## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
 
@@ -416,6 +422,6 @@ The safest interpretation is:
 - The Quantinuum proxy's all-to-all connectivity avoids routing SWAPs for these tested
   circuits.
 - The duration and success-probability numbers are estimates from proxy assumptions.
-- The IBM hardware validation files are real IBM Quantum results and are stored
-  separately from those estimates.
+- The IBM hardware validation files and Quantinuum Nexus emulator files are real
+  provider results and are stored separately from those estimates.
 - The project does not prove that one real hardware system is always better than another.

@@ -174,23 +174,24 @@ def run_nexus_workflow(
         print("python -m pip install pytket-qiskit pytket qnexus")
         return 2
 
+    qnx_client: Any = qnx
     name_suffix = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    project = qnx.projects.get_or_create(args.project)
-    qnx.context.set_active_project(project)
-    backend_config = qnx.QuantinuumConfig(device_name=args.target)
+    project = qnx_client.projects.get_or_create(args.project)
+    qnx_client.context.set_active_project(project)
+    backend_config = qnx_client.QuantinuumConfig(device_name=args.target)
 
     uploaded_refs = []
     for circuit in circuits:
         tket_circuit = qiskit_to_tk(circuit)
         uploaded_refs.append(
-            qnx.circuits.upload(
+            qnx_client.circuits.upload(
                 circuit=tket_circuit,
                 name=f"{circuit.name}-{name_suffix}",
             )
         )
 
     compile_job_name = f"compile-{args.target}-{name_suffix}"
-    compile_job = qnx.start_compile_job(
+    compile_job = qnx_client.start_compile_job(
         circuits=uploaded_refs,
         optimisation_level=args.optimization_level,
         backend_config=backend_config,
@@ -200,23 +201,23 @@ def run_nexus_workflow(
 
     compiled_refs: list[Any] = []
     if args.wait or args.execute_nexus or args.estimate_cost:
-        qnx.jobs.wait_for(compile_job)
-        compiled_refs = [result.get_output() for result in qnx.jobs.results(compile_job)]
+        qnx_client.jobs.wait_for(compile_job)
+        compiled_refs = [result.get_output() for result in qnx_client.jobs.results(compile_job)]
         print(f"Compiled circuits available: {len(compiled_refs)}")
 
     cost_estimates = []
     if args.estimate_cost and compiled_refs:
-        cost_estimates = estimate_costs(qnx, compiled_refs, args.target, args.shots)
+        cost_estimates = estimate_costs(qnx_client, compiled_refs, args.target, args.shots)
 
     execute_job_name = None
     execute_job = None
     downloaded_results: list[dict[str, Any]] = []
     if args.execute_nexus:
         if not compiled_refs:
-            qnx.jobs.wait_for(compile_job)
-            compiled_refs = [result.get_output() for result in qnx.jobs.results(compile_job)]
+            qnx_client.jobs.wait_for(compile_job)
+            compiled_refs = [result.get_output() for result in qnx_client.jobs.results(compile_job)]
         execute_job_name = f"execute-{args.target}-{name_suffix}"
-        execute_job = qnx.start_execute_job(
+        execute_job = qnx_client.start_execute_job(
             circuits=compiled_refs,
             backend_config=backend_config,
             n_shots=[args.shots] * len(compiled_refs),
@@ -224,8 +225,8 @@ def run_nexus_workflow(
         )
         print(f"Started Quantinuum execute job: {execute_job_name}")
         if args.wait:
-            qnx.jobs.wait_for(execute_job)
-            result_refs = qnx.jobs.results(execute_job)
+            qnx_client.jobs.wait_for(execute_job)
+            result_refs = qnx_client.jobs.results(execute_job)
             downloaded_results = [
                 extract_quantinuum_result(index, result_ref.download_result())
                 for index, result_ref in enumerate(result_refs)
@@ -242,13 +243,11 @@ def run_nexus_workflow(
         "circuit_count": len(circuits),
         "plan_path": str(plan_path),
         "compile_job_name": compile_job_name,
-        "compile_job_ref": _safe_string(compile_job),
         "execute_job_name": execute_job_name,
-        "execute_job_ref": _safe_string(execute_job),
         "cost_estimates": cost_estimates,
         "result_count": len(downloaded_results),
         "notes": [
-            "This file intentionally excludes Quantinuum passwords, tokens, and account secrets.",
+            "This file intentionally excludes Quantinuum passwords, tokens, account secrets, and internal Nexus UUID refs.",
             "These data are separate from the offline proxy-model result tables.",
         ],
     }
@@ -267,7 +266,7 @@ def run_nexus_workflow(
             "shots_per_circuit": args.shots,
             "results": downloaded_results,
             "notes": [
-                "This file intentionally excludes Quantinuum passwords, tokens, and account secrets.",
+                "This file intentionally excludes Quantinuum passwords, tokens, account secrets, and internal Nexus UUID refs.",
                 "These data are separate from the offline proxy-model result tables.",
             ],
         }
@@ -299,7 +298,11 @@ def estimate_costs(qnx: Any, compiled_refs: list[Any], target: str, shots: int) 
 
 def extract_quantinuum_result(index: int, result: Any) -> dict[str, Any]:
     counts = _maybe_call(result, "get_counts")
-    distribution = _maybe_call(result, "get_distribution")
+    distribution = (
+        _maybe_call(result, "get_empirical_distribution")
+        or _maybe_call(result, "get_probability_distribution")
+        or _maybe_call(result, "get_distribution")
+    )
     return {
         "index": index,
         "result_type": type(result).__name__,

@@ -1,0 +1,19 @@
+{
+  "circuit_count": 3,
+  "compile_job_name": "compile-H2-1E-20260714T173701Z",
+  "cost_estimates": [],
+  "execute_job_name": null,
+  "notes": [
+    "This file intentionally excludes Quantinuum passwords, tokens, account secrets, and internal Nexus UUID refs.",
+    "These data are separate from the offline proxy-model result tables."
+  ],
+  "plan_path": "results/hardware/quantinuum_validation_plan.json",
+  "project": "SCSU WERTH Quantum Validation",
+  "provider": "quantinuum",
+  "result_count": 0,
+  "route": "Quantinuum Nexus",
+  "shots_per_circuit": 100,
+  "submitted_at_utc": "2026-07-14T17:37:52.504449+00:00",
+  "suite": "small",
+  "target": "H2-1E"
+}

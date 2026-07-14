@@ -5,7 +5,7 @@ algorithmic logical circuits, topology-routed circuits, and final native-basis c
 They are not real-hardware benchmarks and do not report measured IBM or Quantinuum
 hardware performance, physical fidelity, or experimentally measured execution time.
 The repository now also includes separate real IBM Quantum hardware validation artifacts
-under `results/hardware/`.
+and Quantinuum Nexus emulator validation artifacts under `results/hardware/`.
 
 ## How To Read This Report
 
@@ -83,8 +83,8 @@ Grover diagnostics: `results/tables/grover_diagnostic_report.csv`
 ## Optional Real-Hardware Preparation
 
 This report still summarizes the proxy-model tables. The repository also contains
-finished IBM hardware validation results. To prepare another small provider test without
-submitting a job, run:
+finished IBM hardware validation results and a finished Quantinuum Nexus emulator
+validation result. To prepare another small provider test without submitting a job, run:
 
 ```bash
 python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
@@ -106,12 +106,23 @@ pub results and 471,040 total retrieved shots. Sanitized artifacts are stored in
 `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv`. These hardware jobs are not
 used in the proxy-model conclusions.
 
+A Quantinuum Nexus emulator validation is recorded separately in
+`docs/QUANTINUUM_HARDWARE_VALIDATION.md`. The `H2-1E` target accepted compilation but
+rejected execution for this account. The Nexus-hosted `H2-1LE` emulator target completed
+execution with 3 small circuits and 100 shots per circuit. Sanitized artifacts are stored
+in `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json`,
+`results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json`, and
+`results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv`. This emulator
+validation is not used in the proxy-model conclusions.
+
 ## Remaining Scientific Limitations
 
 - The comparison-table targets are offline proxies, not current calibrated hardware
   snapshots.
 - The separate IBM hardware validation artifacts are real machine results, but they are
   not broad hardware benchmarks.
+- The separate Quantinuum Nexus artifacts are real provider emulator results, but they
+  are not physical H2 hardware measurements.
 - Quantinuum compilation uses a Qiskit RZZ proxy rather than pytket Quantinuum passes.
 - Duration and error values are proxy assumptions; they are not hardware metadata.
 - Lower duration or higher success estimates under these assumptions do not prove universal architecture superiority.

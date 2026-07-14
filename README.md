@@ -10,14 +10,15 @@ This repository is a sanitized independent research implementation comparing how
 same logical quantum circuits compile under two architecture-aware proxy models, then
 recording real IBM Quantum hardware validation as separate evidence. The architecture
 comparison tables use an IBM-style superconducting proxy and a Quantinuum-style
-trapped-ion proxy. The hardware validation files show what an actual IBM backend
-returned for submitted jobs.
+trapped-ion proxy. The provider validation files show what an actual IBM backend and a
+Quantinuum Nexus emulator target returned for submitted jobs.
 
 The study is intentionally cautious. The proxy tables are not direct hardware
 benchmarks, and they do not claim measured device fidelity, measured execution time,
 queue behavior, or live calibration performance. Estimated native execution duration
 and estimated success probability come from documented proxy assumptions. Real IBM
-hardware counts are saved separately under `results/hardware/`.
+hardware counts and Quantinuum Nexus emulator counts are saved separately under
+`results/hardware/`.
 
 ## Start Here
 
@@ -29,8 +30,9 @@ hardware counts are saved separately under `results/hardware/`.
   deeper circuits, estimated time, and estimated success.
 - The architecture comparison tables are offline model results. They are useful for
   learning and comparison, but they are not claims about live IBM or Quantinuum hardware.
-- The IBM hardware validation artifacts are real machine results and are kept in
-  `results/hardware/` so readers can see them without mixing them into the proxy tables.
+- The IBM hardware validation artifacts and Quantinuum Nexus emulator artifacts are real
+  provider results and are kept in `results/hardware/` so readers can see them without
+  mixing them into the proxy tables.
 
 ## Research Question
 
@@ -157,9 +159,11 @@ Two IBM Quantum hardware jobs are documented separately in
 `docs/IBM_HARDWARE_VALIDATION.md`. Their sanitized counts are stored under
 `results/hardware/`. The Quantinuum Nexus validation path is documented in
 `docs/QUANTINUUM_HARDWARE_VALIDATION.md`, with safe plan/compile/execute commands for
-the reported `H2-1E`, `H2-2E`, `H2-1SC`, and `H2-2SC` targets. These provider artifacts
-are not included in the proxy-model tables because real provider outputs and offline
-proxy estimates answer different questions.
+the reported `H2-1E`, `H2-2E`, `H2-1SC`, and `H2-2SC` targets. The first successful
+Quantinuum Nexus execution used the Nexus-hosted `H2-1LE` emulator target and saved
+sanitized counts under `results/hardware/`. These provider artifacts are not included in
+the proxy-model tables because real provider outputs and offline proxy estimates answer
+different questions.
 
 Official documentation checked for this section:
 
