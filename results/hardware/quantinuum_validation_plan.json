@@ -39,7 +39,7 @@
       "qubits": 2
     }
   ],
-  "created_at_utc": "2026-07-14T17:47:43.799405+00:00",
+  "created_at_utc": "2026-07-14T17:55:16.416552+00:00",
   "execute_requested": true,
   "optimization_level": 0,
   "project": "SCSU WERTH Quantum Validation",
@@ -48,7 +48,7 @@
   "safety_note": "This is a Quantinuum Nexus validation plan. It is separate from offline proxy-model results. Execution can consume HQCs, simulator quota, or other account quota depending on the selected target.",
   "shots_per_circuit": 100,
   "suite": "small",
-  "target": "H2-2E",
-  "target_note": "Target name looks like an emulator. It may use simulator quota rather than hardware HQCs.",
+  "target": "H2-Emulator",
+  "target_note": "Target name does not end in E or SC. Confirm cost before execution.",
   "total_requested_shots": 300
 }

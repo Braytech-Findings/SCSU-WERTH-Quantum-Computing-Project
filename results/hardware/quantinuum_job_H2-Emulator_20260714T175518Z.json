@@ -1,0 +1,43 @@
+{
+  "execute_job_name": "execute-H2-Emulator-20260714T175518Z",
+  "notes": [
+    "This file intentionally excludes Quantinuum passwords, tokens, account secrets, and internal Nexus UUID refs.",
+    "These data are separate from the offline proxy-model result tables."
+  ],
+  "project": "SCSU WERTH Quantum Validation",
+  "provider": "quantinuum",
+  "results": [
+    {
+      "counts": {
+        "00": 52,
+        "11": 48
+      },
+      "distribution": null,
+      "index": 0,
+      "result_type": "BackendResult"
+    },
+    {
+      "counts": {
+        "000": 52,
+        "101": 1,
+        "111": 47
+      },
+      "distribution": null,
+      "index": 1,
+      "result_type": "BackendResult"
+    },
+    {
+      "counts": {
+        "10": 1,
+        "11": 99
+      },
+      "distribution": null,
+      "index": 2,
+      "result_type": "BackendResult"
+    }
+  ],
+  "retrieved_at_utc": "2026-07-14T17:58:11.757531+00:00",
+  "route": "Quantinuum Nexus",
+  "shots_per_circuit": 100,
+  "target": "H2-Emulator"
+}

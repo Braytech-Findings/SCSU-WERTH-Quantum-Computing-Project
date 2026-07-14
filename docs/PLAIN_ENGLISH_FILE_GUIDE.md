@@ -368,6 +368,9 @@ estimates.
 | `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json` | Safe metadata for the successful `H2-1LE` Nexus emulator execution. |
 | `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json` | Downloaded counts from the successful `H2-1LE` Nexus emulator execution. |
 | `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv` | Compact summary of the successful `H2-1LE` Nexus emulator execution. |
+| `results/hardware/quantinuum_submission_H2-Emulator_20260714T175518Z.json` | Safe metadata for the successful `H2-Emulator` Nexus execution. |
+| `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json` | Downloaded counts from the successful `H2-Emulator` Nexus execution. |
+| `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv` | Compact summary of the successful `H2-Emulator` Nexus execution. |
 
 ## Build Metadata: `src/quantum_architecture_comparison.egg-info/`
 

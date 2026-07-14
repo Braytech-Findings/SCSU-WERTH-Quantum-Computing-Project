@@ -9,6 +9,7 @@ Quantinuum-side companion to `docs/IBM_HARDWARE_VALIDATION.md`.
 - Emulator-style targets: `H2-1E`, `H2-2E`
 - Syntax-checker/compiler-style targets: `H2-1SC`, `H2-2SC`
 - Nexus-hosted local emulator target discovered during validation: `H2-1LE`
+- Nexus-hosted H2 emulator target discovered during validation: `H2-Emulator`
 - Reported HQC balance for emulator-style targets: `20000.00`
 - Reported syntax-checker balance: unlimited
 - Quota reset window at the time reported: 17 days
@@ -18,8 +19,8 @@ The target names ending in `E` look like emulator targets. The target names endi
 paths, but do not describe them as physical H2 hardware unless the Nexus dashboard shows
 a non-emulator hardware target and an execution job is actually submitted to that target.
 During validation, `H2-1E` and `H2-2E` accepted compilation but rejected execution for
-this account with a machine-access error. The Nexus-hosted `H2-1LE` emulator target
-accepted both compilation and execution.
+this account with a machine-access error. The Nexus-hosted `H2-1LE` and `H2-Emulator`
+targets accepted both compilation and execution.
 
 ## Safe First Run
 
@@ -103,6 +104,32 @@ Compact result summary:
 
 These are real Quantinuum Nexus emulator results, not offline proxy estimates and not
 physical H2 hardware measurements.
+
+### H2-Emulator Execution
+
+- Target: `H2-Emulator`
+- Suite: `small`
+- Shots per circuit: `100`
+- Circuits: `3`
+- Compile job name: `compile-H2-Emulator-20260714T175518Z`
+- Execute job name: `execute-H2-Emulator-20260714T175518Z`
+- Submission artifact:
+  `results/hardware/quantinuum_submission_H2-Emulator_20260714T175518Z.json`
+- Counts artifact:
+  `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json`
+- Summary artifact:
+  `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv`
+
+Compact result summary:
+
+| Result index | Circuit | Bit width | Shots | Dominant/expected result summary |
+| ---: | --- | ---: | ---: | --- |
+| 0 | Bell state | 2 | 100 | `00`: 52, `11`: 48 |
+| 1 | GHZ-3 | 3 | 100 | `000`: 52, `111`: 47, one `101` count |
+| 2 | Grover-2 | 2 | 100 | `11`: 99, one `10` count |
+
+These are real Quantinuum Nexus H2 emulator results, not offline proxy estimates and
+not physical H2 hardware measurements.
 
 ## What The Script Saves
 

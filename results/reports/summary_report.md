@@ -115,6 +115,13 @@ artifacts are stored in `results/hardware/quantinuum_submission_H2-1LE_20260714T
 `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv`. This emulator
 validation is not used in the proxy-model conclusions.
 
+The Nexus-hosted `H2-Emulator` target also completed execution with 3 small circuits and
+100 shots per circuit. Sanitized artifacts are stored in
+`results/hardware/quantinuum_submission_H2-Emulator_20260714T175518Z.json`,
+`results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json`, and
+`results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv`. This is a
+provider emulator result, not a physical H2 hardware measurement.
+
 ## Remaining Scientific Limitations
 
 - The comparison-table targets are offline proxies, not current calibrated hardware
