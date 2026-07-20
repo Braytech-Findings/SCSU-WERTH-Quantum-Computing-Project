@@ -1,8 +1,6 @@
 name: Research question or interpretation
 description: Propose an experiment, ask about a result, or suggest a scientifically cautious extension
 title: "[Research]: "
-labels:
-  - research
 body:
   - type: markdown
     attributes:
