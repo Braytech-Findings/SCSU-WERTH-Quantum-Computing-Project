@@ -1,113 +1,166 @@
-# Different Roads to the Same Circuit: Quantum Architecture Comparison
+<div align="center">
 
-## Overview
+# Different Roads to the Same Circuit
 
-In one sentence: this project asks, "If we give two different quantum-computer styles
-the same small circuits, how much does each style have to rewrite those circuits before
-it can run them?"
+### A reproducible quantum-architecture comparison across superconducting and trapped-ion models
 
-This repository is a sanitized independent research implementation comparing how the
-same logical quantum circuits compile under two architecture-aware proxy models, then
-recording real IBM Quantum hardware validation as separate evidence. The architecture
-comparison tables use an IBM-style superconducting proxy and a Quantinuum-style
-trapped-ion proxy. The provider validation files show what an actual IBM backend and a
-Quantinuum Nexus emulator target returned for submitted jobs.
+[![CI](https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project/actions/workflows/ci.yml/badge.svg)](https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project/actions/workflows/ci.yml)
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Qiskit](https://img.shields.io/badge/Qiskit-1.3%2B-6929C4?logo=qiskit&logoColor=white)](https://www.ibm.com/quantum/qiskit)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2ea44f.svg)](LICENSE)
+[![Research status](https://img.shields.io/badge/Research-v1.0.0-0A7EA4)](FINAL_STATUS.md)
 
-The study is intentionally cautious. The proxy tables are not direct hardware
-benchmarks, and they do not claim measured device fidelity, measured execution time,
-queue behavior, or live calibration performance. Estimated native execution duration
-and estimated success probability come from documented proxy assumptions. Real IBM
-hardware counts and Quantinuum Nexus emulator counts are saved separately under
-`results/hardware/`.
+**Same logical circuits. Different hardware constraints. Measurable compilation consequences.**
 
-## Relationship To The July 2026 Manuscript
+[Start here](#start-here) · [See the results](#key-results) · [Run the project](#quickstart) · [Read the manuscript notes](docs/MANUSCRIPT_REPOSITORY_ALIGNMENT.md) · [Browse the figure gallery](docs/PROJECT_SHOWCASE.md)
 
-The formal manuscript for this project is titled **"Do Standardized Quantum Algorithms
-Perform Differently Across Hardware?"** The repository release is titled **"Different
-Roads to the Same Circuit: Quantum Architecture Comparison."** These are not competing
-titles: the manuscript is the research paper, while this repository is the broader
-public code, data, documentation, and figure archive.
+</div>
 
-The manuscript's main statistical IBM analysis is the original 90-circuit IBM Kingston
-GHZ stress experiment. After that manuscript was written, the repository added a
-separate 115-circuit IBM Kingston validation package and Quantinuum Nexus emulator
-validation. These additions broaden the evidence record, but they do not convert the
-study into a matched physical IBM-versus-Quantinuum QPU comparison.
+---
 
-Current evidence structure:
+## The project in one sentence
 
-- Phase I: controlled architecture proxies for Bell, GHZ, Grover, and QFT.
-- Phase II: IBM Kingston physical-hardware evidence, with the original 90-circuit GHZ
-  stress study kept separate from the later 115-circuit validation package.
-- Phase III: Quantinuum Nexus emulator validation for the stored small-circuit suite.
+This project asks: **when the same quantum circuit is prepared for two different hardware styles, how much extra routing, depth, entangling work, estimated time, and estimated error does each architecture introduce?**
 
-Useful links:
+The comparison uses:
 
-- Manuscript/repository alignment: `docs/MANUSCRIPT_REPOSITORY_ALIGNMENT.md`
-- Manuscript revision notes: `docs/MANUSCRIPT_REVISION_NOTES.md`
-- IBM hardware validation: `docs/IBM_HARDWARE_VALIDATION.md`
-- Quantinuum Nexus validation: `docs/QUANTINUUM_HARDWARE_VALIDATION.md`
-- Final figures: `results/final_figures/`
-- R visualizations: `results/final_figures/r_visualizations/`
-- Figure interpretation guide: `docs/FIGURE_INTERPRETATION_GUIDE.md`
+- an **IBM-style superconducting proxy** with line-limited qubit connectivity;
+- a **Quantinuum-style trapped-ion proxy** with all-to-all connectivity;
+- separate **IBM Quantum physical-hardware evidence**; and
+- separate **Quantinuum Nexus emulator evidence**.
 
-## Start Here
+> [!IMPORTANT]
+> The offline architecture tables are **proxy-model results**, not a direct IBM-versus-Quantinuum physical-QPU benchmark. Physical hardware, emulator, syntax-checker, and proxy evidence are deliberately kept separate.
 
-- The starting circuits are the same for every comparison.
-- The IBM-style proxy acts like qubits are sitting in a line, so some qubits must be
-  moved next to each other before they can interact.
-- The Quantinuum-style proxy acts like any qubit can interact with any other qubit.
-- The code measures how much extra work each style needs: extra moves, extra gates,
-  deeper circuits, estimated time, and estimated success.
-- The architecture comparison tables are offline model results. They are useful for
-  learning and comparison, but they are not claims about live IBM or Quantinuum hardware.
-- The IBM hardware validation artifacts and Quantinuum Nexus emulator artifacts are real
-  provider results and are kept in `results/hardware/` so readers can see them without
-  mixing them into the proxy tables.
+## Start here
 
-## Research Question
+| Reader | Best first stop |
+|---|---|
+| New to quantum computing | [Beginner guide](docs/BEGINNER_GUIDE.md) |
+| Wants the main visual story | [Project showcase](docs/PROJECT_SHOWCASE.md) |
+| Wants the methods | [Experiment protocol](docs/EXPERIMENT_PROTOCOL.md) |
+| Wants the code explained | [Code walkthrough](docs/CODE_WALKTHROUGH.md) |
+| Wants the data columns defined | [Data dictionary](docs/DATA_DICTIONARY.md) |
+| Wants the limitations | [Limitations](docs/LIMITATIONS.md) |
+| Wants IBM validation details | [IBM hardware validation](docs/IBM_HARDWARE_VALIDATION.md) |
+| Wants Quantinuum validation details | [Quantinuum Nexus validation](docs/QUANTINUUM_HARDWARE_VALIDATION.md) |
+| Wants manuscript alignment | [Manuscript–repository alignment](docs/MANUSCRIPT_REPOSITORY_ALIGNMENT.md) |
 
-How do the same logical circuits change after topology routing and native-basis
-decomposition for superconducting-proxy and trapped-ion-proxy architectures?
+## Why this matters
 
-## Architectures Compared
+Quantum algorithms are written as logical gates, but real devices cannot always execute those gates directly. A compiler must translate the circuit into the device's native operations and obey its connectivity rules.
 
-- IBM proxy: a line-coupled GenericBackendV2-style superconducting proxy using `rz`,
-  `sx`, `x`, and `cx` as native unitary operations.
-- Quantinuum proxy: an all-to-all H-series-style trapped-ion proxy using `rz`, `rx`,
-  and Qiskit `rzz` as an offline ZZ-type entangling proxy.
+That translation can add:
 
-Both pipelines start from the same logical Qiskit circuits. The comparison separates
-logical circuits, routed circuits, and native-compiled circuits.
+- **SWAP gates** to move quantum information;
+- **extra entangling gates** after decomposition;
+- **greater circuit depth**;
+- **longer estimated execution time**; and
+- **more opportunities for error**.
 
-## Circuit Families
+This project makes those hidden architecture costs visible and reproducible.
 
-- Bell state, 2 qubits.
-- GHZ states, 3, 5, and 7 qubits.
-- QFT circuits, 3 and 5 qubits.
-- Grover search, currently a 2-qubit circuit.
+## Study design
 
-## Metrics
+```mermaid
+flowchart LR
+    A[Same logical circuit] --> B[Ideal baseline]
+    A --> C[IBM-style superconducting proxy]
+    A --> D[Quantinuum-style trapped-ion proxy]
+    C --> E[Routing + native decomposition]
+    D --> F[Native decomposition]
+    E --> G[Depth, SWAPs, entangling gates, time, success]
+    F --> G
+    G --> H[Matched architecture comparison]
 
-The main metrics are:
+    I[IBM Kingston jobs] --> J[Separate physical-hardware evidence]
+    K[Quantinuum Nexus H2-1LE] --> L[Separate emulator evidence]
+```
 
-- logical depth;
-- routed depth;
-- native-compiled depth;
+### Circuit families
+
+| Family | Sizes in the controlled suite | What it helps expose |
+|---|---:|---|
+| Bell | 2 qubits | Basic entanglement and pipeline sanity |
+| GHZ | 3, 5, and 7 qubits | Connectivity and scaling pressure |
+| QFT | 3 and 5 qubits | Dense interaction requirements |
+| Grover | 2 qubits | Small search-circuit behavior |
+
+### Architectures
+
+| Model | Connectivity assumption | Native unitary basis | Expected routing behavior |
+|---|---|---|---|
+| IBM-style superconducting proxy | Line coupled | `rz`, `sx`, `x`, `cx` | Non-neighbor interactions may require SWAPs |
+| Quantinuum-style trapped-ion proxy | All to all | `rz`, `rx`, `rzz` proxy | No topology SWAPs for the tested circuits |
+
+## Evidence map
+
+| Phase | Evidence type | What it supports | What it does **not** support |
+|---|---|---|---|
+| I | Offline architecture proxies | Controlled, matched compilation comparison | Live device ranking |
+| II | IBM Kingston physical hardware | Real measured counts from IBM hardware | Matched IBM-versus-Quantinuum QPU comparison |
+| III | Quantinuum Nexus emulator | Provider-hosted emulator execution and workflow validation | Physical Quantinuum H2 performance claims |
+| Supporting | Syntax checker and qBraid validation | Compatibility, reproducibility, and pipeline checks | Hardware execution outcomes |
+
+## Key results
+
+The verified proxy baseline is `data/processed/results_20260623T223649Z.csv` and contains **63 rows**: 21 ideal baseline rows and 42 architecture-proxy rows.
+
+1. **Small circuits hide architecture differences.** Bell and the current 2-qubit Grover circuit are too small to create meaningful routing separation.
+2. **Connectivity matters as circuits grow.** GHZ and QFT circuits require more routing work on the line-coupled IBM proxy.
+3. **The result is structural, not a universal winner.** Under this study's fixed proxy assumptions, the trapped-ion proxy has lower estimated duration and higher estimated success for the tested matched circuits, but that does not prove universal hardware superiority.
+
+<div align="center">
+  <img src="results/figures/key_metric_summary.png" alt="Summary of the main architecture comparison metrics" width="900">
+  <p><em>Controlled proxy comparison across the project's key compilation and performance-estimate metrics.</em></p>
+</div>
+
+### Curated evidence figures
+
+<table>
+<tr>
+<td width="50%" align="center">
+<img src="results/final_figures/02_simulated_routing_swap_cost.png" alt="Simulated routing SWAP cost" width="100%"><br>
+<strong>Routing cost</strong><br>
+Line-limited connectivity creates detours for larger circuits.
+</td>
+<td width="50%" align="center">
+<img src="results/final_figures/03_simulated_time_reliability_tradeoff.png" alt="Simulated time and reliability tradeoff" width="100%"><br>
+<strong>Time–reliability tradeoff</strong><br>
+Proxy timing and error assumptions show the modeled cost of added work.
+</td>
+</tr>
+<tr>
+<td width="50%" align="center">
+<img src="results/final_figures/04_ibm_hardware_expected_state_probability.png" alt="IBM hardware expected-state probability" width="100%"><br>
+<strong>IBM physical hardware</strong><br>
+Saved IBM Kingston job evidence, kept separate from proxy tables.
+</td>
+<td width="50%" align="center">
+<img src="results/final_figures/05_quantinuum_nexus_emulator_validation.png" alt="Quantinuum Nexus emulator validation" width="100%"><br>
+<strong>Quantinuum Nexus emulator</strong><br>
+Provider-emulator evidence, not physical H2 QPU measurement.
+</td>
+</tr>
+</table>
+
+See the [full visual gallery and plain-language interpretations](docs/PROJECT_SHOWCASE.md).
+
+## Metrics recorded
+
+- logical, routed, and native-compiled depth;
 - routing SWAP count;
 - native entangling-gate count;
 - estimated native execution duration;
 - estimated success probability;
-- unsupported native-operation count;
+- unsupported native-operation count; and
 - logical-to-native equivalence status.
 
-Measurement bitstring endianness follows Qiskit conventions. Measurement and unavailable
-values are stored as `null` where a value is not available rather than as a fabricated
-zero.
+Unavailable values are stored as `null`, not fabricated as zero. Measurement bitstrings follow Qiskit endianness conventions.
 
-## Installation
+## Quickstart
 
-Use Python 3.11 or newer.
+### 1. Install
 
 ```bash
 python -m venv .venv
@@ -116,248 +169,148 @@ python -m pip install --upgrade pip
 python -m pip install -e .
 ```
 
-The default workflow does not require API keys and does not submit hardware jobs.
+Windows PowerShell activation:
 
-## Running The Project
+```powershell
+.venv\Scripts\Activate.ps1
+```
 
-Check that the package imports and the CLI is available:
+### 2. Check the environment
 
 ```bash
 python -m quantum_compare.cli check
 ```
 
-Run the full offline proxy-model experiment suite:
+### 3. Run the controlled proxy suite
 
 ```bash
 python -m quantum_compare.cli run --backend all --suite core
 ```
 
-Generate tables, figures, and the summary report from the newest processed CSV:
+### 4. Regenerate figures and reports
 
 ```bash
 python -m quantum_compare.cli report
 ```
 
-Run the script form of the same full workflow:
-
-```bash
-python scripts/generate_report.py
-```
-
-Compare a regenerated run with the verified baseline:
-
-```bash
-python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv
-```
-
-Run tests:
+### 5. Validate the code
 
 ```bash
 pytest
-```
-
-Optional static checks:
-
-```bash
 ruff check .
 mypy src tests
 ```
 
-## Real Hardware Validation
+The default workflow is **offline and credit-safe**. It does not submit IBM or Quantinuum jobs and does not require provider API keys.
 
-The default project workflow is offline and credit-safe. It does not submit IBM,
-Quantinuum, or other provider jobs. This repository now also includes sanitized results
-from real IBM Quantum hardware jobs that were submitted separately and documented under
-`docs/IBM_HARDWARE_VALIDATION.md`.
+## Reproducibility
 
-If you have provider access and want to try another small real-hardware experiment,
-start by exporting the exact same measured logical circuit used by the proxy comparison:
+Compare a regenerated run with the verified public baseline:
 
 ```bash
-python -m quantum_compare.cli hardware-guide --provider all --export-family bell --export-size 2
+python scripts/compare_run_artifacts.py \
+  --baseline data/processed/results_20260623T223649Z.csv
 ```
 
-This prints provider-specific setup notes and writes an OpenQASM 2 file under
-`hardware_exports/`. The command does not submit a job.
-
-For IBM Quantum, use the official Qiskit Runtime route after configuring an IBM Quantum
-Platform account and service instance. For Quantinuum, use the official Nexus route,
-convert the Qiskit circuit to TKET when needed, request a cost estimate, and submit only
-after explicitly deciding to spend the required credits or quota. Keep any real hardware
-or official emulator results in separate rows/files from the offline proxy-model results.
-
-Two IBM Quantum hardware jobs are documented separately in
-`docs/IBM_HARDWARE_VALIDATION.md`. Their sanitized counts are stored under
-`results/hardware/`. The Quantinuum Nexus validation path is documented in
-`docs/QUANTINUUM_HARDWARE_VALIDATION.md`, with safe plan/compile/execute commands for
-the reported `H2-1E`, `H2-2E`, `H2-1SC`, and `H2-2SC` targets. The first successful
-Quantinuum Nexus execution used the Nexus-hosted `H2-1LE` emulator target and saved
-sanitized counts under `results/hardware/`. These provider artifacts are not included in
-the proxy-model tables because real provider outputs and offline proxy estimates answer
-different questions.
-
-Official documentation checked for this section:
-
-- IBM Qiskit installation:
-  `https://quantum.cloud.ibm.com/docs/en/guides/install-qiskit`
-- IBM Cloud/Quantum setup:
-  `https://quantum.cloud.ibm.com/docs/en/guides/cloud-setup`
-- IBM Runtime primitives:
-  `https://quantum.cloud.ibm.com/docs/en/guides/get-started-with-primitives`
-- Quantinuum documentation home:
-  `https://docs.quantinuum.com/`
-- Quantinuum Nexus getting started:
-  `https://docs.quantinuum.com/nexus/trainings/getting_started.html`
-- Quantinuum Qiskit-to-Nexus pathway:
-  `https://docs.quantinuum.com/systems/trainings/alternate_pathways/qiskit_h2.html`
-
-## Repository Structure
-
-- `config/experiments.yaml`: circuit families, qubit sizes, repetitions, and output
-  locations.
-- `src/quantum_compare/`: source package for circuits, architecture models, metrics,
-  experiment execution, CLI commands, and visualization/report generation.
-- `tests/`: unit and smoke tests for circuits, metrics, backend modes, architecture
-  compilation, and visualization generation.
-- `scripts/`: reproducibility, environment, device-listing, report, and artifact
-  comparison helpers.
-- `docs/`: architecture notes, metrics, limitations, experiment protocol, beginner
-  guide, ownership/citation notes, IBM and Quantinuum hardware validation notes, and
-  qBraid validation notes.
-- `data/processed/`: timestamped processed experiment outputs. The verified public
-  baseline is `results_20260623T223649Z`.
-- `results/tables/`: generated CSV tables used by the report.
-- `results/figures/`: generated PNG figures for presentation and review.
-- `results/reports/`: generated Markdown and JSON reports.
-- `results/hardware/`: sanitized real-hardware job artifacts kept separate from the
-  proxy-model result tables.
-- `notebooks/`: qBraid validation notebook.
-
-For a file-by-file explanation written for non-coders, see
-`docs/PLAIN_ENGLISH_FILE_GUIDE.md`.
-
-For a simple walkthrough of the code path, see `docs/CODE_WALKTHROUGH.md`.
-
-For public authorship and citation notes, see `docs/OWNERSHIP_AND_CITATION.md`.
-
-## Major Findings
-
-The verified baseline run is `data/processed/results_20260623T223649Z.csv`. It contains
-63 rows: 21 ideal baseline rows and 42 architecture-proxy rows.
-
-The main result is structural rather than a universal hardware ranking. Bell and the
-current 2-qubit Grover circuit are too small to expose meaningful routing differences.
-For GHZ and QFT, the IBM proxy's line connectivity introduces routing SWAPs as qubit
-count grows. Those SWAPs are decomposed into native entangling operations, increasing
-native-compiled depth and native entangling-gate count. The Quantinuum proxy avoids
-routing SWAP insertion for these tested circuits because its proxy connectivity is
-all-to-all, although it still has native-basis decomposition overhead.
-
-Under the selected proxy timing and proxy error assumptions, the Quantinuum proxy has
-lower estimated native execution duration and higher estimated success probability for
-the tested matched circuit sizes. These estimates depend on model assumptions and do
-not prove that one architecture is universally superior.
-
-## Figures And Reports
-
-Primary figures:
-
-- `results/final_figures/`
-- `results/figures/key_metric_summary.png`
-- `results/figures/logical_depth_baseline.png`
-- `results/figures/routed_depth_scaling_by_family.png`
-- `results/figures/native_depth_scaling_by_family.png`
-- `results/figures/routing_swap_count_scaling_by_family.png`
-- `results/figures/native_entangling_gate_count_scaling_by_family.png`
-- `results/figures/estimated_native_duration_scaling_by_family.png`
-- `results/figures/estimated_proxy_success_scaling_by_family.png`
-- `results/figures/quantinuum_validation_expected_state_probability.png`
-
-The `results/final_figures/` folder is the curated presentation set. It includes the
-most important simulated/proxy architecture figures, the IBM hardware validation figure,
-and the Quantinuum Nexus emulator validation figure.
-
-## Final Figures and R Visualizations
-
-The original curated final figure package is stored in `results/final_figures/`.
-The expanded R visualization package is stored in
-`results/final_figures/r_visualizations/`.
-
-Helpful links:
-
-- Final figure package: `results/final_figures/`
-- R visualization folder: `results/final_figures/r_visualizations/`
-- R figure manifest:
-  `results/final_figures/r_visualizations/r_visualizations_manifest.csv`
-- Figure interpretation guide: `docs/FIGURE_INTERPRETATION_GUIDE.md`
-- R visual analysis report: `reports/R_VISUAL_ANALYSIS.md`
-
-Multiple graph types are used because each graph answers a different question. Bar
-graphs compare categories, box plots show spread, scatter plots show relationships
-between two measurements, line graphs show changes across ordered circuit sizes, heat
-maps show matrix-style patterns, and slope graphs show paired changes. The graph type is
-chosen from the question and data structure, not simply for visual variety.
-
-Evidence types are kept separate:
-
-- `offline_proxy`: architecture-model tables produced without contacting hardware.
-- `physical_hardware`: IBM `ibm_kingston` hardware counts retrieved from saved jobs.
-- `emulator`: Quantinuum Nexus emulator validation counts.
-- `syntax_checker`: Quantinuum/Nexus compile-only checks that validate workflow
-  compatibility but are not execution outcomes.
-
-The R visualization script uses these R packages:
-
-```r
-install.packages(c(
-  "ggplot2",
-  "dplyr",
-  "tidyr",
-  "readr",
-  "scales"
-))
-```
-
-Regenerate the expanded R figures from the repository root:
+Generate the expanded R figure package:
 
 ```bash
 Rscript analysis/generate_final_figures_r.R
 ```
 
-Primary reports:
+The qBraid validation pathway checks imports, versions, tests, experiment execution, report generation, stored hardware-artifact presence, and comparison with the verified baseline. See [qBraid validation](docs/QBRAID_VALIDATION.md).
 
-- `results/reports/summary_report.md`
-- `results/reports/final_results_written_summary.md`
-- `results/reports/qbraid_artifact_comparison.json`
+## Real-provider workflow
 
-## qBraid Validation Status
+Export the same measured logical circuit used by the comparison without submitting a job:
 
-The qBraid validation path is documented in `docs/QBRAID_VALIDATION.md` and
-`notebooks/qbraid_validation.ipynb`. It validates imports, package versions, tests, the
-proxy-model experiment pipeline, report generation, hardware-artifact presence, and
-artifact comparison against `data/processed/results_20260623T223649Z.csv`.
+```bash
+python -m quantum_compare.cli hardware-guide \
+  --provider all \
+  --export-family bell \
+  --export-size 2
+```
 
-This validation does not require paid QPU access. Optional local simulator output in
-qBraid is a platform sanity check only and must not be described as IBM or Quantinuum
-hardware measurement.
+Provider work should remain intentionally separate:
 
-## Limitations
+- request cost estimates before spending credits;
+- never mix proxy estimates with measured hardware results;
+- label emulator and syntax-checker outputs accurately; and
+- save sanitized provider artifacts under `results/hardware/`.
 
-- The architecture comparison tables use architecture-aware offline proxy models.
-- The repository also includes real IBM Quantum hardware validation artifacts under
-  `results/hardware/`.
-- The proxy tables are not direct benchmarks of physical IBM or Quantinuum hardware.
-- Estimated native execution duration depends on proxy timing assumptions.
-- Estimated success probability depends on proxy error-rate assumptions.
-- The Quantinuum proxy uses Qiskit `rzz` as an offline ZZ-type entangling proxy rather
-  than official pytket Quantinuum compilation passes.
-- The configured circuit set is small; Grover currently has only one supported qubit
-  count.
-- Repetitions are deterministic unless future work varies compiler seeds.
-- The findings do not prove that one architecture is universally superior.
+## Repository map
 
-## Confidentiality Statement
+```text
+.
+├── analysis/                 # R-based figure generation
+├── config/                   # Experiment configuration
+├── data/processed/           # Versioned processed outputs and baseline
+├── docs/                     # Methods, guides, limitations, and validation notes
+├── notebooks/                # qBraid validation notebook
+├── reports/                  # Expanded written analysis
+├── results/
+│   ├── figures/              # Generated Python figures
+│   ├── final_figures/        # Curated presentation-ready figures
+│   ├── hardware/             # Sanitized provider evidence
+│   ├── reports/              # Generated summaries
+│   └── tables/               # Generated result tables
+├── scripts/                  # Reproduction and provider helper scripts
+├── src/quantum_compare/      # Core Python package
+└── tests/                    # Unit, smoke, backend, and visualization tests
+```
 
-This public repository contains a sanitized independent research implementation. It
-excludes confidential company information and materials protected under a nondisclosure
-agreement.
+For a non-coder explanation of every major file, read the [plain-English file guide](docs/PLAIN_ENGLISH_FILE_GUIDE.md).
+
+## Technical stack
+
+- **Python 3.11+**
+- **Qiskit** and **Qiskit Aer**
+- **NumPy**, **pandas**, **Matplotlib**, and **PyYAML**
+- **pytest**, **Ruff**, and **mypy**
+- **R** with `ggplot2`, `dplyr`, `tidyr`, `readr`, and `scales`
+- IBM Quantum, Quantinuum Nexus, and qBraid validation pathways
+
+## Scope and limitations
+
+- The architecture comparison is based on architecture-aware offline proxies.
+- Proxy timing and success values depend on fixed assumptions.
+- The Quantinuum proxy uses Qiskit `rzz` as a ZZ-type native-operation proxy rather than official pytket compilation passes.
+- The tested circuit set is intentionally small.
+- Repetitions are deterministic unless compiler seeds are varied in future work.
+- The repository includes real IBM hardware evidence and Quantinuum emulator evidence, but no matched physical IBM-versus-Quantinuum QPU experiment.
+- The findings do not establish a universally superior architecture.
+
+Read the complete [limitations document](docs/LIMITATIONS.md) before reusing the results.
+
+## Manuscript relationship
+
+The formal July 2026 manuscript is titled **“Do Standardized Quantum Algorithms Perform Differently Across Hardware?”** This repository is the broader public code, data, validation, documentation, and figure archive titled **“Different Roads to the Same Circuit.”**
+
+The manuscript's primary statistical IBM analysis uses the original 90-circuit Kingston GHZ stress experiment. The later 115-circuit IBM validation package and Quantinuum Nexus emulator package are supplemental repository evidence. See [manuscript–repository alignment](docs/MANUSCRIPT_REPOSITORY_ALIGNMENT.md).
+
+## Contributing
+
+Thoughtful improvements are welcome, especially additions that strengthen reproducibility, documentation, testing, or scientifically cautious interpretation. Read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
+
+## Citation
+
+Use the repository's [CITATION.cff](CITATION.cff) metadata:
+
+```text
+Aly, Abdellah. (2026). Different Roads to the Same Circuit:
+Quantum Architecture Comparison (Version 1.0.0).
+```
+
+## License and confidentiality
+
+Code and public documentation are released under the [MIT License](LICENSE).
+
+This repository is a sanitized independent research implementation. It excludes confidential company information and material protected by nondisclosure agreements.
+
+---
+
+<div align="center">
+
+**Built to make quantum hardware constraints understandable, testable, and honest.**
+
+</div>
