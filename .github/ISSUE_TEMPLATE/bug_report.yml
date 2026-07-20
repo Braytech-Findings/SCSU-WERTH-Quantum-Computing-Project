@@ -1,0 +1,90 @@
+name: Bug report
+description: Report a reproducible code, command, test, data, or documentation problem
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting a problem. Do not include provider credentials, private account identifiers, or confidential material.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Affected area
+      options:
+        - Installation or environment
+        - Command-line interface
+        - Circuit construction
+        - Architecture compilation
+        - Metrics or processed data
+        - Figure or report generation
+        - IBM validation workflow
+        - Quantinuum validation workflow
+        - Documentation
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Evidence type
+      description: Select the evidence category most closely connected to the problem.
+      options:
+        - Offline proxy model
+        - Physical hardware
+        - Emulator or simulator
+        - Syntax checker
+        - Reproducibility or environment validation
+        - Not applicable
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Explain the problem and what you expected instead.
+      placeholder: The command produced... I expected...
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Reproduction steps
+      description: Include the smallest safe sequence that reproduces the problem.
+      placeholder: |
+        1. Create the environment...
+        2. Run...
+        3. Observe...
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include operating system, Python version, package versions, and relevant non-secret configuration.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs or screenshots
+      description: Redact tokens, account identifiers, job-session data, and confidential information.
+      render: shell
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Safety checks
+      options:
+        - label: I removed secrets, credentials, private account identifiers, and confidential information.
+          required: true
+        - label: I labeled emulator, simulator, syntax-checker, proxy, and physical-hardware evidence accurately.
+          required: true
