@@ -1,0 +1,84 @@
+name: Research question or interpretation
+description: Propose an experiment, ask about a result, or suggest a scientifically cautious extension
+title: "[Research]: "
+labels:
+  - research
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form for research questions, proposed circuit families, metric suggestions, or interpretation discussions. Keep claims matched to the evidence type.
+
+  - type: dropdown
+    id: request
+    attributes:
+      label: Request type
+      options:
+        - Question about an existing result
+        - Proposed experiment
+        - Proposed circuit family or size
+        - Metric or visualization suggestion
+        - Limitation or interpretation concern
+        - Reproducibility improvement
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: evidence
+    attributes:
+      label: Relevant evidence type
+      options:
+        - Offline proxy model
+        - Physical IBM hardware
+        - Quantinuum Nexus emulator
+        - Simulator
+        - Syntax checker
+        - qBraid or environment validation
+        - Multiple evidence types
+        - Not yet determined
+    validations:
+      required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: Research question
+      description: State the question in one or two precise sentences.
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Why it matters
+      description: Explain what scientific or educational gap this would address.
+    validations:
+      required: true
+
+  - type: textarea
+    id: method
+    attributes:
+      label: Suggested method
+      description: Describe circuit families, sizes, repetitions, controls, metrics, targets, or statistical comparisons when known.
+
+  - type: textarea
+    id: claim_boundary
+    attributes:
+      label: Claim boundary
+      description: What could this evidence support, and what would remain unproven?
+      placeholder: This could show... It would not prove...
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Research-integrity checks
+      options:
+        - label: I will not present proxy estimates as measured hardware performance.
+          required: true
+        - label: I will not present emulator or simulator output as physical-QPU output.
+          required: true
+        - label: I will not include credentials, private identifiers, or confidential information.
+          required: true
