@@ -34,9 +34,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Largest GHZ-style circuit width to include",
     )
     parser.add_argument(
-        "--submit-hardware",
+        "--submit-hardware", "--confirm-submit",
+        dest="submit_hardware",
         action="store_true",
-        help="Actually submit to IBM hardware. Omit this for a dry-run plan.",
+        help="Actually submit to IBM hardware. Omit this, or use --dry-run, for a plan.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Explicitly request a plan only; incompatible with --confirm-submit.",
     )
     parser.add_argument(
         "--i-understand-this-may-use-credits",
@@ -48,6 +54,9 @@ def build_parser() -> argparse.ArgumentParser:
 
 def main() -> int:
     args = build_parser().parse_args()
+    if args.dry_run and args.submit_hardware:
+        print("Choose either --dry-run or --confirm-submit, not both.")
+        return 2
     circuits = build_extended_suite(args.max_qubits, args.repetitions)
     plan = {
         "created_at_utc": datetime.now(timezone.utc).isoformat(),
@@ -77,6 +86,8 @@ def main() -> int:
     plan_path = OUTPUT_DIR / "ibm_extended_validation_plan.json"
     plan_path.write_text(json.dumps(plan, indent=2, sort_keys=True), encoding="utf-8")
     print(f"Wrote extended validation plan to {plan_path}")
+    print(f"Backend: {args.backend}")
+    print("IBM service instance: required at submission; value is not printed")
     print(f"Circuits: {len(circuits)}")
     print(f"Shots per circuit: {args.shots}")
     print(f"Total requested shots: {len(circuits) * args.shots}")
@@ -84,7 +95,7 @@ def main() -> int:
     if not args.submit_hardware:
         print("Dry run only. No IBM job was submitted.")
         print(
-            "To submit, rerun with --submit-hardware "
+            "To submit, rerun with --confirm-submit "
             "--i-understand-this-may-use-credits after reviewing the plan."
         )
         return 0

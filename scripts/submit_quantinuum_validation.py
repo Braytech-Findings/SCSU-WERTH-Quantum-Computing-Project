@@ -55,9 +55,15 @@ def build_parser() -> argparse.ArgumentParser:
         help="Ask Nexus for a cost estimate after compilation when the selected target supports it.",
     )
     parser.add_argument(
-        "--execute-nexus",
+        "--execute-nexus", "--confirm-submit",
+        dest="execute_nexus",
         action="store_true",
         help="Execute the compiled circuits on the selected Nexus target.",
+    )
+    parser.add_argument(
+        "--dry-run",
+        action="store_true",
+        help="Explicitly stay local; incompatible with --use-nexus or --confirm-submit.",
     )
     parser.add_argument(
         "--wait",
@@ -86,6 +92,9 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     load_dotenv(LOCAL_ENV_PATH)
     args = build_parser().parse_args()
+    if args.dry_run and (args.use_nexus or args.execute_nexus):
+        print("--dry-run cannot be combined with --use-nexus or --confirm-submit.")
+        return 2
 
     circuits = build_validation_suite(args.suite)
     plan = build_plan(args, circuits)
@@ -95,9 +104,15 @@ def main() -> int:
     plan_path.write_text(json.dumps(plan, indent=2, sort_keys=True), encoding="utf-8")
     print(f"Wrote Quantinuum validation plan to {plan_path}")
     print(f"Target: {args.target}")
+    print(f"Nexus project: {args.project}")
     print(f"Circuits: {len(circuits)}")
     print(f"Shots per circuit: {args.shots}")
     print(f"Total requested shots: {len(circuits) * args.shots}")
+    print(
+        "Cost estimate: not requested"
+        if not args.estimate_cost
+        else "Cost estimate: requested after compilation when supported"
+    )
 
     if not args.use_nexus:
         print("Dry run only. No Quantinuum Nexus job was created.")

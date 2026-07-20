@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+  <title id="title">Different roads to the same circuit</title>
+  <desc id="desc">A neutral logical circuit divides into a blue superconducting route and a gold trapped-ion route, then reaches evidence panels.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1"><stop stop-color="#101828"/><stop offset="1" stop-color="#24324a"/></linearGradient>
+  </defs>
+  <rect width="1200" height="300" rx="24" fill="url(#bg)"/>
+  <g fill="none" stroke-linecap="round" stroke-width="7">
+    <path d="M160 150H430C510 150 510 75 590 75H1000" stroke="#4ea1ff"/>
+    <path d="M430 150C510 150 510 225 590 225H1000" stroke="#f0b44d"/>
+  </g>
+  <g fill="#f8fafc" font-family="Arial, sans-serif">
+    <text x="70" y="95" font-size="24">SAME LOGICAL CIRCUIT</text>
+    <text x="680" y="58" font-size="22">SUPERCONDUCTING PROXY</text>
+    <text x="700" y="266" font-size="22">TRAPPED-ION PROXY</text>
+  </g>
+  <g stroke="#e2e8f0" stroke-width="3" fill="#334155">
+    <circle cx="120" cy="150" r="17"/><circle cx="190" cy="150" r="17"/><circle cx="260" cy="150" r="17"/>
+  </g>
+  <g fill="#2ea44f" stroke="#d1fae5" stroke-width="3">
+    <rect x="1000" y="40" width="145" height="70" rx="14"/><rect x="1000" y="190" width="145" height="70" rx="14"/>
+  </g>
+  <g fill="#fff" font-family="Arial, sans-serif" font-size="17" text-anchor="middle">
+    <text x="1072" y="72">LABELED</text><text x="1072" y="94">EVIDENCE</text>
+    <text x="1072" y="222">LABELED</text><text x="1072" y="244">EVIDENCE</text>
+  </g>
+</svg>

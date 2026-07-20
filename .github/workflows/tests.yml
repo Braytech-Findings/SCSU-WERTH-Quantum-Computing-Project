@@ -1,0 +1,22 @@
+name: tests
+on:
+  push:
+  pull_request:
+jobs:
+  safe-public-checks:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e .
+      - run: python scripts/validate_repository.py
+      - run: ruff check .
+      - run: mypy src tests
+      # No provider credentials are configured and no submission script is called.

@@ -1,4 +1,13 @@
+<p align="center"><img src="docs/assets/quantum_architecture_hero.svg" alt="The same circuit branching toward blue superconducting and gold trapped-ion architectures." width="100%"></p>
+
 # Different Roads to the Same Circuit: Quantum Architecture Comparison
+
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
+[![Tests](https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project/actions/workflows/tests.yml/badge.svg)](.github/workflows/tests.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-2EA44F)](LICENSE)
+[![Evidence](https://img.shields.io/badge/evidence-proxy%20%7C%20emulator%20%7C%20hardware-5C4B8A)](docs/EXPERIMENT_PROTOCOL.md)
+
+**Navigate:** [What is this?](#overview) · [Like I am 10](#explain-it-like-i-am-10) · [Results](#major-findings) · [Install](docs/INSTALLATION.md) · [Run](docs/RUNNING_THE_PROJECT.md) · [Glossary](docs/GLOSSARY.md) · [Figures](docs/FIGURE_INTERPRETATION_GUIDE.md) · [Limitations](docs/LIMITATIONS.md)
 
 ## Overview
 
@@ -64,6 +73,10 @@ Useful links:
 - The IBM hardware validation artifacts and Quantinuum Nexus emulator artifacts are real
   provider results and are kept in `results/hardware/` so readers can see them without
   mixing them into the proxy tables.
+
+## Explain It Like I Am 10
+
+Imagine two cities with different roads. One city has many short roads but only between neighbors. The other lets almost any two places connect directly. If both cities must deliver the same packages, they may need different routes. This project gives two quantum-computer styles the same circuit “delivery lists,” then counts the extra routing and instructions each style needs. It keeps computer-made estimates separate from results returned by provider machines.
 
 ## Research Question
 
@@ -257,6 +270,10 @@ Under the selected proxy timing and proxy error assumptions, the Quantinuum prox
 lower estimated native execution duration and higher estimated success probability for
 the tested matched circuit sizes. These estimates depend on model assumptions and do
 not prove that one architecture is universally superior.
+
+## Why This Matters to Society
+
+Researchers should not choose a quantum computer only because it has more qubits or stronger marketing. Circuit connectivity, native gates, routing, timing, error, cost, and evidence quality all matter. Transparent comparisons can support education and better experimental planning in chemistry, materials, optimization, cryptography research, and scientific simulation while reducing wasted computing resources. Current quantum computers cannot solve every major problem, and these results do not rank all machines. See [SOCIETAL_IMPACT.md](docs/SOCIETAL_IMPACT.md).
 
 ## Figures And Reports
 
