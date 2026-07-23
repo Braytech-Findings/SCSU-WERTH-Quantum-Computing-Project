@@ -1,181 +1,145 @@
-# Quantinuum Hardware Validation Note
+# Quantinuum Nexus Emulator Validation Note
 
-This page records the safe Quantinuum Nexus workflow for this project. It is the
-Quantinuum-side companion to `docs/IBM_HARDWARE_VALIDATION.md`.
+> [!IMPORTANT]
+> The completed Quantinuum executions stored in this repository are **emulator results**, not physical Quantinuum QPU measurements. They do not complete a matched physical IBM-versus-Quantinuum hardware benchmark.
 
-## Access Reported By The Author
+This file path is retained for compatibility with existing links. Its contents document the Quantinuum Nexus emulator and compile-only workflow.
+
+## Evidence Classification
+
+| Target | Saved evidence | Classification |
+| --- | --- | --- |
+| `H2-1E` | Compilation succeeded; execution returned a machine-access error | Compile-only workflow check |
+| `H2-2E` | Compilation succeeded; execution returned a machine-access error | Compile-only workflow check |
+| `H2-1LE` | Compilation and 3-circuit execution completed | Nexus emulator |
+| `H2-Emulator` | Compilation and 3-circuit execution completed | Nexus emulator |
+
+No physical Quantinuum trapped-ion QPU result is stored in this repository.
+
+## Account and Target Information Recorded During Validation
 
 - Nexus account: available
-- Emulator-style targets: `H2-1E`, `H2-2E`
-- Syntax-checker/compiler-style targets: `H2-1SC`, `H2-2SC`
-- Nexus-hosted local emulator target discovered during validation: `H2-1LE`
-- Nexus-hosted H2 emulator target discovered during validation: `H2-Emulator`
-- Reported HQC balance for emulator-style targets: `20000.00`
+- Emulator-style targets observed: `H2-1E`, `H2-2E`, `H2-1LE`, and `H2-Emulator`
+- Syntax-checker targets observed: `H2-1SC` and `H2-2SC`
+- Reported HQC balance at the time: `20000.00`
 - Reported syntax-checker balance: unlimited
-- Quota reset window at the time reported: 17 days
+- Reported quota reset window: 17 days
 
-The target names ending in `E` look like emulator targets. The target names ending in
-`SC` look like syntax-checker targets. Treat both as official Quantinuum/Nexus validation
-paths, but do not describe them as physical Quantinuum QPU evidence unless the Nexus
-dashboard shows a non-emulator hardware target and an execution job is actually
-submitted to that target.
-During validation, `H2-1E` and `H2-2E` accepted compilation but rejected execution for
-this account with a machine-access error. The Nexus-hosted `H2-1LE` and `H2-Emulator`
-targets accepted both compilation and execution.
+Target names alone are not proof of physical hardware. The Nexus dashboard, job metadata, and completed execution target must all identify a physical QPU before a result can be described as physical Quantinuum hardware evidence.
 
-## Safe First Run
+## Completed Emulator Results
 
-Start with a local plan. This writes a public, sanitized plan and does not contact Nexus:
+### `H2-1LE`
 
-```bash
-python scripts/submit_quantinuum_validation.py --target H2-1E --suite small --shots 100
-```
+- Date: July 14, 2026
+- Suite: small
+- Circuits: Bell-2, GHZ-3, and Grover-2
+- Shots per circuit: 100
+- Compile job: `compile-H2-1LE-20260714T173914Z`
+- Execute job: `execute-H2-1LE-20260714T173914Z`
+- Submission artifact: `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json`
+- Counts artifact: `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json`
+- Summary artifact: `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv`
 
-Then install the Nexus tools in the environment where you will run the job:
+| Circuit | Saved counts |
+| --- | --- |
+| Bell-2 | `00`: 43, `11`: 57 |
+| GHZ-3 | `000`: 54, `111`: 46 |
+| Grover-2 | `11`: 100 |
 
-```bash
-python -m pip install pytket-qiskit pytket qnexus
-```
+### `H2-Emulator`
 
-Authenticate with Nexus using the official Quantinuum login flow. Do not put passwords,
-tokens, or recovery codes into this repository.
+- Date: July 14, 2026
+- Suite: small
+- Circuits: Bell-2, GHZ-3, and Grover-2
+- Shots per circuit: 100
+- Compile job: `compile-H2-Emulator-20260714T175518Z`
+- Execute job: `execute-H2-Emulator-20260714T175518Z`
+- Submission artifact: `results/hardware/quantinuum_submission_H2-Emulator_20260714T175518Z.json`
+- Counts artifact: `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json`
+- Summary artifact: `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv`
 
-Compile through Nexus without execution:
+| Circuit | Saved counts |
+| --- | --- |
+| Bell-2 | `00`: 52, `11`: 48 |
+| GHZ-3 | `000`: 52, `111`: 47, `101`: 1 |
+| Grover-2 | `11`: 99, `10`: 1 |
 
-```bash
-python scripts/submit_quantinuum_validation.py --target H2-1E --suite small --shots 100 --use-nexus --wait
-```
+These counts are real provider emulator outputs. They are not offline proxy estimates and are not physical trapped-ion QPU measurements.
 
-If that succeeds, execute on the emulator-style target only after reviewing quota use:
+## Compile-Only Checks
 
-```bash
-python scripts/submit_quantinuum_validation.py --target H2-1LE --suite small --shots 100 --use-nexus --execute-nexus --wait --i-understand-this-may-use-hqcs-or-quota
-```
+### `H2-1E`
 
-## Completed Nexus Validation
+- Compile job: `compile-H2-1E-20260714T173701Z`
+- Circuits: 3
+- Requested shots per circuit: 100
+- Execution result: machine-access error
+- Artifact: `results/hardware/quantinuum_submission_H2-1E_20260714T173701Z.json`
 
-The first Quantinuum Nexus validation was completed on July 14, 2026.
+### `H2-2E`
 
-### H2-1E Compile-Only Check
+- Compile job: `compile-H2-2E-20260714T174745Z`
+- Circuits: 3
+- Requested shots per circuit: 100
+- Execution result: machine-access error
+- Artifact: `results/hardware/quantinuum_submission_H2-2E_20260714T174745Z.json`
 
-- Target: `H2-1E`
-- Suite: `small`
-- Shots requested per circuit: `100`
-- Circuits: `3`
-- Compile job name: `compile-H2-1E-20260714T173701Z`
-- Execution status: not used for the saved result; direct `H2-1E` execution returned a
-  machine-access error for this account.
-- Submission artifact:
-  `results/hardware/quantinuum_submission_H2-1E_20260714T173701Z.json`
-
-### H2-2E Compile-Only Check
-
-- Target: `H2-2E`
-- Suite: `small`
-- Shots requested per circuit: `100`
-- Circuits: `3`
-- Compile job name: `compile-H2-2E-20260714T174745Z`
-- Execution status: direct `H2-2E` execution returned a machine-access error for this
-  account.
-- Submission artifact:
-  `results/hardware/quantinuum_submission_H2-2E_20260714T174745Z.json`
-
-### H2-1LE Emulator Execution
-
-- Target: `H2-1LE`
-- Suite: `small`
-- Shots per circuit: `100`
-- Circuits: `3`
-- Compile job name: `compile-H2-1LE-20260714T173914Z`
-- Execute job name: `execute-H2-1LE-20260714T173914Z`
-- Submission artifact:
-  `results/hardware/quantinuum_submission_H2-1LE_20260714T173914Z.json`
-- Counts artifact:
-  `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z.json`
-- Summary artifact:
-  `results/hardware/quantinuum_job_H2-1LE_20260714T173914Z_summary.csv`
-
-Compact result summary:
-
-| Result index | Circuit | Bit width | Shots | Dominant/expected result summary |
-| ---: | --- | ---: | ---: | --- |
-| 0 | Bell state | 2 | 100 | `00`: 43, `11`: 57 |
-| 1 | GHZ-3 | 3 | 100 | `000`: 54, `111`: 46 |
-| 2 | Grover-2 | 2 | 100 | `11`: 100 |
-
-These are real Quantinuum Nexus emulator results, not offline proxy estimates and not
-physical Quantinuum QPU measurements.
-
-### H2-Emulator Execution
-
-- Target: `H2-Emulator`
-- Suite: `small`
-- Shots per circuit: `100`
-- Circuits: `3`
-- Compile job name: `compile-H2-Emulator-20260714T175518Z`
-- Execute job name: `execute-H2-Emulator-20260714T175518Z`
-- Submission artifact:
-  `results/hardware/quantinuum_submission_H2-Emulator_20260714T175518Z.json`
-- Counts artifact:
-  `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z.json`
-- Summary artifact:
-  `results/hardware/quantinuum_job_H2-Emulator_20260714T175518Z_summary.csv`
-
-Compact result summary:
-
-| Result index | Circuit | Bit width | Shots | Dominant/expected result summary |
-| ---: | --- | ---: | ---: | --- |
-| 0 | Bell state | 2 | 100 | `00`: 52, `11`: 48 |
-| 1 | GHZ-3 | 3 | 100 | `000`: 52, `111`: 47, one `101` count |
-| 2 | Grover-2 | 2 | 100 | `11`: 99, one `10` count |
-
-These are real Quantinuum Nexus H2 emulator results, not offline proxy estimates and
-not physical Quantinuum QPU measurements.
+A successful compilation is useful workflow evidence, but it is not an execution result.
 
 ## Validation Figure
-
-The Quantinuum Nexus validation graph compares the all-zero/all-one probability for the
-small Bell, GHZ-3, and Grover-2 validation circuits on `H2-1LE` and `H2-Emulator`.
 
 - Figure: `results/figures/quantinuum_validation_expected_state_probability.png`
 - Source table: `results/tables/quantinuum_validation_plot_rows.csv`
 
-This graph is meant for presentation and review. It should be described as provider
-emulator validation, not physical Quantinuum QPU benchmarking.
+The figure must be labeled **Quantinuum Nexus emulator validation**. It must not be labeled as physical Quantinuum hardware performance.
 
-## What The Script Saves
+## Safe Workflow
 
-The script writes sanitized files under `results/hardware/`.
+Create a local plan without contacting Nexus:
 
-| File | Meaning |
-| --- | --- |
-| `results/hardware/quantinuum_validation_plan.json` | Local plan showing target, circuit names, qubits, shots, and safety notes. |
-| `results/hardware/quantinuum_submission_<target>_<timestamp>.json` | Nexus compile/execute job names and safe metadata. It intentionally excludes secrets. |
-| `results/hardware/quantinuum_job_<target>_<timestamp>.json` | Downloaded counts and distributions when `--execute-nexus --wait` finishes. |
-| `results/hardware/quantinuum_job_<target>_<timestamp>_summary.csv` | Compact result summary by result index, bit-width, shots, and all-zero/all-one probability. |
+```bash
+python scripts/submit_quantinuum_validation.py \
+  --target H2-Emulator \
+  --suite small \
+  --shots 100
+```
 
-## What To Save Before Drawing Conclusions
+Compile through Nexus without execution:
 
-Save these fields before describing a Quantinuum result:
+```bash
+python scripts/submit_quantinuum_validation.py \
+  --target H2-Emulator \
+  --suite small \
+  --shots 100 \
+  --use-nexus \
+  --wait
+```
 
-- exact Nexus target name
-- whether the target is syntax checker, emulator, or physical hardware
-- project name
-- compile job name
-- execute job name, if execution was requested
-- shot count
-- circuit family and qubit count
-- measured counts or probability distribution
-- any provider-reported cost estimate
-- any unavailable value as `null`, not zero
+Execution requires explicit quota awareness:
 
-## Scope
+```bash
+python scripts/submit_quantinuum_validation.py \
+  --target H2-Emulator \
+  --suite small \
+  --shots 100 \
+  --use-nexus \
+  --estimate-cost \
+  --confirm-submit \
+  --wait \
+  --i-understand-this-may-use-hqcs-or-quota
+```
 
-Quantinuum emulator or syntax-checker results are real provider workflow outputs, but
-they are not the same as physical Quantinuum QPU measurements. Keep them separate from
-the offline proxy-model tables and label them by target name.
+Before any execution, confirm the exact target type and reject monetary charges or paid-overage requirements that were not explicitly approved.
 
-Official Quantinuum docs used for this workflow:
+## What Remains for a Full Hardware Benchmark
 
-- `https://docs.quantinuum.com/nexus/trainings/getting_started.html`
-- `https://docs.quantinuum.com/systems/trainings/alternate_pathways/qiskit_h2.html`
+A full matched physical comparison still requires:
+
+- a physical Quantinuum QPU target;
+- the complete standardized circuit suite;
+- matched circuit sizes, shots, repetitions, compiler objectives, and scoring rules;
+- documented calibration windows;
+- separate physical-hardware artifacts and analysis.
+
+Until those requirements are met, the correct description is: **IBM physical hardware evidence plus Quantinuum Nexus emulator validation**.

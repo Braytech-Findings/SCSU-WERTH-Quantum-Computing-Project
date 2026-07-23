@@ -1,177 +1,87 @@
 # Final Status
 
+> [!IMPORTANT]
+> **IBM evidence:** physical `ibm_kingston` QPU measurements. **Quantinuum evidence:** Nexus emulator execution and compile-only checks. This release is not a completed matched physical IBM-versus-Quantinuum hardware benchmark.
+
 ## Release
 
-- Release preparation version: `1.0.0`
 - Public title: `Different Roads to the Same Circuit: Quantum Architecture Comparison`
-- Release date in citation metadata: `2026-07-14`
+- Release-preparation version: `1.0.0`
+- Authoritative evidence statement: `EVIDENCE_STATUS.md`
+- Project classification: controlled algorithm-hardware-fit study with offline proxies, IBM physical-hardware evidence, and Quantinuum emulator validation
 
-## Current Study Framing
+The project name is retained. Every public description must state the evidence type so the title is not mistaken for a completed physical multi-provider benchmark.
 
-This repository contains three clearly separated evidence categories:
+## Evidence Inventory
 
-- `offline_proxy`: the main architecture comparison using controlled proxy models.
-- `physical_hardware`: saved IBM `ibm_kingston` hardware validation counts.
-- `emulator`: saved Quantinuum Nexus emulator validation counts.
-- `syntax_checker`: Quantinuum/Nexus compile-only workflow checks, when present.
+### Phase I: controlled offline architecture proxies
 
-The project is no longer described as offline-only. The proxy comparison remains the
-main controlled architecture study, while IBM hardware and Quantinuum emulator artifacts
-are preserved separately because they answer different questions.
-
-## Offline Proxy Architecture Comparison
-
-- Authoritative processed CSV: `data/processed/results_20260623T223649Z.csv`
-- Authoritative processed JSON: `data/processed/results_20260623T223649Z.json`
-- Authoritative manifest: `data/processed/manifest_20260623T223649Z.json`
-- Total processed rows: `63`
+- Authoritative CSV: `data/processed/results_20260623T223649Z.csv`
+- Total rows: `63`
 - Architecture-proxy rows: `42`
 - Ideal baseline rows: `21`
-- Circuit families: Bell, GHZ, QFT, and Grover.
-- Configured circuit sizes:
-  - Bell: 2 qubits
-  - GHZ: 3, 5, and 7 qubits
-  - QFT: 3 and 5 qubits
-  - Grover: 2 qubits
-- Repetitions per configured backend/circuit-size row: `3`
+- Circuit families: Bell, GHZ, QFT, and Grover
+- IBM-style proxy: nearest-neighbor line connectivity
+- Quantinuum-style proxy: all-to-all connectivity with an offline RZZ entangling proxy
+- Unsupported native-operation count: `0`
+- Logical-to-native equivalence failures: `0`
 
-Architecture models:
+These are controlled model results, not live provider measurements.
 
-- IBM-style superconducting proxy:
-  `qiskit-generic-backend-v2-line-proxy`
-- Quantinuum-style trapped-ion proxy:
-  `quantinuum-h-series-rzz-offline-proxy`
+### Phase II: IBM physical hardware
 
-Pipeline status:
-
-- Logical, routed, and native-compiled circuit levels are separated in result rows.
-- Routing SWAP count is measured before SWAP decomposition.
-- Native entangling-gate count is measured after final native-basis decomposition.
-- Estimated duration comes from documented proxy timing assumptions.
-- Estimated success probability comes from documented proxy error assumptions.
-- Unsupported native-operation count across successful architecture rows: `0`.
-- Logical-to-native equivalence failures: `0`.
-
-## IBM Physical-Hardware Validation
-
-The repository preserves two sanitized IBM hardware retrieval records under
-`results/hardware/`. They are separate experimental packages and must not be merged into
-one statistical analysis.
-
-### IBM Experiment A - Original GHZ Stress Study
-
-This is the IBM experiment used in the July 2026 manuscript's GHZ stress curves,
-heatmap, fidelity analysis, and correlation/regression discussion.
+#### IBM experiment A: original GHZ stress study
 
 - Backend: `ibm_kingston`
-- IBM Runtime job ID: `d8up2d1ropqc738b44pg`
-- Pub results retrieved: `90`
-- GHZ sizes: 2, 4, 6, 8, 12, and 16 qubits
-- Stress layers: 0, 1, 2, 4, and 8
-- Repetitions per condition: `3` transpiler-seed mappings
-- Aggregate conditions: `30`
-- Shots per pub result: `4096`
-- Total retrieved shots: `368640`
-- Counts artifact: `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`
-- Summary artifact: `results/hardware/ibm_job_d8up2d1ropqc738b44pg_summary.csv`
+- Job ID: `d8up2d1ropqc738b44pg`
+- Results: `90` circuits
+- Conditions: `30`
+- Shots per circuit: `4096`
+- Total shots: `368640`
+- Manuscript Pearson association: `r = -0.911`
+- Artifact: `results/hardware/ibm_job_d8up2d1ropqc738b44pg.json`
 
-The manuscript statistics, including the reported Pearson `r = -0.911`, Spearman
-`rho = -0.876`, slope, and `R^2`, belong to this original 30-condition GHZ analysis.
-
-### IBM Experiment B - Expanded Hardware Validation
-
-This later package is the main source for the repository's supplemental IBM final
-figure. It is not the same dataset as the original manuscript analysis.
+#### IBM experiment B: expanded validation
 
 - Backend: `ibm_kingston`
-- IBM Runtime job ID: `d95vhvd2su3c739gc080`
-- Pub results retrieved: `115`
-- Shots per pub result: `4096`
-- Total retrieved shots: `471040`
-- Counts artifact: `results/hardware/ibm_job_d95vhvd2su3c739gc080.json`
-- Summary artifact: `results/hardware/ibm_job_d95vhvd2su3c739gc080_summary.csv`
+- Job ID: `d95vhvd2su3c739gc080`
+- Results: `115`
+- Shots per result: `4096`
+- Total shots: `471040`
+- Artifact: `results/hardware/ibm_job_d95vhvd2su3c739gc080.json`
 
-The IBM all-zero/all-one probability is most meaningful for Bell/GHZ-style circuits. It
-is not a universal success metric for every algorithm family.
+These are physical IBM QPU results. They support IBM-specific workload observations, not a broad provider ranking.
 
-## Quantinuum Nexus Validation
+### Phase III: Quantinuum Nexus emulator validation
 
-Quantinuum Nexus validation artifacts are saved separately from the offline proxy rows:
+- `H2-1LE`: 3 small circuits, 100 shots each, execution completed
+- `H2-Emulator`: 3 small circuits, 100 shots each, execution completed
+- `H2-1E`: compilation completed; direct execution returned a machine-access error
+- `H2-2E`: compilation completed; direct execution returned a machine-access error
+- Completed emulator circuits: Bell-2, GHZ-3, and Grover-2
+- Documentation: `docs/QUANTINUUM_HARDWARE_VALIDATION.md`
 
-- `H2-1E`: compile-only check succeeded; direct execution returned a machine-access
-  error for this account.
-- `H2-2E`: compile-only check succeeded; direct execution returned a machine-access
-  error for this account.
-- `H2-1LE`: Nexus emulator execution completed for 3 small circuits with 100 shots per
-  circuit.
-- `H2-Emulator`: Nexus emulator execution completed for 3 small circuits with 100 shots
-  per circuit.
+These are real Quantinuum Nexus provider outputs from emulator targets. They are not physical Quantinuum trapped-ion QPU measurements.
 
-Targets labeled `H2-1LE`, `H2-1E`, `H2-2E`, and similarly named emulator or
-syntax-checker targets are emulator-based or workflow-validation evidence in this
-repository. They are not physical Quantinuum QPU results.
+## What Is Complete
 
-## Figure Packages
+- Offline proxy-model comparison
+- qBraid reproducibility validation
+- IBM Kingston physical-hardware result retrieval and analysis
+- Quantinuum Nexus small-suite emulator execution
+- Public figures, reports, tests, and sanitized result artifacts
 
-Original curated final figures:
+## What Is Pending
 
-- `results/final_figures/01_simulated_success_probability.png`
-- `results/final_figures/02_simulated_routing_swap_cost.png`
-- `results/final_figures/03_simulated_time_reliability_tradeoff.png`
-- `results/final_figures/04_ibm_hardware_expected_state_probability.png`
-- `results/final_figures/05_quantinuum_nexus_emulator_validation.png`
+- Physical Quantinuum QPU execution
+- Full matched standardized suite on physical IBM and physical Quantinuum targets
+- Matched shot counts, repetitions, compiler objectives, scoring rules, and calibration windows
+- Any defensible direct physical provider ranking
 
-Expanded R visualization package:
+## Validation Checks
 
-- Folder: `results/final_figures/r_visualizations/`
-- Generator: `analysis/generate_final_figures_r.R`
-- Manifest: `results/final_figures/r_visualizations/r_visualizations_manifest.csv`
-- Interpretation guide: `docs/FIGURE_INTERPRETATION_GUIDE.md`
-- R analysis report: `reports/R_VISUAL_ANALYSIS.md`
-
-## Validation Status For This Release-Preparation Pass
-
-The following local checks were run during the v1.0.0 cleanup pass:
-
-- `Rscript scripts/generate_final_figures.R`: passed.
-- `Rscript analysis/generate_final_figures_r.R`: passed.
-- `ruff check .`: passed.
-- `ruff format --check .`: passed after running `ruff format .`.
-- `mypy src tests scripts/fetch_ibm_hardware_job.py scripts/submit_ibm_extended_validation.py scripts/submit_quantinuum_validation.py scripts/plot_quantinuum_validation.py`:
-  passed.
-- `pytest`: passed with 28 tests.
-- `python -m quantum_compare.cli check`: passed.
-- `python -m quantum_compare.cli report`: passed and generated report artifacts.
-- `python scripts/generate_report.py`: passed.
-- `python scripts/generate_report.py --help`: passed and printed usage without running
-  the workflow.
-- `python scripts/compare_run_artifacts.py --baseline data/processed/results_20260623T223649Z.csv --candidate data/processed/results_20260623T223649Z.csv --output results/reports/qbraid_artifact_comparison.json`:
-  passed.
-- Local secret scan for IBM, Quantinuum, and Nexus token/account patterns: no matches.
-
-Warning cleanup:
-
-- The repository-owned QFT deprecation warning was fixed by replacing deprecated
-  `QFT(...)` circuit construction with `QFTGate`.
-- Python report generation no longer reports Matplotlib/font-cache warnings after
-  configuring temporary writable cache directories before importing Matplotlib.
-- A narrow pytest warning filter documents and hides the dependency-originating
-  `IBMFractionalTranslationPlugin` deprecation warning from `stevedore.extension`.
+The release-preparation audit recorded successful report generation, Ruff checks, mypy checks, pytest, CLI checks, artifact comparison, and a local secret scan with no provider credential matches. See the commit history and CI workflow for the current post-edit status.
 
 ## Final Supported Conclusion
 
-Connectivity and native-gate structure affect circuit families differently. The tested
-results do not establish that one hardware architecture is universally superior.
-
-## Remaining Scientific Limitations
-
-- The main architecture comparison uses offline proxy models, not live calibrated
-  hardware snapshots.
-- Quantinuum compilation uses a Qiskit `rzz` proxy rather than official pytket
-  Quantinuum compilation passes in the offline comparison.
-- Duration and error values in the proxy tables are assumptions, not live-device
-  calibration values.
-- Grover has only one supported qubit count, so its architecture conclusion remains
-  inconclusive.
-- IBM hardware validation and Quantinuum emulator validation are separate evidence
-  categories and should not be merged into one direct hardware ranking.
+Connectivity and native-gate structure affect circuit families differently. The proxy results show that connection-heavy GHZ and QFT circuits are more sensitive to routing constraints than the tested Bell and small Grover circuits. Physical IBM data support the expectation that added two-qubit work makes GHZ distributions harder to preserve. Quantinuum emulator data validate the small-circuit Nexus workflow. The current evidence does not establish that IBM or Quantinuum is universally superior on physical hardware.

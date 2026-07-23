@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 title: "Different Roads to the Same Circuit: Quantum Architecture Comparison"
-message: "If you use this project, please cite it using this metadata."
+message: "If you use this project, please cite it using this metadata. IBM results are physical QPU evidence; Quantinuum results are emulator evidence."
 type: software
 authors:
   - family-names: "Aly"
@@ -8,12 +8,14 @@ authors:
     email: "braytechfuturescape@icloud.com"
 repository-code: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
 url: "https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project"
-abstract: "An independent research implementation comparing superconducting and trapped-ion quantum computing architectures through compilation behavior, offline proxy models, IBM hardware validation, and Quantinuum Nexus emulator validation."
+abstract: "A controlled quantum algorithm-hardware-fit study using offline superconducting-style and trapped-ion-style proxy models, physical IBM Kingston QPU evidence, and Quantinuum Nexus emulator validation. It is not yet a matched physical IBM-versus-Quantinuum QPU benchmark."
 keywords:
   - quantum computing
   - superconducting quantum computing
   - trapped-ion quantum computing
   - quantum architecture comparison
+  - IBM Quantum hardware
+  - Quantinuum Nexus emulator
   - Qiskit
   - cloud quantum computing
 license: MIT
