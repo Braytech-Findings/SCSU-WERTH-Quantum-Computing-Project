@@ -1,0 +1,14 @@
+{
+  "catalog_confirms_emulator": true,
+  "catalog_match_count": 1,
+  "catalog_metadata": {
+    "backend_name": "Quantinuum",
+    "device_name": "H2-1LE",
+    "nexus_hosted": true,
+    "quota_type": null,
+    "simulator": null,
+    "system_type": "local_emulator"
+  },
+  "static_classification": "emulator",
+  "target": "H2-1LE"
+}

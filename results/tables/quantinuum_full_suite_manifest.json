@@ -1,0 +1,22 @@
+{
+  "evidence_type": "Quantinuum Nexus emulator validation",
+  "source_stamp": "20260723T163500Z",
+  "targets": [
+    "H2-1LE",
+    "H2-Emulator"
+  ],
+  "target_classification": "emulator",
+  "circuits_per_target": 7,
+  "shots_per_circuit": 1000,
+  "repetitions": 3,
+  "requested_shots": 42000,
+  "retrieved_shots": 42000,
+  "raw_rows": 42,
+  "aggregate_rows": 14,
+  "reported_cost": null,
+  "quota_message": "Nexus simulation CPU quota: No quota set for user.",
+  "source_files": [
+    "results/hardware/quantinuum_full_suite_H2-1LE_20260723T163500Z_raw.csv",
+    "results/hardware/quantinuum_full_suite_H2-Emulator_20260723T163500Z_raw.csv"
+  ]
+}

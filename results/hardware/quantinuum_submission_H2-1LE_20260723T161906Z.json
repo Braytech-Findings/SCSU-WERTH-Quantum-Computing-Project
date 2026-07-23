@@ -1,0 +1,48 @@
+{
+  "claim_boundary": "Quantinuum Nexus emulator execution validates the standardized workflow and output distributions on emulator targets. It does not constitute physical Quantinuum trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum benchmark.",
+  "compile_job_name": "compile-H2-1LE-matched-20260723T161906Z",
+  "cost_estimates": [
+    {
+      "circuit_index": 0,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 1,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 2,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 3,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 4,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 5,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    },
+    {
+      "circuit_index": 6,
+      "error": "Job errored with detail: Submission error: Machine name \"H2-1LESC\" is invalid (code: 2)",
+      "reported_cost": null
+    }
+  ],
+  "evidence_type": "emulator",
+  "execute_job_names": [],
+  "execution_safety_approved": false,
+  "execution_safety_reason": "No institutional simulator quota message was recorded.",
+  "quota_message": null,
+  "target": "H2-1LE",
+  "target_classification": "emulator"
+}

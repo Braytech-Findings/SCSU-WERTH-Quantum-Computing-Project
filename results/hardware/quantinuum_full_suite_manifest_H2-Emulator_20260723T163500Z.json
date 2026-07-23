@@ -1,0 +1,20 @@
+{
+  "circuit_count": 7,
+  "claim_boundary": "Quantinuum Nexus emulator execution validates the standardized workflow and output distributions on emulator targets. It does not constitute physical Quantinuum trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum benchmark.",
+  "compile_job_name": "compile-H2-Emulator-matched-20260723T162900Z",
+  "evidence_type": "emulator",
+  "execute_job_names": [
+    "execute-H2-Emulator-matched-r1-20260723T163500Z",
+    "execute-H2-Emulator-matched-r2-20260723T163500Z",
+    "execute-H2-Emulator-matched-r3-20260723T163500Z"
+  ],
+  "quota_message": "Nexus simulation CPU quota: No quota set for user.",
+  "repetitions": 3,
+  "reported_cost": null,
+  "retrieved_at_utc": "2026-07-23T16:41:20.276605+00:00",
+  "shots_per_circuit": 1000,
+  "shots_requested": 21000,
+  "shots_retrieved": 21000,
+  "target": "H2-Emulator",
+  "target_classification": "emulator"
+}
