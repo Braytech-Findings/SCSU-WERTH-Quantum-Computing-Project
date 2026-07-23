@@ -1,5 +1,21 @@
 # Figure Interpretation Guide
 
+## Definitive Publication Set
+
+The four final figures are stored in `results/final_figures/publication/`. Every image
+prints five notes beneath the graph: its question, how to read it, its result, why the
+result matters, and the scientific boundary. The same notes are available as selectable
+text in `results/final_figures/publication/README.md`.
+
+1. `01_research_question_answer`: matched proxy bars for routing SWAPs, native depth,
+   and native entangling gates. Lower means less compiled work.
+2. `02_connectivity_scaling`: tested GHZ/QFT routing SWAP counts by qubit count. Lines
+   join tested sizes and do not extrapolate beyond them.
+3. `03_modeled_time_reliability`: proxy duration versus proxy success. Upper-left is
+   better only within the documented fixed assumptions.
+4. `04_quantinuum_emulator_validation`: mean exact-distribution fidelity and TVD for
+   the completed seven-circuit Nexus emulator suite. This is not physical QPU evidence.
+
 ## Full-Suite Quantinuum Emulator Figures
 
 The fidelity graph asks how closely each emulator's measured answer pattern matched the

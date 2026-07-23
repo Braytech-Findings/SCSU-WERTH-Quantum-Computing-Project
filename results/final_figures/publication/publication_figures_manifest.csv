@@ -1,0 +1,5 @@
+figure,question,evidence_type,source_csv,primary_metric,claim_boundary
+01_research_question_answer,How do identical logical circuits change after routing and native decomposition?,offline_proxy,results/tables/architecture_validation_table.csv,routing SWAPs; native depth; native entangling gates,Controlled proxy comparison; not physical-provider ranking.
+02_connectivity_scaling,How does routing overhead change as GHZ and QFT grow?,offline_proxy,results/tables/qubit_grouped_statistics.csv,routing SWAP count,Tested sizes only; no extrapolation.
+03_modeled_time_reliability,How do modeled duration and success move together?,offline_proxy,results/tables/architecture_validation_table.csv,proxy duration and proxy success,Assumption-dependent estimates; not measured speed or fidelity.
+04_quantinuum_emulator_validation,Did the full Nexus emulator workflow match exact ideal output distributions?,emulator,results/tables/quantinuum_full_suite_aggregate.csv,classical distribution fidelity and TVD,Nexus emulator evidence; not physical Quantinuum QPU measurements.

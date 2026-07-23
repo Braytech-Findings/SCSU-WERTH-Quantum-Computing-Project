@@ -20,7 +20,7 @@ benchmark.
 [![License: MIT](https://img.shields.io/badge/License-MIT-2EA44F)](LICENSE)
 [![Evidence](https://img.shields.io/badge/evidence-proxy%20%7C%20emulator%20%7C%20hardware-5C4B8A)](docs/EXPERIMENT_PROTOCOL.md)
 
-**Navigate:** [What is this?](#overview) · [Like I am 10](#explain-it-like-i-am-10) · [Results](#major-findings) · [Install](docs/INSTALLATION.md) · [Run](docs/RUNNING_THE_PROJECT.md) · [Glossary](docs/GLOSSARY.md) · [Figures](docs/FIGURE_INTERPRETATION_GUIDE.md) · [Limitations](docs/LIMITATIONS.md)
+**Navigate:** [What is this?](#overview) · [Research answer](#final-research-answer) · [Results](#major-findings) · [Recreate everything](#recreate-the-project) · [Glossary](docs/GLOSSARY.md) · [Publication figures](results/final_figures/publication/README.md) · [Limitations](docs/LIMITATIONS.md)
 
 ## Overview
 
@@ -61,7 +61,8 @@ Current evidence structure:
 - Phase I: controlled architecture proxies for Bell, GHZ, Grover, and QFT.
 - Phase II: IBM Kingston physical-hardware evidence, with the original 90-circuit GHZ
   stress study kept separate from the later 115-circuit validation package.
-- Phase III: Quantinuum Nexus emulator validation for the stored small-circuit suite.
+- Phase III: preserved July 14 small-suite validation followed by the completed July 23
+  full seven-circuit Quantinuum Nexus emulator validation.
 
 Useful links:
 
@@ -87,14 +88,38 @@ Useful links:
   provider results and are kept in `results/hardware/` so readers can see them without
   mixing them into the proxy tables.
 
-## Explain It Like I Am 10
+## Plain-Language Picture
 
-Imagine two cities with different roads. One city has many short roads but only between neighbors. The other lets almost any two places connect directly. If both cities must deliver the same packages, they may need different routes. This project gives two quantum-computer styles the same circuit “delivery lists,” then counts the extra routing and instructions each style needs. It keeps computer-made estimates separate from results returned by provider machines.
+Imagine two cities with different roads. One city has many short roads but only between
+neighbors. The other lets almost any two places connect directly. If both cities must
+deliver the same packages, they may need different routes. This project gives two
+quantum-computer styles the same circuit "delivery lists," then counts the extra routing
+and instructions each style needs. It keeps computer-made estimates separate from
+results returned by provider machines.
 
 ## Research Question
 
 How do the same logical circuits change after topology routing and native-basis
 decomposition for superconducting-proxy and trapped-ion-proxy architectures?
+
+## Final Research Answer
+
+The same logical circuit can require very different compiled work on different
+architectures. Bell-2 and Grover-2 are too small to reveal a broad connectivity effect.
+For the tested GHZ and QFT circuits, the line-connected superconducting proxy inserts
+routing SWAPs that increase native depth and native entangling-gate count. The all-to-all
+trapped-ion proxy inserts zero routing SWAPs for those same circuits.
+
+The difference grows with long-range interaction demand. At QFT-5, the superconducting
+proxy uses 30 routing SWAPs, native depth 106, and 116 native entangling gates; the
+trapped-ion proxy uses 0 routing SWAPs, native depth 29, and 16 native entangling gates.
+
+This supports a structural conclusion: **connectivity and native gates change the cost
+of implementing the same algorithm.** It does not prove that one physical provider is
+universally better. Read the complete evidence-based answer in
+[FINAL_RESEARCH_ANSWER.md](FINAL_RESEARCH_ANSWER.md).
+
+![Final research question figure](results/final_figures/publication/01_research_question_answer.png)
 
 ## Architectures Compared
 
@@ -186,8 +211,39 @@ Optional static checks:
 
 ```bash
 ruff check .
-mypy src tests
+mypy src tests scripts
 ```
+
+## Recreate The Project
+
+The default reproduction path is local, offline, and does not need provider credentials.
+
+```bash
+git clone https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project.git
+cd SCSU-WERTH-Quantum-Computing-Project
+python -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -e .
+
+# Verify and regenerate the controlled proxy experiment.
+ruff check .
+mypy src tests scripts
+pytest -q
+python -m quantum_compare.cli run --backend all --suite core
+python scripts/generate_report.py
+python scripts/compare_run_artifacts.py \
+  --baseline data/processed/results_20260623T223649Z.csv
+
+# Install R figure packages once, then recreate the publication figures.
+Rscript -e 'install.packages(c("cowplot", "dplyr", "ggplot2", "readr", "scales", "tidyr"), repos="https://cloud.r-project.org")'
+Rscript scripts/generate_publication_figures.R
+python scripts/validate_repository.py
+```
+
+The saved IBM hardware and Quantinuum emulator artifacts are already sanitized inputs.
+Recreating reports and figures does not resubmit provider jobs, use credits, or require
+an API key. Provider execution is intentionally outside the default reproduction path.
 
 ## Real Hardware Validation
 
@@ -292,6 +348,7 @@ Researchers should not choose a quantum computer only because it has more qubits
 
 Primary figures:
 
+- `results/final_figures/publication/`
 - `results/final_figures/`
 - `results/figures/key_metric_summary.png`
 - `results/figures/logical_depth_baseline.png`
@@ -303,9 +360,10 @@ Primary figures:
 - `results/figures/estimated_proxy_success_scaling_by_family.png`
 - `results/figures/quantinuum_validation_expected_state_probability.png`
 
-The `results/final_figures/` folder is the curated presentation set. It includes the
-most important simulated/proxy architecture figures, the IBM hardware validation figure,
-and the Quantinuum Nexus emulator validation figure.
+The definitive publication set is `results/final_figures/publication/`. It contains four
+high-resolution PNGs, four vector PDFs, an evidence manifest, and a plain-language guide.
+Each figure states its question, reading method, result, importance, source, and claim
+boundary directly beneath the graph.
 
 ## Final Figures and R Visualizations
 
@@ -315,6 +373,8 @@ The expanded R visualization package is stored in
 
 Helpful links:
 
+- Definitive publication set: `results/final_figures/publication/`
+- Final research answer: `FINAL_RESEARCH_ANSWER.md`
 - Final figure package: `results/final_figures/`
 - R visualization folder: `results/final_figures/r_visualizations/`
 - R figure manifest:
@@ -340,6 +400,7 @@ The R visualization script uses these R packages:
 
 ```r
 install.packages(c(
+  "cowplot",
   "ggplot2",
   "dplyr",
   "tidyr",
@@ -351,6 +412,7 @@ install.packages(c(
 Regenerate the expanded R figures from the repository root:
 
 ```bash
+Rscript scripts/generate_publication_figures.R
 Rscript analysis/generate_final_figures_r.R
 ```
 

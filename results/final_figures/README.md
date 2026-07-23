@@ -1,5 +1,21 @@
 # Final Figures
 
+## Definitive Publication Set
+
+The final four publication figures are in [`publication/`](publication/README.md).
+They are the recommended figures for the final paper and presentation. Each has a
+400-DPI PNG, vector PDF, source manifest, and a visible note band explaining the
+question, reading method, result, importance, and scientific limit.
+
+Regenerate the definitive set with:
+
+```bash
+Rscript scripts/generate_publication_figures.R
+```
+
+The older figures below remain available as supplemental and historical repository
+figures.
+
 This folder contains the curated, presentation-ready figures for the project.
 
 | File | Evidence type | Simple explanation | Scientific warning |
