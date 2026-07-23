@@ -2,6 +2,19 @@
 
 # Different Roads to the Same Circuit: Quantum Architecture Comparison
 
+## July 23, 2026 Full-Suite Quantinuum Emulator Validation
+
+The expanded Quantinuum Nexus emulator package completed Bell-2, GHZ-3, GHZ-5,
+GHZ-7, Grover-2, QFT-3, and QFT-5 on `H2-1LE` and `H2-Emulator`. Each target used
+1,000 shots per circuit and three repetitions (42,000 retrieved shots total). The
+original July 14 three-circuit artifacts remain unchanged. See
+`results/reports/quantinuum_full_suite_emulator_report.md`.
+
+Quantinuum Nexus emulator execution validates the standardized workflow and output
+distributions on emulator targets. It does not constitute physical Quantinuum
+trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum
+benchmark.
+
 [![Python 3.11+](https://img.shields.io/badge/Python-3.11%2B-3776AB?logo=python&logoColor=white)](pyproject.toml)
 [![Tests](https://github.com/Braytech-Findings/SCSU-WERTH-Quantum-Computing-Project/actions/workflows/tests.yml/badge.svg)](.github/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-2EA44F)](LICENSE)

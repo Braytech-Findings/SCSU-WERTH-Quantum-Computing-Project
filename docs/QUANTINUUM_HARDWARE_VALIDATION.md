@@ -1,5 +1,19 @@
 # Quantinuum Hardware Validation Note
 
+## Expanded Full-Suite Emulator Validation (July 23, 2026)
+
+The complete suite ran on the live-catalog-confirmed Nexus `H2-1LE` simulator and
+`H2-Emulator` full-error-model emulator in this exact order: Bell-2, GHZ-3, GHZ-5,
+GHZ-7, Grover-2, QFT-3, and QFT-5. Each used 1,000 shots in three repetitions per
+target; all 42,000 shots were retrieved. The primary metrics are exact-distribution
+fidelity and TVD. All-zero/all-one support is nullable and never scores QFT. Cost was
+`null`; Nexus simulation CPU quota was `No quota set for user`.
+
+Quantinuum Nexus emulator execution validates the standardized workflow and output
+distributions on emulator targets. It does not constitute physical Quantinuum
+trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum
+benchmark.
+
 This page records the safe Quantinuum Nexus workflow for this project. It is the
 Quantinuum-side companion to `docs/IBM_HARDWARE_VALIDATION.md`.
 

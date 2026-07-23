@@ -1,5 +1,27 @@
 # Figure Interpretation Guide
 
+## Full-Suite Quantinuum Emulator Figures
+
+The fidelity graph asks how closely each emulator's measured answer pattern matched the
+exact ideal pattern. Circuits are on the x-axis; fidelity is on the y-axis, where 1 is a
+perfect distribution match. Blue is `H2-1LE`, orange is `H2-Emulator`, points are
+three-run means, and lines span the observed minimum to maximum. Every mean exceeded
+0.984. This measurement test does not validate the complete QFT phase state.
+
+The TVD graph asks how far measured probabilities were from ideal. Lower is better and 0
+is perfect. Bars are target means; error bars show one repetition standard deviation.
+QFT-5 had the largest mean TVD on both targets: 0.0761 and 0.0661.
+
+The repetition graph shows every observation. Color identifies target and shape identifies
+the repetition. Three runs describe spread but do not establish statistical significance.
+All figures use 1,000 shots per circuit and three repetitions and are emulator evidence,
+not physical Quantinuum QPU measurements.
+
+Quantinuum Nexus emulator execution validates the standardized workflow and output
+distributions on emulator targets. It does not constitute physical Quantinuum
+trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum
+benchmark.
+
 This guide explains how to read the final figures without mixing evidence types. The
 project uses three evidence categories:
 

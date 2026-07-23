@@ -1,5 +1,17 @@
 # Plain English File Guide
 
+## Full-Suite Emulator Files
+
+- `results/tables/quantinuum_full_suite_raw_results.csv`: all 42 circuit/run rows.
+- `results/tables/quantinuum_full_suite_aggregate.csv`: means and run-to-run spread.
+- `results/reports/quantinuum_full_suite_emulator_report.md`: findings and limits.
+- `results/final_figures/quantinuum_full_suite_distribution_fidelity.*`: higher is better.
+- `results/final_figures/quantinuum_full_suite_tvd.*`: lower is better.
+- `results/final_figures/quantinuum_emulator_repetition_results.*`: all raw repetitions.
+
+These are emulator files, not physical trapped-ion QPU files. The July 14 small-suite
+files remain separate and unchanged.
+
 This guide labels the project file by file in simple language. It is written for a
 reader who has never coded before. Think of the project like a science fair experiment:
 the code builds the experiment, the config says what to test, the data stores what

@@ -1,5 +1,16 @@
 # Data Dictionary
 
+## Quantinuum Full-Suite Emulator Tables
+
+`quantinuum_full_suite_raw_results.csv` contains one row per target, repetition, and
+circuit. `distribution_fidelity` is the squared classical Bhattacharyya coefficient
+against the exact noiseless logical-circuit probabilities. `total_variation_distance` is
+half the absolute probability difference summed over all bitstrings. `counts_json`
+preserves normalized Qiskit display order (highest classical-bit index at left).
+`all_zero_or_all_one_probability` is populated only for Bell/GHZ; QFT receives `null`.
+`marked_state_probability` is populated only for Grover. Unavailable values are null,
+never fabricated zeros.
+
 - `experiment_id`: Unique identifier for a row. It is run-specific and is ignored by
   deterministic artifact comparisons.
 - `timestamp`: ISO 8601 row creation timestamp. It is run-specific and is ignored by

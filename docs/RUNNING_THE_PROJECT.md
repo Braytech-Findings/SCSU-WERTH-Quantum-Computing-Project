@@ -1,5 +1,17 @@
 # Running the Project
 
+## Full Quantinuum Emulator Suite
+
+```bash
+python scripts/submit_quantinuum_validation.py --dry-run --target H2-1LE \
+  --suite matched --shots 1000 --repetitions 3
+```
+
+The matched suite has exactly seven circuits and writes timestamped immutable manifests.
+Execution is restricted to live-catalog-confirmed `H2-1LE` and `H2-Emulator` emulator
+targets and requires explicit quota acknowledgement. QFT uses exact-distribution scoring,
+not all-zero/all-one support.
+
 Run commands from the repository root. Offline commands are the default and do not use provider credentials.
 
 ## Environment matrix

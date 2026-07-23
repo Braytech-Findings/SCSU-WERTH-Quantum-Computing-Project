@@ -1,5 +1,11 @@
 # Ownership And Citation
 
+The July 23, 2026 full-suite files are sanitized outputs from the author's authenticated
+Quantinuum Nexus emulator access. Quantinuum owns the Nexus service and emulator target
+technology. Repository authorship covers the benchmark circuits, retrieval/scoring code,
+analysis, figures, and interpretation. No credential, account identifier, or internal
+Nexus object UUID is included.
+
 This repository is written as an independent public research implementation. The code,
 documentation, generated tables, and generated figures in this repository should be
 treated as the author's work unless a file explicitly says otherwise.

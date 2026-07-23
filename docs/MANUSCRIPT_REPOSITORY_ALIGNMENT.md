@@ -1,5 +1,17 @@
 # Manuscript And Repository Alignment
 
+## Later Emulator Evidence
+
+The July 23, 2026 seven-circuit Quantinuum Nexus emulator package supplements but does
+not replace the manuscript proxy comparison, IBM physical evidence, or preserved July 14
+small-suite emulator artifacts. It does not supply physical Quantinuum QPU evidence or
+permit direct physical-provider ranking.
+
+Quantinuum Nexus emulator execution validates the standardized workflow and output
+distributions on emulator targets. It does not constitute physical Quantinuum
+trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum
+benchmark.
+
 This document audits the July 2026 manuscript against the current v1.0.0 repository.
 The manuscript remains the foundation of the research narrative. Later repository
 evidence is documented as supplemental evidence, not as a replacement for the original

@@ -1,5 +1,18 @@
 # Final Status
 
+## Expanded Quantinuum Emulator Package (July 23, 2026)
+
+Complete: seven standardized circuits, 1,000 shots per circuit, and three repetitions
+on each of the live-catalog-confirmed `H2-1LE` and `H2-Emulator` emulator targets.
+All 42,000 requested shots were retrieved. Distribution fidelity and TVD are in
+`results/tables/quantinuum_full_suite_aggregate.csv`. Physical Quantinuum execution and
+a matched physical IBM-versus-Quantinuum benchmark remain pending.
+
+Quantinuum Nexus emulator execution validates the standardized workflow and output
+distributions on emulator targets. It does not constitute physical Quantinuum
+trapped-ion QPU evidence and does not complete a matched physical IBM-versus-Quantinuum
+benchmark.
+
 ## Release
 
 - Release preparation version: `1.0.0`
