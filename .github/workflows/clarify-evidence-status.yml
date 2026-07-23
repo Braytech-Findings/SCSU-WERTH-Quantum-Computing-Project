@@ -1,0 +1,35 @@
+name: clarify evidence status
+
+on:
+  push:
+    branches:
+      - codex/clarify-ibm-hardware-quantinuum-emulator
+    paths:
+      - scripts/clarify_evidence_status.py
+      - .github/workflows/clarify-evidence-status.yml
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: codex/clarify-ibm-hardware-quantinuum-emulator
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: python scripts/clarify_evidence_status.py
+      - name: Commit clarified evidence labels
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "docs: distinguish IBM hardware from Quantinuum emulator evidence"
+          git push origin HEAD:codex/clarify-ibm-hardware-quantinuum-emulator
